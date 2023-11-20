@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="..\HyperDimension.Presentation.Common\HyperDimension.Presentation.Common.csproj" />
+  </ItemGroup>
+</Project>

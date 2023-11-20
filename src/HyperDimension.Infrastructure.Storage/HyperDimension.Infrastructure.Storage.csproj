@@ -1,0 +1,5 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\HyperDimension.Infrastructure.Common\HyperDimension.Infrastructure.Common.csproj" />
+    </ItemGroup>
+</Project>
