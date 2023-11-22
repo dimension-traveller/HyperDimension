@@ -22,12 +22,17 @@ public static class CacheConfigurator
     {
         var cacheOptions = HyperDimensionConfiguration.Instance.GetOption<CacheOptions>();
 
-        switch (cacheOptions.Provider)
+        switch (cacheOptions.Type)
         {
-            case CacheProvider.Memory:
-                services.AddDistributedMemoryCache();
+            case CacheType.Memory:
+                var memoryOptions = HyperDimensionConfiguration.Instance.GetOption<MemoryOptions>();
+                services.AddDistributedMemoryCache(options =>
+                {
+                    options.SizeLimit = memoryOptions.SizeLimit * 1024 * 1024;
+                });
                 break;
-            case CacheProvider.Redis:
+            case CacheType.Redis:
+                var redisOptions = HyperDimensionConfiguration.Instance.GetOption<RedisOptions>();
                 services.AddSingleton<IRedisClientFactory, RedisClientFactory>();
                 services.AddSingleton<ISerializer, SystemTextJsonSerializer>();
 
@@ -37,20 +42,17 @@ public static class CacheConfigurator
                 services.AddSingleton(sp => sp
                     .GetRequiredService<IRedisClientFactory>()
                     .GetDefaultRedisClient()
-                    .GetDefaultDatabase());
+                    .GetDb(redisOptions.Database, redisOptions.KeyPrefix));
 
-                services.AddSingleton<IEnumerable<RedisConfiguration>>(sp =>
-                {
-                    var redisOptions = sp.GetRequiredService<RedisOptions>();
-
-                    return
-                    [
-                        new RedisConfiguration
-                        {
-                            ConnectionString = redisOptions.ConnectionString
-                        }
-                    ];
-                });
+                services.AddSingleton<IEnumerable<RedisConfiguration>>(_ =>
+                [
+                    new RedisConfiguration
+                    {
+                        ConnectionString = redisOptions.ConnectionString,
+                        Database = redisOptions.Database,
+                        KeyPrefix = redisOptions.KeyPrefix
+                    }
+                ]);
 
                 services.AddSingleton<IOptions<RedisCacheOptions>>(sp =>
                     new OptionsWrapper<RedisCacheOptions>(new RedisCacheOptions
@@ -63,7 +65,7 @@ public static class CacheConfigurator
                     new RedisCache(sp.GetRequiredService<IOptions<RedisCacheOptions>>()));
                 break;
             default:
-                throw new CacheNotSupportedException(cacheOptions.Provider.ToString(), "Unknown cache provider.");
+                throw new CacheNotSupportedException(cacheOptions.Type.ToString(), "Unknown cache provider.");
         }
     }
 }

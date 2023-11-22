@@ -6,4 +6,8 @@ namespace HyperDimension.Infrastructure.Cache.Options.Providers;
 public class RedisOptions
 {
     public string ConnectionString { get; set; } = "localhost:6379";
+
+    public int Database { get; set; }
+
+    public string KeyPrefix { get; set; } = "hd-";
 }

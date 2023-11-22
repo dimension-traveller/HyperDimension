@@ -6,5 +6,5 @@ namespace HyperDimension.Infrastructure.Cache.Options;
 [OptionSection("Cache")]
 public class CacheOptions
 {
-    public CacheProvider Provider { get; set; } = CacheProvider.Memory;
+    public CacheType Type { get; set; } = CacheType.Memory;
 }

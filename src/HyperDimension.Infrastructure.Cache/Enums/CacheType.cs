@@ -1,6 +1,6 @@
 ﻿namespace HyperDimension.Infrastructure.Cache.Enums;
 
-public enum CacheProvider
+public enum CacheType
 {
     Memory,
     Redis
