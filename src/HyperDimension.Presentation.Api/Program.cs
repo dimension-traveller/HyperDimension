@@ -1,5 +1,6 @@
 using HyperDimension.Common.Configuration;
 using HyperDimension.Common.Observability;
+using HyperDimension.Infrastructure.Cache;
 using HyperDimension.Infrastructure.Database;
 using HyperDimension.Infrastructure.Storage;
 
@@ -13,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddHyperDimensionOptions();
 builder.Services.AddHyperDimensionDatabase();
 builder.Services.AddHyperDimensionStorage();
+builder.Services.AddHyperDimensionCache();
 
 var app = builder.Build();
 
