@@ -1,5 +1,6 @@
 using HyperDimension.Common.Configuration;
 using HyperDimension.Common.Observability;
+using HyperDimension.Infrastructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
 builder.Services.AddHyperDimensionOptions();
+builder.Services.AddHyperDimensionDatabase();
 
 var app = builder.Build();
 

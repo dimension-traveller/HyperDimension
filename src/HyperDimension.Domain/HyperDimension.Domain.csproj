@@ -4,4 +4,7 @@
     <ProjectReference Include="..\HyperDimension.Common.Identity\HyperDimension.Common.Identity.csproj" />
     <ProjectReference Include="..\HyperDimension.Common.Observability\HyperDimension.Common.Observability.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
 </Project>

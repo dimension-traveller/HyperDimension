@@ -11,3 +11,10 @@ Serilog:
     - Name: Console
       Args:
         outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
+
+Database:
+  Type: SQLite
+  ConnectionString: "Data Source=data/HyperDimension.db;Version=3;
+  SQLServer:
+    CompatibilityVersion: 160
+
