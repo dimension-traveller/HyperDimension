@@ -1,4 +1,6 @@
-﻿namespace HyperDimension.Infrastructure.Database.Exceptions;
+﻿using HyperDimension.Common.Exceptions;
+
+namespace HyperDimension.Infrastructure.Database.Exceptions;
 
 public class DatabaseNotSupportedException(string type, string reason)
-    : Exception($"Database type {type} is not supported yet. Reason: {reason}");
+    : UnsupportedException(type, reason, "Database");

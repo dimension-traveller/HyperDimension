@@ -11,6 +11,51 @@ public static class ConfigurationConfigurator
 {
     public static void AddHyperDimensionConfiguration(this IConfigurationBuilder builder)
     {
+        builder.AddConfiguration(HyperDimensionConfiguration.Instance);
+    }
+
+    public static void AddHyperDimensionOptions(this IServiceCollection services)
+    {
+        services.AddOptions();
+
+        var optionTypes = Constants.ProjectAssemblies
+            .Scan()
+            .Where(x => x.HasAttribute<OptionSectionAttribute>());
+
+        foreach (var type in optionTypes)
+        {
+            services.AddSingleton(type, sp =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>();
+
+                object? option;
+                try
+                {
+                    option = configuration.GetOption(type, true);
+                }
+                catch (ConfigurationException)
+                {
+                    var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+                    var logger = loggerFactory.CreateLogger(type.AssemblyQualifiedName ?? type.Name);
+
+                    logger.LogWarning("Option {OptionName} is null, create default", type.AssemblyQualifiedName);
+
+                    var defaultOptions = Activator.CreateInstance(type);
+                    if (defaultOptions is null)
+                    {
+                        logger.LogError("Cannot create default option {OptionName}", type.AssemblyQualifiedName);
+                    }
+
+                    throw;
+                }
+
+                return option;
+            });
+        }
+    }
+
+    public static IConfiguration GetConfiguration()
+    {
         var configurationFilePath = Environment
             .GetEnvironmentVariable("HD_CONFIGURATION_FILE_PATH") ?? "appsettings.yaml";
 
@@ -40,47 +85,6 @@ public static class ConfigurationConfigurator
 
         var configuration = configurationBuilder.Build();
 
-        builder.AddConfiguration(configuration);
-    }
-
-    public static void AddHyperDimensionOptions(this IServiceCollection services)
-    {
-        services.AddOptions();
-
-        var optionTypes = Constants.ProjectAssemblies
-            .Scan()
-            .Where(x => x.HasAttribute<OptionSectionAttribute>());
-
-        foreach (var type in optionTypes)
-        {
-            services.AddSingleton(type, sp =>
-            {
-                var configuration = sp.GetRequiredService<IConfiguration>();
-
-                var attribute = type.GetAttribute<OptionSectionAttribute>();
-                var sectionName = attribute?.SectionName ??
-                                  type.Name.Replace("Options", string.Empty);
-
-                var option = configuration.GetSection(sectionName).Get(type);
-
-                if (option is null)
-                {
-                    var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-                    var logger = loggerFactory.CreateLogger(type.AssemblyQualifiedName ?? type.Name);
-
-                    logger.LogWarning("Option {OptionName} is null, create default", type.AssemblyQualifiedName);
-
-                    var defaultOptions = Activator.CreateInstance(type);
-                    if (defaultOptions is null)
-                    {
-                        logger.LogError("Cannot create default option {OptionName}", type.AssemblyQualifiedName);
-                    }
-
-                    throw new ConfigurationException($"Cannot create option {type.AssemblyQualifiedName}");
-                }
-
-                return option;
-            });
-        }
+        return configuration;
     }
 }
