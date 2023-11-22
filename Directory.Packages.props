@@ -5,6 +5,7 @@
   <ItemGroup>
     <PackageVersion Include="Alexinea.Extensions.Configuration.Toml" Version="7.0.0" />
     <PackageVersion Include="Alexinea.Extensions.Configuration.Yaml" Version="7.0.0" />
+    <PackageVersion Include="AWSSDK.S3" Version="3.7.302" />
     <PackageVersion Include="MediatR" Version="12.2.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />

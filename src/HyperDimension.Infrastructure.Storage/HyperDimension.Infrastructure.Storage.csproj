@@ -2,4 +2,7 @@
     <ItemGroup>
         <ProjectReference Include="..\HyperDimension.Infrastructure.Common\HyperDimension.Infrastructure.Common.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="AWSSDK.S3" />
+    </ItemGroup>
 </Project>
