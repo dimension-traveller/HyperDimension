@@ -2,4 +2,8 @@
     <ItemGroup>
         <ProjectReference Include="..\HyperDimension.Domain\HyperDimension.Domain.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+      <PackageReference Include="Riok.Mapperly" />
+    </ItemGroup>
 </Project>
