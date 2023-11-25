@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\HyperDimension.Common.Configuration\HyperDimension.Common.Configuration.csproj" />
-    <ProjectReference Include="..\HyperDimension.Common.Identity\HyperDimension.Common.Identity.csproj" />
     <ProjectReference Include="..\HyperDimension.Common.Observability\HyperDimension.Common.Observability.csproj" />
   </ItemGroup>
   <ItemGroup>

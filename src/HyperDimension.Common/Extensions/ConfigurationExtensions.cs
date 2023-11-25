@@ -6,6 +6,13 @@ namespace HyperDimension.Common.Extensions;
 
 public static class ConfigurationExtensions
 {
+    public static T GetOrThrow<T>(this IConfiguration configuration)
+    {
+        var option = configuration.Get<T>()
+                     ?? throw new ConfigurationException($"Cannot get option {typeof(T).Name} from configuration");
+        return option;
+    }
+
     public static T GetOption<T>(this IConfiguration configuration)
     {
         return (T)configuration.GetOption(typeof(T));

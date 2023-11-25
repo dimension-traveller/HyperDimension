@@ -5,9 +5,13 @@
   <ItemGroup>
     <PackageVersion Include="Alexinea.Extensions.Configuration.Toml" Version="7.0.0" />
     <PackageVersion Include="Alexinea.Extensions.Configuration.Yaml" Version="7.0.0" />
+    <PackageVersion Include="AspNet.Security.OAuth.Discord" Version="8.0.0" />
+    <PackageVersion Include="AspNet.Security.OAuth.GitHub" Version="8.0.0" />
     <PackageVersion Include="AWSSDK.S3" Version="3.7.302" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
     <PackageVersion Include="MediatR" Version="12.2.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
