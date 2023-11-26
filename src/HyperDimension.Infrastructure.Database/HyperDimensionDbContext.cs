@@ -35,7 +35,7 @@ public class HyperDimensionDbContext(
             case DatabaseType.MySQL:
                 throw new DatabaseNotSupportedException(databaseOptions.Type.ToString(), "Waiting for Pomelo.EntityFrameworkCore.MySql 8.0.0");
             case DatabaseType.PostgreSQL:
-                optionsBuilder.UseNpgsql("", options =>
+                optionsBuilder.UseNpgsql(databaseOptions.ConnectionString, options =>
                 {
                     options.EnableRetryOnFailure(8);
                 });
