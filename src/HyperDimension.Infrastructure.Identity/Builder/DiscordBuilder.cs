@@ -1,4 +1,4 @@
-using HyperDimension.Infrastructure.Identity.Abstract;
+﻿using HyperDimension.Infrastructure.Identity.Abstract;
 using HyperDimension.Infrastructure.Identity.Attributes;
 using HyperDimension.Infrastructure.Identity.Options.Providers;
 using Microsoft.AspNetCore.Authentication;
@@ -6,16 +6,16 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace HyperDimension.Infrastructure.Identity.Builder;
 
-[AuthenticationBuilder("GitHub", typeof(GitHubProviderProviderOptions))]
-public class GitHubBuilder : IAuthenticationProviderBuilder
+[AuthenticationBuilder("Discord", typeof(DiscordProviderProviderOptions))]
+public class DiscordBuilder : IAuthenticationProviderBuilder
 {
     public bool CanAddSchema => true;
 
     public void AddSchema(AuthenticationBuilder builder, string id, string name, object options)
     {
-        var opt = (GitHubProviderProviderOptions)options;
+        var opt = (DiscordProviderProviderOptions)options;
 
-        builder.AddGitHub(id, name, o =>
+        builder.AddDiscord(id, name, o =>
         {
             o.SaveTokens = true;
 

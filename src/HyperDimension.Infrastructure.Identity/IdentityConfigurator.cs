@@ -4,6 +4,8 @@ using HyperDimension.Infrastructure.Identity.Abstract;
 using HyperDimension.Infrastructure.Identity.Attributes;
 using HyperDimension.Infrastructure.Identity.Exceptions;
 using HyperDimension.Infrastructure.Identity.Options;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,11 +20,6 @@ public static class IdentityConfigurator
 
     private static void AddHyperDimensionAuthentication(this IServiceCollection services)
     {
-        var defaultSchema = HyperDimensionConfiguration
-            .Instance
-            .GetRequiredSection("Identity:Default")
-            .Value;
-
         var authenticationSection = HyperDimensionConfiguration
             .Instance
             .GetRequiredSection("Identity:Providers");
@@ -31,7 +28,7 @@ public static class IdentityConfigurator
         var providers = providersConfiguration
             .Select(x => (
                 IdentityOptions: x.GetOrThrow<IdentityOptions>(),
-                ConfigurationSection: x.GetRequiredSection("Config")
+                ConfigurationSection: (IConfigurationSection?) x.GetSection("Config")
                 ))
             .ToArray();
 
@@ -55,18 +52,6 @@ public static class IdentityConfigurator
             throw new DuplicatedAuthenticationSchemaException("Name", duplicateNames);
         }
 
-        if (defaultSchema is null)
-        {
-            defaultSchema = providers[0].IdentityOptions.Id;
-        }
-        else
-        {
-            if (providers.Select(x => x.IdentityOptions.Id).Contains(defaultSchema) is false)
-            {
-                throw new AuthenticationNotSupportedException(defaultSchema, "Default schema not found");
-            }
-        }
-
         // Prepare the builder
         var builders = typeof(IdentityConfigurator).Assembly
             .Scan<IAuthenticationProviderBuilder>()
@@ -81,7 +66,14 @@ public static class IdentityConfigurator
                     x.Instance));
 
         var builder = services
-            .AddAuthentication(defaultSchema);
+            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            {
+                options.Cookie = new CookieBuilder
+                {
+                    Name = "HyperDimension.Identity"
+                };
+            });
 
         // Add the schema
         foreach (var (ido, section) in providers)
@@ -100,7 +92,9 @@ public static class IdentityConfigurator
 
             var options = Activator.CreateInstance(optionType)
                 ?? throw new AuthenticationNotSupportedException(ido.Type, "Unable to create options instance");
-            section.Bind(options);
+
+            section?.Bind(options);
+
             instance.AddSchema(builder, ido.Id, ido.Name, options);
         }
     }

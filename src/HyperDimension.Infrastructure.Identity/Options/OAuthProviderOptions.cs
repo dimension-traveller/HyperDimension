@@ -1,6 +1,6 @@
-namespace HyperDimension.Infrastructure.Identity.Options.Providers;
+﻿namespace HyperDimension.Infrastructure.Identity.Options;
 
-public class GitHubOptions
+public class OAuthProviderOptions
 {
     public string ClientId { get; set; } = null!;
 

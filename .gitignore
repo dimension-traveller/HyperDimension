@@ -508,3 +508,8 @@ $RECYCLE.BIN/
 
 # Local History for Visual Studio Code
 .history/
+
+# Development configuration
+*.development.yaml
+*.development.json
+*.development.toml

@@ -37,14 +37,14 @@ Storage:
   FileSystem:
     RootPath: ./data/blob
 
-  S3:
-    Flavor: Generic                   # Generic, Amazon
-    Endpoint: http://localhost:9000   # Only for Generic
-    AccessKey: minio                  # Both
-    SecretKey: minio123               # Both
-    BucketName: hyper-dimension       # Both
-    Region: ap-east-1                 # Both
-    ForcePathStyle: true              # Only for Generic
+#  S3:
+#    Flavor: Generic                   # Generic, Amazon
+#    Endpoint: http://localhost:9000   # Only for Generic
+#    AccessKey: minio                  # Both
+#    SecretKey: minio123               # Both
+#    BucketName: hyper-dimension       # Both
+#    Region: ap-east-1                 # Both
+#    ForcePathStyle: true              # Only for Generic
 
 Cache:
   Type: Memory
@@ -52,13 +52,12 @@ Cache:
   Memory:
     Size: 1024                        # In MB
 
-  Redis:
-    ConnectionString: localhost:6379
-    Database: 0
-    KeyPrefix: hd-
+#  Redis:
+#    ConnectionString: localhost:6379
+#    Database: 0
+#    KeyPrefix: hd-
 
 Identity:
-  Default: local
 
   Providers:
     - Name: Local
@@ -66,18 +65,9 @@ Identity:
       Type: Local
       Config:
 
-    - Name: JwtBearer
-      Id: jwt
-      Type: JwtBearer
-      Config:
-        Authority: http://localhost:5000
-        Audience: hyper-dimension
-        RequireHttpsMetadata: false
-        TokenValidationParameters:
-          ValidateIssuer: false
-          ValidateAudience: false
-          ValidateLifetime: true
-          ValidateIssuerSigningKey: true
-          IssuerSigningKey: "This is a very long key for signing the token"
-
-    - Name: OpenIdConnect
+#    - Name: GitHub
+#      Id: github
+#      Type: GitHub
+#      Config:
+#        ClientId: 123
+#        ClientSecret: 123
