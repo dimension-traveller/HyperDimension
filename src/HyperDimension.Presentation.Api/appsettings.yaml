@@ -60,9 +60,9 @@ Cache:
 Identity:
 
   Providers:
-    - Name: Local
-      Id: local
-      Type: Local
+    - Name: Database
+      Id: database
+      Type: Database
       Config:
 
 #    - Name: GitHub

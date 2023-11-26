@@ -10,6 +10,7 @@
       <ProjectReference Include="..\HyperDimension.Application.Core\HyperDimension.Application.Core.csproj" />
       <ProjectReference Include="..\HyperDimension.Infrastructure.Cache\HyperDimension.Infrastructure.Cache.csproj" />
       <ProjectReference Include="..\HyperDimension.Infrastructure.Database\HyperDimension.Infrastructure.Database.csproj" />
+      <ProjectReference Include="..\HyperDimension.Infrastructure.Identity\HyperDimension.Infrastructure.Identity.csproj" />
       <ProjectReference Include="..\HyperDimension.Infrastructure.Storage\HyperDimension.Infrastructure.Storage.csproj" />
     </ItemGroup>
 

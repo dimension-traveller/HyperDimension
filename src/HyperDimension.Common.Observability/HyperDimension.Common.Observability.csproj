@@ -3,6 +3,7 @@
     <ProjectReference Include="..\HyperDimension.Common\HyperDimension.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="OpenTelemetry" />
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Serilog.Sinks.Grafana.Loki" />
   </ItemGroup>
