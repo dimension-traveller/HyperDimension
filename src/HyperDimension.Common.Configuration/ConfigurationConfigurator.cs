@@ -80,7 +80,7 @@ public static class ConfigurationConfigurator
             configurationBuilder.AddYamlFile(configurationFilePath);
 
             var fileName = configurationFilePath[..^5];
-            configurationBuilder.AddYamlFile($"{fileName}.{Constants.RuntimeEnvironment}.json", true);
+            configurationBuilder.AddYamlFile($"{fileName}.{Constants.RuntimeEnvironment}.yaml", true);
         }
 
         var configuration = configurationBuilder.Build();
