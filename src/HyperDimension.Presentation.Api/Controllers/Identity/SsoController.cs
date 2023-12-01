@@ -7,11 +7,13 @@ namespace HyperDimension.Presentation.Api.Controllers.Identity;
 
 [ApiController]
 [Route("identity/sso")]
-public class ExternalLoginController(
+public class SsoController(
     IAuthenticationSchemeProvider authenticationSchemeProvider) : ControllerBase
 {
-    [HttpGet("{schema}")]
-    public async Task<IActionResult> Login([FromRoute] string schema, [FromQuery(Name = "redirect")] string? redirect = null)
+    [HttpGet("initiator")]
+    public async Task<IActionResult> InitializeAsync(
+        [FromQuery(Name = "schema")] string schema,
+        [FromQuery(Name = "redirect")] string? redirect = null)
     {
         var authenticationSchema = await authenticationSchemeProvider
             .GetSchemeAsync(schema);
@@ -21,7 +23,7 @@ public class ExternalLoginController(
             return Challenge(new AuthenticationProperties
             {
                 RedirectUri = string.IsNullOrEmpty(redirect) ? "/" : redirect
-            }, [schema]);
+            }, schema);
         }
 
         var allSchemas = await authenticationSchemeProvider.GetAllSchemesAsync();

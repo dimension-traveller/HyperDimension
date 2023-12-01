@@ -58,6 +58,14 @@ Cache:
 #    KeyPrefix: hd-
 
 Identity:
+  WebAuthn:
+    Timeout: 60000
+    ServerIcon: ""
+    ServerDomain: ""
+    ServerName: ""
+    Origins:
+      - http://localhost:3000
+      - https://localhost:7200
 
   Providers:
     - Name: Database

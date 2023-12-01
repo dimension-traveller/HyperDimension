@@ -15,4 +15,6 @@ public class User : BaseEntity
     public string Salt { get; set; } = string.Empty;
 
     public List<Role> Roles { get; set; } = [];
+
+    public List<WebAuthn> WebAuthnDevices { get; set; } = [];
 }

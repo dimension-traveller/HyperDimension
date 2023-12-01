@@ -1,6 +1,6 @@
 namespace HyperDimension.Infrastructure.Identity.Options;
 
-public class IdentityOptions
+public class IdentityProviderOptions
 {
     public string Name { get; set; } = string.Empty;
 

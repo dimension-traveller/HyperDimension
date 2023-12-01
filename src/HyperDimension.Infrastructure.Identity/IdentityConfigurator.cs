@@ -1,13 +1,18 @@
-﻿using HyperDimension.Common.Configuration;
+﻿using Fido2NetLib;
+using HyperDimension.Application.Common.Interfaces;
+using HyperDimension.Common.Configuration;
 using HyperDimension.Common.Extensions;
 using HyperDimension.Infrastructure.Identity.Abstract;
 using HyperDimension.Infrastructure.Identity.Attributes;
 using HyperDimension.Infrastructure.Identity.Exceptions;
 using HyperDimension.Infrastructure.Identity.Options;
+using HyperDimension.Infrastructure.Identity.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+#pragma warning disable IDE0305
 
 namespace HyperDimension.Infrastructure.Identity;
 
@@ -16,6 +21,25 @@ public static class IdentityConfigurator
     public static void AddHyperDimensionIdentity(this IServiceCollection services)
     {
         services.AddHyperDimensionAuthentication();
+
+        services.AddSingleton<IHyperDimensionIdentityService, HyperDimensionIdentityService>();
+        services.AddSingleton<IHyperDimensionWebAuthnAuthenticationService, HyperDimensionWebAuthnAuthenticationService>();
+
+        services.AddSingleton<IFido2, Fido2>(sp =>
+        {
+            var options = sp.GetRequiredService<WebAuthnOptions>();
+
+            var fido2Configuration = new Fido2Configuration
+            {
+                Timeout = options.Timeout,
+                ServerIcon = options.ServerIcon,
+                ServerDomain = options.ServerDomain,
+                ServerName = options.ServerName,
+                Origins = options.Origins.ToHashSet()
+            };
+
+            return new Fido2(fido2Configuration);
+        });
     }
 
     private static void AddHyperDimensionAuthentication(this IServiceCollection services)
@@ -27,7 +51,7 @@ public static class IdentityConfigurator
             .GetChildren();
         var providers = providersConfiguration
             .Select(x => (
-                IdentityOptions: x.GetOrThrow<IdentityOptions>(),
+                IdentityOptions: x.GetOrThrow<IdentityProviderOptions>(),
                 ConfigurationSection: (IConfigurationSection?) x.GetSection("Config")
                 ))
             .ToArray();

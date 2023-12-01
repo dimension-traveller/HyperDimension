@@ -1,5 +1,6 @@
 ﻿using HyperDimension.Application.Common.Interfaces;
 using HyperDimension.Common;
+using HyperDimension.Domain.Entities.Identity;
 using HyperDimension.Infrastructure.Database.Configuration;
 using HyperDimension.Infrastructure.Database.Enums;
 using HyperDimension.Infrastructure.Database.Exceptions;
@@ -52,6 +53,12 @@ public class HyperDimensionDbContext(
         modelBuilder.ApplyCommonConfigurations();
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(HyperDimensionDbContext).Assembly);
     }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<WebAuthn> WebAuthnDevices { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {

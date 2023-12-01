@@ -3,6 +3,9 @@
         <ProjectReference Include="..\HyperDimension.Domain\HyperDimension.Domain.csproj" />
     </ItemGroup>
     <ItemGroup>
+      <PackageReference Include="Fido2" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
     </ItemGroup>
 </Project>
