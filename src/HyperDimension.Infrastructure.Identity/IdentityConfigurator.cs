@@ -22,8 +22,8 @@ public static class IdentityConfigurator
     {
         services.AddHyperDimensionAuthentication();
 
-        services.AddSingleton<IHyperDimensionIdentityService, HyperDimensionIdentityService>();
-        services.AddSingleton<IHyperDimensionWebAuthnAuthenticationService, HyperDimensionWebAuthnAuthenticationService>();
+        services.AddScoped<IHyperDimensionIdentityService, HyperDimensionIdentityService>();
+        services.AddScoped<IHyperDimensionWebAuthnAuthenticationService, HyperDimensionWebAuthnAuthenticationService>();
 
         services.AddSingleton<IFido2, Fido2>(sp =>
         {
