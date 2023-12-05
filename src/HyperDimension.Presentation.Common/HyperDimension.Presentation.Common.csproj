@@ -14,4 +14,9 @@
       <ProjectReference Include="..\HyperDimension.Infrastructure.Storage\HyperDimension.Infrastructure.Storage.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
+      <PackageReference Include="Swashbuckle.AspNetCore" />
+    </ItemGroup>
+
 </Project>

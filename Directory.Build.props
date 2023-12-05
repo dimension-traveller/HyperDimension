@@ -8,6 +8,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <!-- Documentation -->
+    <PropertyGroup Condition="$(Configuration) == 'Debug'">
+        <NoWarn>CS1591</NoWarn>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
     <!-- Analyzer -->
     <PropertyGroup>
         <AnalysisLevel>8.0</AnalysisLevel>

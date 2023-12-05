@@ -14,7 +14,7 @@ public class HyperDimensionApiOutputFormatter : TextOutputFormatter
         SupportedEncodings.Add(Encoding.UTF8);
     }
 
-    public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+    public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
     {
         var httpContext = context.HttpContext;
         var tracerId = Tracer.CurrentSpan.Context.TraceId.ToHexString();
@@ -34,6 +34,6 @@ public class HyperDimensionApiOutputFormatter : TextOutputFormatter
         }
 
         httpContext.Response.Headers.TryAdd("X-Trace-Id", tracerId);
-        await httpContext.Response.WriteAsJsonAsync(response);
+        return httpContext.Response.WriteAsJsonAsync(response);
     }
 }

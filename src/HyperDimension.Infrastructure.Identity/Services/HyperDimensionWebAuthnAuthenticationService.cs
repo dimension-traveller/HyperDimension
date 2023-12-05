@@ -26,17 +26,13 @@ public class HyperDimensionWebAuthnAuthenticationService
         _dbContext = dbContext;
     }
 
-    public async Task<CredentialCreateOptions> CreateWebAuthnRegistrationOptionsAsync(Fido2User user)
+    public async Task<CredentialCreateOptions> CreateWebAuthnRegistrationOptionsAsync(
+        Fido2User user,
+        IEnumerable<byte[]> existingCredentialIds)
     {
-        var existingUser = _dbContext.Users
-            .Include(x => x.WebAuthnDevices)
-            .FirstOrDefault(x => x.Username == user.Name);
-
-        var existingDescriptor = existingUser?
-            .WebAuthnDevices
-            .Select(x => x.CredentialId)
+        var existingDescriptor = existingCredentialIds
             .Select(x => new PublicKeyCredentialDescriptor(x))
-            .ToList() ?? [];
+            .ToList();
 
         var options = _fido2.RequestNewCredential(user, existingDescriptor);
         var challenge = Base64Url.Encode(options.Challenge);
@@ -45,7 +41,9 @@ public class HyperDimensionWebAuthnAuthenticationService
         return options;
     }
 
-    public async Task<Result<Guid>> VerifyWebAuthnRegistrationAsync(string cacheKey, AuthenticatorAttestationRawResponse attestationResponse)
+    public async Task<Result<User>> VerifyWebAuthnRegistrationAsync(
+        string cacheKey,
+        AuthenticatorAttestationRawResponse attestationResponse)
     {
         var options = await _cache.GetStringAsync(cacheKey);
         var fidoOptions = CredentialCreateOptions.FromJson(options);
@@ -53,30 +51,25 @@ public class HyperDimensionWebAuthnAuthenticationService
         var fidoCredentials = await _fido2.MakeNewCredentialAsync(
             attestationResponse, fidoOptions, (p, _) =>
             {
-                var existingUser = _dbContext.Users
+                var user = _dbContext.Users
                     .Include(x => x.WebAuthnDevices)
-                    .AsNoTracking()
                     .FirstOrDefault(x => x.Username == p.User.Name);
 
-                if (existingUser is null)
+                if (user is null)
                 {
-                    return Task.FromResult(true);
+                    return Task.FromResult(false);
                 }
 
-                var existingCredentialId = existingUser.WebAuthnDevices
-                    .Find(x => x.CredentialId.SequenceEqual(p.CredentialId));
+                var existing = user.WebAuthnDevices.Select(x => x.CredentialId)
+                    .Any(x => x.SequenceEqual(p.CredentialId));
 
-                return Task.FromResult(existingCredentialId is null);
+                return Task.FromResult(existing is false);
             });
 
         if (fidoCredentials.Status != "ok")
         {
             return fidoCredentials.ErrorMessage;
         }
-
-        var existingUser = _dbContext.Users
-            .Include(x => x.WebAuthnDevices)
-            .FirstOrDefault(x => x.Username == fidoCredentials.Result!.User.Name);
 
         var device = new WebAuthn
         {
@@ -89,47 +82,18 @@ public class HyperDimensionWebAuthnAuthenticationService
             AaGuid = fidoCredentials.Result.Aaguid
         };
 
-        Guid userGuid;
-
-        if (existingUser is not null)
+        return new User
         {
-            existingUser.WebAuthnDevices.Add(device);
-            userGuid = existingUser.EntityId;
-        }
-        else
-        {
-            var user = new User
-            {
-                Username = fidoCredentials.Result.User.Name,
-                DisplayName = fidoCredentials.Result.User.DisplayName,
-                Email = Encoding.UTF8.GetString(fidoCredentials.Result!.User.Id),
-                PasswordHash = string.Empty,
-                Salt = string.Empty,
-                Roles = [],
-                WebAuthnDevices = [device]
-            };
-
-            userGuid = user.EntityId;
-
-            await _dbContext.Users.AddAsync(user);
-        }
-
-        await _dbContext.SaveChangesAsync(CancellationToken.None);
-        return userGuid;
+            Username = fidoCredentials.Result.User.Name,
+            DisplayName = fidoCredentials.Result.User.DisplayName,
+            Email = Encoding.UTF8.GetString(fidoCredentials.Result.User.Id),
+            WebAuthnDevices = [device]
+        };
     }
 
-    public async Task<Result<AssertionOptions>> CreateWebAuthnAssertionOptionsAsync(string userIdentifier)
+    public async Task<AssertionOptions> CreateWebAuthnAssertionOptionsAsync(IEnumerable<byte[]> existingCredentialIds)
     {
-        var user = await _dbContext.Users
-            .FirstOrDefaultAsync(x => x.Username == userIdentifier || x.Email == userIdentifier);
-
-        if (user is null)
-        {
-            return "User does not exist";
-        }
-
-        var descriptors = user.WebAuthnDevices
-            .Select(x => x.CredentialId)
+        var descriptors = existingCredentialIds
             .Select(x => new PublicKeyCredentialDescriptor(x));
 
         var options = _fido2.GetAssertionOptions(
@@ -142,7 +106,9 @@ public class HyperDimensionWebAuthnAuthenticationService
         return options;
     }
 
-    public async Task<Result<Guid>> VerifyWebAuthnAssertionAsync(string cacheKey, AuthenticatorAssertionRawResponse assertionResponse)
+    public async Task<Result<Guid>> VerifyWebAuthnAssertionAsync(
+        string cacheKey,
+        AuthenticatorAssertionRawResponse assertionResponse)
     {
         var options = await _cache.GetStringAsync(cacheKey);
         var fidoOptions = AssertionOptions.FromJson(options);
