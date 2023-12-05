@@ -27,9 +27,23 @@ Serilog:
     #     propertiesAsLabels:
     #       - app
 
+HyperDimension:
+  FrontendUrl: http://localhost:3000
+
 Database:
   Type: SQLite                                                        # SQLite, SQLServer, PostgreSQL, MySQL
-  ConnectionString: "Data Source=data/HyperDimension.db;Version=3;"   # Check out: connectionstrings.com
+  ConnectionString: "Data Source=data/HyperDimension.db;"             # Check out: connectionstrings.com
+
+DataProtection:
+  EnableCertificate: false
+
+  Certificate:
+    Path: ./data/cert/hd.pfx
+    Password: 123
+
+  RotatedCertificates:
+    - Path: ./data/cert/hd-rotated.pfx
+      Password: 123
 
 Storage:
   Type: FileSystem                    # FileSystem, S3
@@ -58,6 +72,8 @@ Cache:
 #    KeyPrefix: hd-
 
 Identity:
+  SessionLifetime: 86400             # In seconds
+
   WebAuthn:
     Timeout: 60000
     ServerIcon: ""

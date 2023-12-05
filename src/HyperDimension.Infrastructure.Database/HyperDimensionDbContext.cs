@@ -7,6 +7,7 @@ using HyperDimension.Infrastructure.Database.Exceptions;
 using HyperDimension.Infrastructure.Database.Extensions;
 using HyperDimension.Infrastructure.Database.Options;
 using MediatR;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -16,7 +17,7 @@ public class HyperDimensionDbContext(
     IMediator mediator,
     ILogger<HyperDimensionDbContext> logger,
     DatabaseOptions databaseOptions)
-    : DbContext, IHyperDimensionDbContext
+    : DbContext, IDataProtectionKeyContext, IHyperDimensionDbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -55,9 +56,21 @@ public class HyperDimensionDbContext(
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+    #region Data Protection
+
+    public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
+
+    #endregion
+
+    #region Identity
+
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<WebAuthn> WebAuthnDevices { get; set; }
+
+    #endregion
+
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
