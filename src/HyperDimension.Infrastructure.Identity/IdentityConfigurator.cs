@@ -1,14 +1,12 @@
 ﻿using Fido2NetLib;
 using HyperDimension.Application.Common.Interfaces;
 using HyperDimension.Common.Configuration;
+using HyperDimension.Common.Constants;
 using HyperDimension.Common.Extensions;
-using HyperDimension.Infrastructure.Identity.Abstract;
 using HyperDimension.Infrastructure.Identity.Attributes;
 using HyperDimension.Infrastructure.Identity.Exceptions;
 using HyperDimension.Infrastructure.Identity.Options;
 using HyperDimension.Infrastructure.Identity.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -44,26 +42,17 @@ public static class IdentityConfigurator
 
     private static void AddHyperDimensionAuthentication(this IServiceCollection services)
     {
-        var authenticationSection = HyperDimensionConfiguration
-            .Instance
-            .GetRequiredSection("Identity:Providers");
-        var providersConfiguration = authenticationSection
-            .GetChildren();
-        var providers = providersConfiguration
-            .Select(x => (
-                IdentityOptions: x.GetOrThrow<IdentityProviderOptions>(),
-                ConfigurationSection: (IConfigurationSection?) x.GetSection("Config")
-                ))
-            .ToArray();
+        var identityOptions = HyperDimensionConfiguration.Instance
+            .GetOption<HdIdentityOptions>();
 
         // Do not allow duplicate ids or names
-        var duplicateIds = providers
-            .GroupBy(x => x.IdentityOptions.Id)
+        var duplicateIds = identityOptions.Providers
+            .GroupBy(x => x.Id)
             .Where(x => x.Count() > 1)
             .Select(x => x.Key)
             .ToArray();
-        var duplicateNames = providers
-            .GroupBy(x => x.IdentityOptions.Name)
+        var duplicateNames = identityOptions.Providers
+            .GroupBy(x => x.Name)
             .Where(x => x.Count() > 1)
             .Select(x => x.Key)
             .ToArray();
@@ -76,50 +65,64 @@ public static class IdentityConfigurator
             throw new DuplicatedAuthenticationSchemaException("Name", duplicateNames);
         }
 
-        // Prepare the builder
-        var builders = typeof(IdentityConfigurator).Assembly
-            .Scan<IAuthenticationProviderBuilder>()
-            .Where(x => x.HasAttribute<AuthenticationBuilderAttribute>())
-            .Select(x => (
-                Attribute: x.GetAttribute<AuthenticationBuilderAttribute>()!,
-                Instance: (IAuthenticationProviderBuilder)Activator.CreateInstance(x)!))
-            .ToDictionary(
-                x => x.Attribute.Name,
-                x => (
-                    OptionType: x.Attribute.OptionsType,
-                    x.Instance));
-
         var builder = services
-            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            .AddAuthentication(options =>
             {
-                options.Cookie = new CookieBuilder
-                {
-                    Name = "HyperDimension.Identity"
-                };
+                options.DefaultScheme = IdentityConstants.ApplicationSchema;
+                options.DefaultSignInScheme = IdentityConstants.ExternalSchema;
+            })
+            .AddBearerToken(IdentityConstants.IdentitySchema, options =>
+            {
+                options.BearerTokenExpiration = TimeSpan.FromMinutes(identityOptions.Token.AccessTokenExpiration);
+                options.RefreshTokenExpiration = TimeSpan.FromMinutes(identityOptions.Token.RefreshTokenExpiration);
+            })
+            .AddCookie(IdentityConstants.ApplicationSchema, "Application", options =>
+            {
+                options.Cookie.Name = IdentityConstants.ApplicationSchema;
+                options.Cookie.Expiration = TimeSpan.FromMinutes(5);
+            })
+            .AddCookie(IdentityConstants.ExternalSchema, "External", options =>
+            {
+                options.Cookie.Name = IdentityConstants.ExternalSchema;
+                options.Cookie.Expiration = TimeSpan.FromMinutes(5);
             });
 
-        // Add the schema
-        foreach (var (ido, section) in providers)
+        var availableBuilder = ApplicationConstants.ProjectAssemblies
+            .Scan()
+            .Where(x => x.HasAttribute<AuthenticationBuilderAttribute>())
+            .ToDictionary(
+                x => x.GetAttribute<AuthenticationBuilderAttribute>()!.Name,
+                y => Activator.CreateInstance(y)!);
+
+        var index = 0;
+        foreach (var provider in identityOptions.Providers)
         {
-            if (builders.TryGetValue(ido.Type, out var builderPair) is false)
+            if (availableBuilder.TryGetValue(provider.Type, out var instance) is false)
             {
-                throw new AuthenticationNotSupportedException(ido.Type, "Unknown authentication type");
+                throw new AuthenticationNotSupportedException(provider.Type, "Unknown authentication type");
             }
 
-            var (optionType, instance) = builderPair;
+            var canAddSchema = (bool) instance.GetType()
+                .GetProperty("CanAddSchema")!
+                .GetValue(instance)!;
 
-            if (instance.CanAddSchema is false)
+            if (canAddSchema is false)
             {
-                throw new AuthenticationNotSupportedException(ido.Type, $"Builder blocked schema {ido.Type}");
+                throw new AuthenticationNotSupportedException(provider.Type, "This authentication type does not support adding more schemas");
             }
 
-            var options = Activator.CreateInstance(optionType)
-                ?? throw new AuthenticationNotSupportedException(ido.Type, "Unable to create options instance");
+            var configType = instance.GetType()
+                .GetInterfaces()
+                .First(x => x.Name == "IAuthenticationProviderBuilder`1")
+                .GetGenericArguments()[0];
+            var config = Activator.CreateInstance(configType)!;
+            HyperDimensionConfiguration.Instance
+                .GetSection($"Identity:Providers:{index}:Config").Bind(config);
+            index++;
 
-            section?.Bind(options);
-
-            instance.AddSchema(builder, ido.Id, ido.Name, options);
+            instance.GetType()
+                .GetMethod("AddSchema")!
+                .Invoke(instance, new object[] { builder, provider, config });
         }
     }
 }

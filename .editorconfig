@@ -176,3 +176,4 @@ dotnet_diagnostic.S2094.severity = silent
 dotnet_diagnostic.S1125.severity = silent
 dotnet_diagnostic.S3881.severity = silent
 dotnet_diagnostic.S3604.severity = silent
+dotnet_diagnostic.S6602.severity = silent

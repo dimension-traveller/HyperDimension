@@ -72,8 +72,6 @@ Cache:
 #    KeyPrefix: hd-
 
 Identity:
-  SessionLifetime: 86400             # In seconds
-
   WebAuthn:
     Timeout: 60000
     ServerIcon: ""

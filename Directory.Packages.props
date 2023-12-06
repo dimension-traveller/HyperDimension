@@ -7,12 +7,14 @@
     <PackageVersion Include="Alexinea.Extensions.Configuration.Yaml" Version="7.0.0" />
     <PackageVersion Include="AspNet.Security.OAuth.Discord" Version="8.0.0" />
     <PackageVersion Include="AspNet.Security.OAuth.GitHub" Version="8.0.0" />
-    <PackageVersion Include="AWSSDK.S3" Version="3.7.304.1" />
+    <PackageVersion Include="AWSSDK.S3" Version="3.7.304.3" />
     <PackageVersion Include="Fido2" Version="3.0.1" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
     <PackageVersion Include="MediatR" Version="12.2.0" />
     <PackageVersion Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="8.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="8.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />

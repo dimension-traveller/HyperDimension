@@ -1,5 +1,7 @@
-﻿namespace HyperDimension.Infrastructure.Identity.Options.Providers;
+﻿using HyperDimension.Infrastructure.Identity.Abstract;
 
-public class DatabaseProviderOptions
+namespace HyperDimension.Infrastructure.Identity.Options.Providers;
+
+public class DatabaseProviderOptions : IIdentityProviderConfig
 {
 }

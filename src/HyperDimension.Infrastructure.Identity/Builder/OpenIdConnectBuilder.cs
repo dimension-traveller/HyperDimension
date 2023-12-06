@@ -1,52 +1,53 @@
 using HyperDimension.Infrastructure.Identity.Abstract;
 using HyperDimension.Infrastructure.Identity.Attributes;
+using HyperDimension.Infrastructure.Identity.Exceptions;
+using HyperDimension.Infrastructure.Identity.Options;
 using HyperDimension.Infrastructure.Identity.Options.Providers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace HyperDimension.Infrastructure.Identity.Builder;
 
-[AuthenticationBuilder("OpenIdConnect", typeof(OpenIdConnectProviderProviderOptions))]
-public class OpenIdConnectBuilder : IAuthenticationProviderBuilder
+[AuthenticationBuilder("OpenIdConnect")]
+public class OpenIdConnectBuilder : IAuthenticationProviderBuilder<OpenIdConnectProviderOptions>
 {
     public bool CanAddSchema => true;
 
-    public void AddSchema(AuthenticationBuilder builder, string id, string name, object options)
+    public void AddSchema(AuthenticationBuilder builder, IdentityProviderOptions metadata, OpenIdConnectProviderOptions options)
     {
-        var opt = (OpenIdConnectProviderProviderOptions)options;
-
-        builder.AddOpenIdConnect(id, name, o =>
+        builder.AddOpenIdConnect(metadata.Id, metadata.Name, o =>
         {
             o.SaveTokens = true;
 
-            o.ClientId = opt.ClientId;
-            o.ClientSecret = opt.ClientSecret;
+            o.ClientId = options.ClientId;
+            o.ClientSecret = options.ClientSecret;
 
             o.Scope.Clear();
-            foreach (var s in opt.Scope)
+            foreach (var s in options.Scope)
             {
                 o.Scope.Add(s);
             }
 
-            o.ClientId = opt.ClientId;
-            o.ClientSecret = opt.ClientSecret;
+            o.ClientId = options.ClientId;
+            o.ClientSecret = options.ClientSecret;
 
-            o.CallbackPath = $"/identity/sso/callback/{id}";
+            o.CallbackPath = $"/identity/sso/callback/{metadata.Id}";
 
-            o.Authority = opt.Authority;
+            o.Authority = options.Authority;
 
-            if (opt.OpenIdConnectConfiguration is not null)
+            if (string.IsNullOrEmpty(options.MetadataAddress) is false)
             {
-                if (
-                    string.IsNullOrEmpty(opt.OpenIdConnectConfiguration.AuthorizationEndpoint) ||
-                    string.IsNullOrEmpty(opt.OpenIdConnectConfiguration.TokenEndpoint) ||
-                    string.IsNullOrEmpty(opt.OpenIdConnectConfiguration.UserInfoEndpoint))
+                o.MetadataAddress = options.MetadataAddress;
+            }
+            else
+            {
+                if (options.OpenIdConnectConfiguration is null)
                 {
-                    return;
+                    throw new AuthenticationNotSupportedException(metadata.Type,
+                        "MetadataAddress or OpenIdConnectConfiguration must be provided.");
                 }
 
-                o.Configuration = opt.OpenIdConnectConfiguration;
+                o.Configuration = options.OpenIdConnectConfiguration;
             }
         });
     }
