@@ -1,5 +1,6 @@
 ﻿using HyperDimension.Application.Common.Interfaces;
 using HyperDimension.Common;
+using HyperDimension.Common.Constants;
 using HyperDimension.Domain.Entities.Identity;
 using HyperDimension.Infrastructure.Database.Configuration;
 using HyperDimension.Infrastructure.Database.Enums;
@@ -77,7 +78,7 @@ public class HyperDimensionDbContext(
     {
         await mediator.DispatchDomainEvents(this);
 
-        if (Constants.IsDevelopment)
+        if (ApplicationConstants.IsDevelopment)
         {
             logger.LogTrace("DbContext ChangeTracker (Long): {ChangeTrackerLongView}",
                 ChangeTracker.DebugView.LongView);

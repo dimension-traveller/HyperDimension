@@ -2,9 +2,9 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyModel;
 
-namespace HyperDimension.Common;
+namespace HyperDimension.Common.Constants;
 
-public static class Constants
+public static class ApplicationConstants
 {
     public static string RuntimeEnvironment =>
         Environment.GetEnvironmentVariable("HD_RUNTIME_ENVIRONMENT")?.ToLowerInvariant() ??

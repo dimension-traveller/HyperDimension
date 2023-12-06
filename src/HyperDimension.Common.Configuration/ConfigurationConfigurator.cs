@@ -1,4 +1,5 @@
 ﻿using HyperDimension.Common.Attributes;
+using HyperDimension.Common.Constants;
 using HyperDimension.Common.Exceptions;
 using HyperDimension.Common.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,7 @@ public static class ConfigurationConfigurator
     {
         services.AddOptions();
 
-        var optionTypes = Constants.ProjectAssemblies
+        var optionTypes = ApplicationConstants.ProjectAssemblies
             .Scan()
             .Where(x => x.HasAttribute<OptionSectionAttribute>());
 
@@ -66,21 +67,21 @@ public static class ConfigurationConfigurator
             configurationBuilder.AddTomlFile(configurationFilePath);
 
             var fileName = configurationFilePath[..^5];
-            configurationBuilder.AddTomlFile($"{fileName}.{Constants.RuntimeEnvironment}.toml", true);
+            configurationBuilder.AddTomlFile($"{fileName}.{ApplicationConstants.RuntimeEnvironment}.toml", true);
         }
         else if (configurationFilePath.EndsWith(".json", StringComparison.InvariantCulture))
         {
             configurationBuilder.AddJsonFile(configurationFilePath);
 
             var fileName = configurationFilePath[..^5];
-            configurationBuilder.AddJsonFile($"{fileName}.{Constants.RuntimeEnvironment}.json", true);
+            configurationBuilder.AddJsonFile($"{fileName}.{ApplicationConstants.RuntimeEnvironment}.json", true);
         }
         else if (configurationFilePath.EndsWith(".yaml", StringComparison.InvariantCulture))
         {
             configurationBuilder.AddYamlFile(configurationFilePath);
 
             var fileName = configurationFilePath[..^5];
-            configurationBuilder.AddYamlFile($"{fileName}.{Constants.RuntimeEnvironment}.yaml", true);
+            configurationBuilder.AddYamlFile($"{fileName}.{ApplicationConstants.RuntimeEnvironment}.yaml", true);
         }
 
         var configuration = configurationBuilder.Build();

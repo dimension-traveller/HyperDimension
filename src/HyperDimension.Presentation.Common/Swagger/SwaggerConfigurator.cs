@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using HyperDimension.Common;
+using HyperDimension.Common.Constants;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,7 +43,7 @@ public static class SwaggerConfigurator
 
     public static void UseHyperDimensionSwagger(this IApplicationBuilder app)
     {
-        if (Constants.IsDevelopment is false)
+        if (ApplicationConstants.IsDevelopment is false)
         {
             return;
         }

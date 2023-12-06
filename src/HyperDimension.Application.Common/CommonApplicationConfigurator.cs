@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using HyperDimension.Common;
+using HyperDimension.Common.Constants;
 using Microsoft.Extensions.DependencyInjection;
 
 #pragma warning disable IDE0305
@@ -10,10 +11,10 @@ public static class CommonApplicationConfigurator
 {
     public static void AddCommonApplicationServices(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssemblies(Constants.ProjectAssemblies);
+        services.AddValidatorsFromAssemblies(ApplicationConstants.ProjectAssemblies);
         services.AddMediatR(configure =>
         {
-            configure.RegisterServicesFromAssemblies(Constants.ProjectAssemblies.ToArray());
+            configure.RegisterServicesFromAssemblies(ApplicationConstants.ProjectAssemblies.ToArray());
         });
     }
 }
