@@ -43,6 +43,9 @@ public class HyperDimensionDbContext(
                     options.EnableRetryOnFailure(8);
                 });
                 break;
+            case DatabaseType.Oracle:
+                optionsBuilder.UseOracle(databaseOptions.ConnectionString);
+                break;
             default:
                 throw new DatabaseNotSupportedException(databaseOptions.Type.ToString(), "Unknown database type");
         }
