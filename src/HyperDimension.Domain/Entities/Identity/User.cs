@@ -10,9 +10,15 @@ public class User : BaseEntity
 
     public string Email { get; set; } = string.Empty;
 
+    public bool EmailConfirmed { get; set; }
+
     public string PasswordHash { get; set; } = string.Empty;
 
-    public string Salt { get; set; } = string.Empty;
+    public string ConcurrencyStamp { get; set; } = string.Empty;
+
+    public string SecurityStamp { get; set; } = string.Empty;
+
+    public bool TwoFactorEnabled { get; set; }
 
     public List<Role> Roles { get; set; } = [];
 

@@ -2,9 +2,9 @@
 using HyperDimension.Common;
 using HyperDimension.Domain.Entities.Identity;
 
-namespace HyperDimension.Application.Common.Interfaces;
+namespace HyperDimension.Application.Common.Interfaces.Identity;
 
-public interface IHyperDimensionWebAuthnAuthenticationService
+public interface IWebAuthnAuthenticationService
 {
     public Task<CredentialCreateOptions> CreateWebAuthnRegistrationOptionsAsync(
         Fido2User user,
