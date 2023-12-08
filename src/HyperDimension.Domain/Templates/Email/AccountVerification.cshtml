@@ -1,0 +1,80 @@
+@using RazorLight
+@inherits TemplatePage<HyperDimension.Domain.Email.EmailTemplate<HyperDimension.Domain.Email.AccountVerification>>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@string.Format(Model.Localizer["Account Verification for {0}"], Model.Data.Username)</title>
+</head>
+
+<style>
+    .title {
+        font-size: 56px;
+        font-weight: bold;
+        color: black;
+        text-align: center;
+    }
+    .content {
+        font-size: x-large;
+    }
+
+    .token {
+        background-color: lightgray;
+        border-radius: 12px;
+        padding: 8px;
+    }
+
+    .token p {
+        text-align: center;
+        font-size: xx-large;
+        font-family: monospace;
+    }
+
+    .footer {
+        font-size: medium;
+    }
+</style>
+
+<body>
+<h1 class="title">@Model.Localizer["email.account-verification.title"]</h1>
+
+<div class="content">
+    <p>Dear @Model.Data.DisplayName</p>
+    <p>
+        Thanks for your account registration on @Model.Data.SiteName.
+        Your account's username is @Model.Data.Username
+        This is your account registration code.
+    </p>
+</div>
+
+<div class="token">
+    <p>@Model.Data.Token</p>
+</div>
+
+<div class="content">
+    <p>
+        Please enter this code on the account verification page to activate your
+        account. It will expire in 30 minutes.
+    </p>
+</div>
+
+<div class="content">
+    <p>
+        You can also click <a href="@Model.Data.ActivationUrl">This Link</a> to activate your
+        account.
+    </p>
+</div>
+
+<div class="footer">
+    <p>
+        If you did not register on @Model.Data.SiteName, please ignore this email.
+    </p>
+    <p>
+        This email is automatically sent by the system, please do not reply.
+    </p>
+</div>
+
+</body>
+</html>

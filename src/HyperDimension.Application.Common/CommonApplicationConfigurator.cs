@@ -9,7 +9,7 @@ namespace HyperDimension.Application.Common;
 
 public static class CommonApplicationConfigurator
 {
-    public static void AddCommonApplicationServices(this IServiceCollection services)
+    public static void AddHyperDimensionApplication(this IServiceCollection services)
     {
         services.AddValidatorsFromAssemblies(ApplicationConstants.ProjectAssemblies);
         services.AddMediatR(configure =>

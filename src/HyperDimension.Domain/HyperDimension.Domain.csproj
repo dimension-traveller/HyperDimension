@@ -1,9 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources/Localization/*.po" />
+    <EmbeddedResource Include="Resources/Static/*" />
+    <EmbeddedResource Include="Templates/**" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HyperDimension.Common.Configuration\HyperDimension.Common.Configuration.csproj" />
     <ProjectReference Include="..\HyperDimension.Common.Observability\HyperDimension.Common.Observability.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" />
+    <PackageReference Include="OrchardCore.Localization.Core" />
+    <PackageReference Include="RazorLight" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(SolutionDir)\i18n\*">
+      <Link>Resources\Localization\%(FileName).%(Extension)</Link>
+    </None>
+    <None Include="$(SolutionDir)\static\*">
+      <Link>Resources\Static\%(FileName).%(Extension)</Link>
+    </None>
   </ItemGroup>
 </Project>

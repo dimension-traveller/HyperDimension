@@ -7,4 +7,6 @@ public class IdentityProviderOptions
     public string Id { get; set; } = string.Empty;
 
     public string Type { get; set; } = string.Empty;
+
+    public string Icon { get; set; } = string.Empty;
 }

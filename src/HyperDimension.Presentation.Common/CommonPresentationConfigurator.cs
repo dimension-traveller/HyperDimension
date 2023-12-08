@@ -8,7 +8,7 @@ namespace HyperDimension.Presentation.Common;
 
 public static class CommonPresentationConfigurator
 {
-    public static void AddCommonPresentationServices(this IServiceCollection services)
+    public static void AddHyperDimensionPresentation(this IServiceCollection services)
     {
         services.AddScoped<IHyperDimensionRequestContext, HyperDimensionRequestContext>();
     }

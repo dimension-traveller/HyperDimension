@@ -14,6 +14,7 @@ public static class DatabaseConfigurator
     {
         services.AddDbContext<IHyperDimensionDbContext, HyperDimensionDbContext>();
 
+        // Add data protection
         var builder = services.AddDataProtection()
             .SetApplicationName("HyperDimension")
             .PersistKeysToDbContext<HyperDimensionDbContext>();

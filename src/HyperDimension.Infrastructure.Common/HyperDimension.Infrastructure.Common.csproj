@@ -2,4 +2,11 @@
     <ItemGroup>
       <ProjectReference Include="..\HyperDimension.Application.Common\HyperDimension.Application.Common.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="FluentEmail.Core" />
+      <PackageReference Include="FluentEmail.Mailgun" />
+      <PackageReference Include="FluentEmail.MailKit" />
+      <PackageReference Include="FluentEmail.Razor" />
+      <PackageReference Include="FluentEmail.SendGrid" />
+    </ItemGroup>
 </Project>

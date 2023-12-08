@@ -2,6 +2,7 @@
 using Fido2NetLib;
 using Fido2NetLib.Objects;
 using HyperDimension.Application.Common.Interfaces;
+using HyperDimension.Application.Common.Interfaces.Identity;
 using HyperDimension.Common;
 using HyperDimension.Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +10,14 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace HyperDimension.Infrastructure.Identity.Services;
 
-public class HyperDimensionWebAuthnAuthenticationService
-    : IHyperDimensionWebAuthnAuthenticationService
+public class WebAuthnAuthenticationService
+    : IWebAuthnAuthenticationService
 {
     private readonly IFido2 _fido2;
     private readonly IDistributedCache _cache;
     private readonly IHyperDimensionDbContext _dbContext;
 
-    public HyperDimensionWebAuthnAuthenticationService(
+    public WebAuthnAuthenticationService(
         IFido2 fido2,
         IDistributedCache cache,
         IHyperDimensionDbContext dbContext)

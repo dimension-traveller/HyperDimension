@@ -1,8 +1,8 @@
 Serilog:
   Using:
     - Serilog.Sinks.Console
-    # - Serilog.Sinks.File
-    # - Serilog.Sinks.Grafana.Loki
+#   - Serilog.Sinks.File
+#   - Serilog.Sinks.Grafana.Loki
   MinimumLevel:
     Default: Information
     Override:
@@ -13,22 +13,25 @@ Serilog:
     - Name: Console
       Args:
         outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
-    # - Name: File
-    #   Args:
-    #     path: ./data/logs/hd-.log
-    #     rollingInterval: Day
-    #     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
-    # - Name: GrafanaLoki
-    #   Args:
-    #     uri: http://localhost:3100
-    #     labels:
-    #       - key: app
-    #         value: hyper-dimension
-    #     propertiesAsLabels:
-    #       - app
+#   - Name: File
+#     Args:
+#       path: ./data/logs/hd-.log
+#       rollingInterval: Day
+#       outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
+#   - Name: GrafanaLoki
+#     Args:
+#       uri: http://localhost:3100
+#       labels:
+#         - key: app
+#           value: hyper-dimension
+#       propertiesAsLabels:
+#         - app
 
-HyperDimension:
+Application:
   FrontendUrl: http://localhost:3000
+
+Metadata:
+    SiteName: HYPER DIMENSION
 
 Database:
   Type: SQLite                                                        # SQLite, SQLServer, PostgreSQL, MySQL
@@ -51,14 +54,14 @@ Storage:
   FileSystem:
     RootPath: ./data/blob
 
-#  S3:
-#    Flavor: Generic                   # Generic, Amazon
-#    Endpoint: http://localhost:9000   # Only for Generic
-#    AccessKey: minio                  # Both
-#    SecretKey: minio123               # Both
-#    BucketName: hyper-dimension       # Both
-#    Region: ap-east-1                 # Both
-#    ForcePathStyle: true              # Only for Generic
+# S3:
+#   Flavor: Generic                   # Generic, Amazon
+#   Endpoint: http://localhost:9000   # Only for Generic
+#   AccessKey: minio                  # Both
+#   SecretKey: minio123               # Both
+#   BucketName: hyper-dimension       # Both
+#   Region: ap-east-1                 # Both
+#   ForcePathStyle: true              # Only for Generic
 
 Cache:
   Type: Memory
@@ -66,12 +69,41 @@ Cache:
   Memory:
     Size: 1024                        # In MB
 
-#  Redis:
-#    ConnectionString: localhost:6379
-#    Database: 0
-#    KeyPrefix: hd-
+# Redis:
+#   ConnectionString: localhost:6379
+#   Database: 0
+#   KeyPrefix: hd-
+
+Email:
+  Enabled: false
+# Sender: Smtp                       # Smtp, MailGun, SendGrid
+# From: hyperdimension@example.com
+# FromName: Hyper Dimension
+
+# Smtp:
+#   Server: localhost
+#   Port: 587
+#   User: your-username
+#   Password: your-password
+#   UseSsl: true
+#   RequiresAuthentication: true
+#   SocketOptions: Auto               # Auto, SslOnConnect, StartTls, StartTlsWhenAvailable
+
+# MailGun:
+#   ApiKey: 123
+#   Domain: example.com
+#   Region: US                        # USA, EU
+
+# SendGrid:
+#   ApiKey: 123
+#   SandBoxMode: false
+
 
 Identity:
+  Token:
+    AccessTokenExpiration: 3600       # In seconds, default: 3600 (1 hour)
+    RefreshTokenExpiration: 2592000   # In seconds, default: 2592000 (30 days)
+
   WebAuthn:
     Timeout: 60000
     ServerIcon: ""
@@ -85,11 +117,51 @@ Identity:
     - Name: Database
       Id: database
       Type: Database
-      Config:
 
-#    - Name: GitHub
-#      Id: github
-#      Type: GitHub
-#      Config:
-#        ClientId: 123
-#        ClientSecret: 123
+#   - Name: Discord
+#     Id: discord
+#     Type: Discord
+#     Icon: "{Embedded:discord}"
+#     Config:
+#       ClientId: 123
+#       ClientSecret: 123
+
+#   - Name: GitHub
+#     Id: github
+#     Type: GitHub
+#     Icon: "{Embedded:github}"
+#     Config:
+#       ClientId: 123
+#       ClientSecret: 123
+
+#   - Name: Google
+#     Id: google
+#     Type: Google
+#     Icon: "{Embedded:google}"
+#     Config:
+#       ClientId: 123
+#       ClientSecret: 123
+
+#   - Name: Microsoft
+#     Id: microsoft
+#     Type: Microsoft
+#     Icon: "{Embedded:microsoft}"
+#     Config:
+#       ClientId: 123
+#       ClientSecret: 123
+
+#   - Name: Your OIDC Provider
+#     Id: oidc
+#     Type: OpenIdConnect
+#     Icon: "https://url-to-your-icon/oidc.svg.png.jpg.webp"
+#     Config:
+#       Authority: "https://localhost:5001"
+#       MetadataAddress: "https://localhost:5001/.well-known/openid-configuration"
+#       Scope:
+#         - openid
+#         - profile
+#         - email
+#       ClientId: 123
+#       ClientSecret: 123
+#       OpenIdConnectConfiguration:
+#         # See https://learn.microsoft.com/en-us/dotnet/api/microsoft.identitymodel.protocols.openidconnect.openidconnectconfiguration?view=msal-web-dotnet-latest&viewFallbackFrom=net-8.0

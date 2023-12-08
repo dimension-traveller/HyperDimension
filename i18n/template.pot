@@ -1,0 +1,20 @@
+# Localization for Hyper Dimension
+# Copyright © 2023 Alisa and Contributors.
+# This file is distributed under the same license as Hyper Dimension.
+# See the LICENSE file in the root of the project for details.
+
+msgid ""
+msgstr ""
+"Project-Id-Version: HyperDimension v1.0.0\n"
+"Report-Msgid-Bugs-To: alisa@alsiaqaq.moe\n"
+"POT-Creation-Date: 2023-12-08 13:58+0800\n"
+"PO-Revision-Date: 2023-12-08 13:58+0800\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. current language name
+#, csharp-format
+msgid "Language Name"
+msgstr ""

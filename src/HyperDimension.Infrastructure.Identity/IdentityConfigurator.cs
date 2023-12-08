@@ -1,5 +1,5 @@
 ﻿using Fido2NetLib;
-using HyperDimension.Application.Common.Interfaces;
+using HyperDimension.Application.Common.Interfaces.Identity;
 using HyperDimension.Common.Configuration;
 using HyperDimension.Common.Constants;
 using HyperDimension.Common.Extensions;
@@ -20,8 +20,7 @@ public static class IdentityConfigurator
     {
         services.AddHyperDimensionAuthentication();
 
-        services.AddScoped<IHyperDimensionIdentityService, HyperDimensionIdentityService>();
-        services.AddScoped<IHyperDimensionWebAuthnAuthenticationService, HyperDimensionWebAuthnAuthenticationService>();
+        services.AddScoped<IWebAuthnAuthenticationService, WebAuthnAuthenticationService>();
 
         services.AddSingleton<IFido2, Fido2>(sp =>
         {
@@ -73,8 +72,8 @@ public static class IdentityConfigurator
             })
             .AddBearerToken(IdentityConstants.IdentitySchema, options =>
             {
-                options.BearerTokenExpiration = TimeSpan.FromMinutes(identityOptions.Token.AccessTokenExpiration);
-                options.RefreshTokenExpiration = TimeSpan.FromMinutes(identityOptions.Token.RefreshTokenExpiration);
+                options.BearerTokenExpiration = TimeSpan.FromSeconds(identityOptions.Token.AccessTokenExpiration);
+                options.RefreshTokenExpiration = TimeSpan.FromSeconds(identityOptions.Token.RefreshTokenExpiration);
             })
             .AddCookie(IdentityConstants.ApplicationSchema, "Application", options =>
             {

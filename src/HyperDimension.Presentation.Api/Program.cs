@@ -1,10 +1,6 @@
 using HyperDimension.Application.Common;
 using HyperDimension.Common.Configuration;
 using HyperDimension.Common.Observability;
-using HyperDimension.Infrastructure.Cache;
-using HyperDimension.Infrastructure.Database;
-using HyperDimension.Infrastructure.Identity;
-using HyperDimension.Infrastructure.Storage;
 using HyperDimension.Presentation.Api.Formatter;
 using HyperDimension.Presentation.Common;
 using HyperDimension.Presentation.Common.Swagger;
@@ -22,15 +18,10 @@ builder.Services.AddControllers(options =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHyperDimensionSwagger();
 
-builder.Services.AddHyperDimensionOptions();
-
-builder.Services.AddHyperDimensionDatabase();
-builder.Services.AddHyperDimensionStorage();
-builder.Services.AddHyperDimensionCache();
-builder.Services.AddHyperDimensionIdentity();
-
-builder.Services.AddCommonApplicationServices();
-builder.Services.AddCommonPresentationServices();
+builder.Services.AddHyperDimensionCommon();
+builder.Services.AddHyperDimensionInfrastructure();
+builder.Services.AddHyperDimensionApplication();
+builder.Services.AddHyperDimensionPresentation();
 
 var app = builder.Build();
 
