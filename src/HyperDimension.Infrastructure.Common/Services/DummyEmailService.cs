@@ -6,6 +6,8 @@ namespace HyperDimension.Infrastructure.Common.Services;
 
 public class DummyEmailService : IEmailService
 {
+    public bool Enabled => false;
+
     public Task<Result<bool>> SendEmailAsync<T>(string to, string subjectKey, T model) where T : class, IEmailTemplate
     {
         return Task.FromResult(Result<bool>.Success(true));

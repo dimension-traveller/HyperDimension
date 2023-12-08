@@ -20,6 +20,7 @@ public static class IdentityConfigurator
     {
         services.AddHyperDimensionAuthentication();
 
+        services.AddSingleton<IPasswordHashService, PasswordHashService>();
         services.AddScoped<IWebAuthnAuthenticationService, WebAuthnAuthenticationService>();
 
         services.AddSingleton<IFido2, Fido2>(sp =>
@@ -121,7 +122,7 @@ public static class IdentityConfigurator
 
             instance.GetType()
                 .GetMethod("AddSchema")!
-                .Invoke(instance, new object[] { builder, provider, config });
+                .Invoke(instance, new[] { builder, provider, config });
         }
     }
 }

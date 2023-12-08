@@ -5,5 +5,7 @@ namespace HyperDimension.Application.Common.Interfaces;
 
 public interface IEmailService
 {
+    public bool Enabled { get; }
+
     public Task<Result<bool>> SendEmailAsync<T>(string to, string subjectKey, T model) where T : class, IEmailTemplate;
 }

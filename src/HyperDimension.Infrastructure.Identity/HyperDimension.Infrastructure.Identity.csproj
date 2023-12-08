@@ -5,6 +5,7 @@
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.Discord" />
     <PackageReference Include="AspNet.Security.OAuth.GitHub" />
+    <PackageReference Include="Isopoh.Cryptography.Argon2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" />

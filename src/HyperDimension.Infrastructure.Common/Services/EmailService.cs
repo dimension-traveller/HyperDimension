@@ -24,6 +24,8 @@ public class EmailService : IEmailService
         _fluentEmail = fluentEmail;
     }
 
+    public bool Enabled => true;
+
     public async Task<Result<bool>> SendEmailAsync<T>(string to, string subjectKey, T model) where T : class, IEmailTemplate
     {
         var localizer = _stringLocalizerFactory.Create(typeof(T));

@@ -29,6 +29,7 @@ Serilog:
 
 Application:
   FrontendUrl: http://localhost:3000
+  AccountVerificationUrl: http://localhost:3000/account/verify?token={TOKEN}
 
 Metadata:
     SiteName: HYPER DIMENSION

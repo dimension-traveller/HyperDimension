@@ -6,4 +6,6 @@ namespace HyperDimension.Common.Options;
 public class ApplicationOptions
 {
     public string FrontendUrl { get; set; } = "http://localhost:3000";
+
+    public string AccountVerificationUrl { get; set; } = "http://localhost:3000/account/verify?token={TOKEN}";
 }

@@ -20,7 +20,11 @@ public class User : BaseEntity
 
     public bool TwoFactorEnabled { get; set; }
 
+    public int FailedAccessAttempts { get; set; }
+
     public List<Role> Roles { get; set; } = [];
+
+    public List<ApiToken> ApiTokens { get; set; } = [];
 
     public List<WebAuthn> WebAuthnDevices { get; set; } = [];
 }

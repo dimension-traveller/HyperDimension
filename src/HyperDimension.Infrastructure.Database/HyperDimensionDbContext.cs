@@ -2,6 +2,7 @@
 using HyperDimension.Common;
 using HyperDimension.Common.Constants;
 using HyperDimension.Domain.Entities.Identity;
+using HyperDimension.Domain.Entities.Security;
 using HyperDimension.Infrastructure.Database.Configuration;
 using HyperDimension.Infrastructure.Database.Enums;
 using HyperDimension.Infrastructure.Database.Exceptions;
@@ -69,9 +70,19 @@ public class HyperDimensionDbContext(
 
     #region Identity
 
+    public DbSet<TotpRecoveryCode> TotpRecoveryCodes { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<ApiToken> ApiTokens { get; set; }
+    public DbSet<ExternalProvider> ExternalProviders { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<Totp> Totps { get; set; }
     public DbSet<WebAuthn> WebAuthnDevices { get; set; }
+
+    #endregion
+
+    #region Security
+
+    public DbSet<Token> Tokens { get; set; }
 
     #endregion
 
