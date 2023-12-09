@@ -1,15 +1,13 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using HyperDimension.Common;
-using HyperDimension.Domain.Resources;
 
-namespace HyperDimension.Domain.Utils;
+namespace HyperDimension.Common.Utilities;
 
 [SuppressMessage("Design", "CA1031:Do not catch general exception types")]
 public static class StaticResourceResolver
 {
     public static Result<Stream> GetResourceStreamAsync(string path)
     {
-        var assembly = DomainAssemblyReference.Assembly;
+        var assembly = typeof(StaticResourceResolver).Assembly;
 
         try
         {

@@ -1,4 +1,5 @@
-﻿using HyperDimension.Common.Configuration;
+﻿using HyperDimension.Common;
+using HyperDimension.Common.Configuration;
 using HyperDimension.Infrastructure.Cache;
 using HyperDimension.Infrastructure.Common;
 using HyperDimension.Infrastructure.Database;
@@ -22,6 +23,7 @@ public static class ConfiguratorExtensions
 
     public static void AddHyperDimensionCommon(this IServiceCollection services)
     {
+        services.AddHyperDimensionCommonService();
         services.AddHyperDimensionOptions();
     }
 }

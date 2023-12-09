@@ -3,10 +3,10 @@ using HyperDimension.Application.Common.Extensions;
 using HyperDimension.Application.Common.Interfaces;
 using HyperDimension.Common;
 using HyperDimension.Common.Extensions;
+using HyperDimension.Common.Utilities;
 using HyperDimension.Domain.Abstract;
 using HyperDimension.Domain.Attributes;
 using HyperDimension.Domain.Email;
-using HyperDimension.Domain.Resources;
 using Microsoft.Extensions.Localization;
 
 namespace HyperDimension.Infrastructure.Common.Services;
@@ -48,7 +48,7 @@ public class EmailService : IEmailService
             .UsingTemplateFromEmbedded(
                 templateFile,
                 data,
-                DomainAssemblyReference.Assembly)
+                typeof(StaticResourceResolver).Assembly)
             .SendAsync();
 
         if (response.Successful)
