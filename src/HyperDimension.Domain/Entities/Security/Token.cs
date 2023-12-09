@@ -1,8 +1,9 @@
-﻿using HyperDimension.Domain.Enums;
+﻿using HyperDimension.Domain.Entities.Common;
+using HyperDimension.Domain.Enums;
 
 namespace HyperDimension.Domain.Entities.Security;
 
-public class Token
+public class Token : BaseEntity
 {
     public string Value { get; set; } = string.Empty;
 
