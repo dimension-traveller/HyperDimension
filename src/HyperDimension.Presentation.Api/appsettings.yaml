@@ -38,6 +38,9 @@ Database:
   Type: SQLite                                                        # SQLite, SQLServer, PostgreSQL, MySQL
   ConnectionString: "Data Source=./data/HyperDimension.db;"           # Check out: connectionstrings.com
 
+Search:
+  Type: None                                                          # None, PGroonga, ElasticSearch, MeiliSearch, Algolia
+
 DataProtection:
   EnableCertificate: false
 

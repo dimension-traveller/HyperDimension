@@ -1,5 +1,4 @@
 ﻿using HyperDimension.Application.Common.Interfaces;
-using HyperDimension.Common;
 using HyperDimension.Common.Constants;
 using HyperDimension.Common.Extensions;
 using HyperDimension.Domain.Entities.Identity;
@@ -15,23 +14,36 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
 namespace HyperDimension.Infrastructure.Database;
 
-public class HyperDimensionDbContext(
-    IMediator mediator,
-    ILogger<HyperDimensionDbContext> logger,
-    DatabaseOptions databaseOptions)
+public class HyperDimensionDbContext
     : DbContext, IDataProtectionKeyContext, IHyperDimensionDbContext
 {
+    private readonly IMediator _mediator;
+    private readonly ILogger<HyperDimensionDbContext> _logger;
+    private readonly DatabaseOptions _databaseOptions;
+
+    public HyperDimensionDbContext(
+        IMediator mediator,
+        ILogger<HyperDimensionDbContext> logger,
+        DatabaseOptions databaseOptions)
+    {
+        _mediator = mediator;
+        _logger = logger;
+        _databaseOptions = databaseOptions;
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
 
-        switch (databaseOptions.Type)
+        switch (_databaseOptions.Type)
         {
             case DatabaseType.SQLite:
-                optionsBuilder.UseSqlite(databaseOptions.ConnectionString);
-                var sqliteDataSource = new SqliteConnectionStringBuilder(databaseOptions.ConnectionString).DataSource;
+                optionsBuilder.UseSqlite(_databaseOptions.ConnectionString);
+                var sqliteDataSource = new SqliteConnectionStringBuilder(_databaseOptions.ConnectionString).DataSource;
                 if (string.Equals(sqliteDataSource, ":memory:", StringComparison.OrdinalIgnoreCase))
                 {
                     break;
@@ -39,24 +51,24 @@ public class HyperDimensionDbContext(
                 sqliteDataSource.EnsureFileExist();
                 break;
             case DatabaseType.SQLServer:
-                optionsBuilder.UseSqlServer(databaseOptions.ConnectionString, options =>
+                optionsBuilder.UseSqlServer(_databaseOptions.ConnectionString, options =>
                 {
                     options.EnableRetryOnFailure(8);
                 });
                 break;
             case DatabaseType.MySQL:
-                throw new DatabaseNotSupportedException(databaseOptions.Type.ToString(), "Waiting for Pomelo.EntityFrameworkCore.MySql 8.0.0");
+                throw new DatabaseNotSupportedException(_databaseOptions.Type.ToString(), "Waiting for Pomelo.EntityFrameworkCore.MySql 8.0.0");
             case DatabaseType.PostgreSQL:
-                optionsBuilder.UseNpgsql(databaseOptions.ConnectionString, options =>
+                optionsBuilder.UseNpgsql(_databaseOptions.ConnectionString, options =>
                 {
                     options.EnableRetryOnFailure(8);
                 });
                 break;
             case DatabaseType.Oracle:
-                optionsBuilder.UseOracle(databaseOptions.ConnectionString);
+                optionsBuilder.UseOracle(_databaseOptions.ConnectionString);
                 break;
             default:
-                throw new DatabaseNotSupportedException(databaseOptions.Type.ToString(), "Unknown database type");
+                throw new DatabaseNotSupportedException(_databaseOptions.Type.ToString(), "Unknown database type");
         }
     }
 
@@ -65,7 +77,11 @@ public class HyperDimensionDbContext(
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyCommonConfigurations();
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(HyperDimensionDbContext).Assembly);
+
+        foreach (var projectAssembly in ApplicationConstants.ProjectAssemblies)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(projectAssembly);
+        }
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -98,13 +114,13 @@ public class HyperDimensionDbContext(
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
-        await mediator.DispatchDomainEvents(this);
+        await _mediator.DispatchDomainEvents(this);
 
         if (ApplicationConstants.IsDevelopment)
         {
-            logger.LogTrace("DbContext ChangeTracker (Long): {ChangeTrackerLongView}",
+            _logger.LogTrace("DbContext ChangeTracker (Long): {ChangeTrackerLongView}",
                 ChangeTracker.DebugView.LongView);
-            logger.LogDebug("DbContext ChangeTracker (Short): {ChangeTrackerShortView}",
+            _logger.LogDebug("DbContext ChangeTracker (Short): {ChangeTrackerShortView}",
                 ChangeTracker.DebugView.ShortView);
         }
 

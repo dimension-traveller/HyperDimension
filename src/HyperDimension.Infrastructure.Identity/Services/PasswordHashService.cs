@@ -8,11 +8,7 @@ namespace HyperDimension.Infrastructure.Identity.Services;
 [SuppressMessage("Design", "CA1031:Do not catch general exception types")]
 public class PasswordHashService : IPasswordHashService
 {
-    public PasswordHashService()
-    {
-    }
-
-    private Argon2Config CreateConfig() => new()
+    private static Argon2Config CreateConfig() => new()
     {
         Type = Argon2Type.DataIndependentAddressing,
         Version = Argon2Version.Nineteen,

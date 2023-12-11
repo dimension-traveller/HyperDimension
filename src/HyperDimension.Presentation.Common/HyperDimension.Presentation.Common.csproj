@@ -11,6 +11,7 @@
       <ProjectReference Include="..\HyperDimension.Infrastructure.Cache\HyperDimension.Infrastructure.Cache.csproj" />
       <ProjectReference Include="..\HyperDimension.Infrastructure.Database\HyperDimension.Infrastructure.Database.csproj" />
       <ProjectReference Include="..\HyperDimension.Infrastructure.Identity\HyperDimension.Infrastructure.Identity.csproj" />
+      <ProjectReference Include="..\HyperDimension.Infrastructure.Search\HyperDimension.Infrastructure.Search.csproj" />
       <ProjectReference Include="..\HyperDimension.Infrastructure.Storage\HyperDimension.Infrastructure.Storage.csproj" />
     </ItemGroup>
 

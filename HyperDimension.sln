@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Presentation
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Infrastructure.Identity", "src\HyperDimension.Infrastructure.Identity\HyperDimension.Infrastructure.Identity.csproj", "{4CE3F6E4-B4E2-4961-9F36-5675BDF41F4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Infrastructure.Search", "src\HyperDimension.Infrastructure.Search\HyperDimension.Infrastructure.Search.csproj", "{A0257F14-4179-4B69-8C23-398CCCD38C3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,7 @@ Global
 		{60564D48-9CDC-42FE-BE2B-C52109DA3FE5} = {F842F870-34F5-4108-A52C-DF5A273204F0}
 		{CE66A235-4710-4EF8-8D43-FE8F81EEE5A1} = {38BFAEF8-999A-41F7-ABD8-CDC9F099D5F8}
 		{4CE3F6E4-B4E2-4961-9F36-5675BDF41F4A} = {F842F870-34F5-4108-A52C-DF5A273204F0}
+		{A0257F14-4179-4B69-8C23-398CCCD38C3A} = {F842F870-34F5-4108-A52C-DF5A273204F0}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3827F563-2B31-4485-8600-67F9B02B149B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -120,5 +123,9 @@ Global
 		{4CE3F6E4-B4E2-4961-9F36-5675BDF41F4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CE3F6E4-B4E2-4961-9F36-5675BDF41F4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CE3F6E4-B4E2-4961-9F36-5675BDF41F4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0257F14-4179-4B69-8C23-398CCCD38C3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0257F14-4179-4B69-8C23-398CCCD38C3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0257F14-4179-4B69-8C23-398CCCD38C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0257F14-4179-4B69-8C23-398CCCD38C3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

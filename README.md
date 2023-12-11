@@ -107,5 +107,4 @@ If you want to use `PGroonga` as the search engine, you must:
 
 - Use PostgreSQL as the database server
 - Install `PGroonga` extension on the database server
-
-The database you create for Hyper Dimension do not need to enable `PGroonga` extension, Hyper Dimension will do it for you on initialization.
+- Run `CREATE EXTENSION pgroonga;` on the database you create for Hyper Dimension to enable `PGroonga` extension

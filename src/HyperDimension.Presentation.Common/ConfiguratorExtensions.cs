@@ -4,6 +4,7 @@ using HyperDimension.Infrastructure.Cache;
 using HyperDimension.Infrastructure.Common;
 using HyperDimension.Infrastructure.Database;
 using HyperDimension.Infrastructure.Identity;
+using HyperDimension.Infrastructure.Search;
 using HyperDimension.Infrastructure.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ public static class ConfiguratorExtensions
         services.AddHyperDimensionStorage();
         services.AddHyperDimensionCache();
         services.AddHyperDimensionIdentity();
+        services.AddHyperDimensionSearch();
     }
 
     public static void AddHyperDimensionCommon(this IServiceCollection services)
