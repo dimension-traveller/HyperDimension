@@ -1,6 +1,7 @@
 ﻿using HyperDimension.Application.Common.Interfaces;
 using HyperDimension.Common;
 using HyperDimension.Common.Constants;
+using HyperDimension.Common.Extensions;
 using HyperDimension.Domain.Entities.Identity;
 using HyperDimension.Domain.Entities.Security;
 using HyperDimension.Infrastructure.Database.Configuration;
@@ -10,6 +11,7 @@ using HyperDimension.Infrastructure.Database.Extensions;
 using HyperDimension.Infrastructure.Database.Options;
 using MediatR;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -29,6 +31,12 @@ public class HyperDimensionDbContext(
         {
             case DatabaseType.SQLite:
                 optionsBuilder.UseSqlite(databaseOptions.ConnectionString);
+                var sqliteDataSource = new SqliteConnectionStringBuilder(databaseOptions.ConnectionString).DataSource;
+                if (string.Equals(sqliteDataSource, ":memory:", StringComparison.OrdinalIgnoreCase))
+                {
+                    break;
+                }
+                sqliteDataSource.EnsureFileExist();
                 break;
             case DatabaseType.SQLServer:
                 optionsBuilder.UseSqlServer(databaseOptions.ConnectionString, options =>

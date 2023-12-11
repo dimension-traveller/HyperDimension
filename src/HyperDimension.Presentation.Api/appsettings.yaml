@@ -36,7 +36,7 @@ Metadata:
 
 Database:
   Type: SQLite                                                        # SQLite, SQLServer, PostgreSQL, MySQL
-  ConnectionString: "Data Source=data/HyperDimension.db;"             # Check out: connectionstrings.com
+  ConnectionString: "Data Source=./data/HyperDimension.db;"           # Check out: connectionstrings.com
 
 DataProtection:
   EnableCertificate: false

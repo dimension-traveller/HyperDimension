@@ -1,4 +1,5 @@
 ﻿using HyperDimension.Application.Common.Interfaces;
+using HyperDimension.Common.Extensions;
 using HyperDimension.Infrastructure.Storage.Options;
 using HyperDimension.Infrastructure.Storage.Utilities;
 
@@ -11,11 +12,7 @@ public class FileSystemProvider : IHyperDimensionStorageProvider
     public FileSystemProvider(FileSystemOptions options)
     {
         _directory = new DirectoryInfo(options.RootPath);
-
-        if (_directory.Exists is false)
-        {
-            _directory.Create();
-        }
+        _directory.EnsureDirectoryExist();
     }
 
     public async Task<string?> UploadFileAsync(string key, Stream fileStream)
