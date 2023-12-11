@@ -1,4 +1,5 @@
 ﻿using HyperDimension.Application.Common.Interfaces;
+using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Common.Constants;
 using HyperDimension.Common.Extensions;
 using HyperDimension.Domain.Entities.Identity;

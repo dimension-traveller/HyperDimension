@@ -2,7 +2,9 @@
 using HyperDimension.Domain.Entities.Security;
 using Microsoft.EntityFrameworkCore;
 
-namespace HyperDimension.Application.Common.Interfaces;
+// ReSharper disable ReturnTypeCanBeEnumerable.Global
+
+namespace HyperDimension.Application.Common.Interfaces.Database;
 
 public interface IHyperDimensionDbContext
 {
@@ -23,6 +25,8 @@ public interface IHyperDimensionDbContext
     public DbSet<Token> Tokens { get; set; }
 
     #endregion
+
+    public DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

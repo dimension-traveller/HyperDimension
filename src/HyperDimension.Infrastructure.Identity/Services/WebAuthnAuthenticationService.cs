@@ -2,6 +2,7 @@
 using Fido2NetLib;
 using Fido2NetLib.Objects;
 using HyperDimension.Application.Common.Interfaces;
+using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Application.Common.Interfaces.Identity;
 using HyperDimension.Common;
 using HyperDimension.Domain.Entities.Identity;

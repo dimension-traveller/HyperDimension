@@ -3,6 +3,7 @@
     <ProjectReference Include="..\HyperDimension.Infrastructure.Common\HyperDimension.Infrastructure.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Elastic.Clients.Elasticsearch" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
 </Project>

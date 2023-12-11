@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using HyperDimension.Application.Common.Interfaces;
+using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Common.Configuration;
 using HyperDimension.Common.Extensions;
 using HyperDimension.Infrastructure.Database.Options;
