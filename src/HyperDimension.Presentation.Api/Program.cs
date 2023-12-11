@@ -25,6 +25,8 @@ builder.Services.AddHyperDimensionPresentation();
 
 var app = builder.Build();
 
+await app.InitializeAsync();
+
 app.UseHyperDimensionSwagger();
 
 app.UseAuthentication();

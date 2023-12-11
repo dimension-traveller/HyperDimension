@@ -4,7 +4,9 @@ using HyperDimension.Common.Configuration;
 using HyperDimension.Common.Extensions;
 using HyperDimension.Infrastructure.Database.Options;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace HyperDimension.Infrastructure.Database;
 
@@ -34,5 +36,29 @@ public static class DatabaseConfigurator
             dataProtectionOptions.RotatedCertificates
                 .Select(x => new X509Certificate2(x.Path, x.Password))
                 .ToArray());
+    }
+
+    public static async Task InitializeDatabaseAsync(this AsyncServiceScope scope)
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<HyperDimensionDbContext>();
+
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<HyperDimensionDbContext>>();
+
+        var appliedMigrations = await dbContext.Database
+            .GetAppliedMigrationsAsync()
+            .ToListAsync();
+        var pendingMigrations = await dbContext.Database
+            .GetPendingMigrationsAsync()
+            .ToListAsync();
+
+        logger.LogDebug("Applied migrations: {AppliedMigrations}", appliedMigrations);
+        logger.LogDebug("Pending migrations: {PendingMigrations}", pendingMigrations);
+
+        if (pendingMigrations.Count != 0)
+        {
+            logger.LogInformation("Applying migrations...");
+            await dbContext.Database.MigrateAsync();
+            logger.LogInformation("Migrations applied");
+        }
     }
 }
