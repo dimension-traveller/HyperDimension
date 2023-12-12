@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using HyperDimension.Application.Common.Extensions;
 using HyperDimension.Application.Common.Interfaces;
@@ -20,19 +19,34 @@ public class PGroongaSearchProvider : IHyperDimensionSearchService
         _dbContext = dbContext;
     }
 
-    public Task<IReadOnlyCollection<TEntity>> MatchAsync<TDocument, TEntity>(Expression<Func<TDocument, string>> fieldSelector, string keyword, int start = 0, int size = 10) where TDocument : SearchableDocument<TEntity> where TEntity : BaseEntity
+    public Task<IReadOnlyCollection<TEntity>> MatchAsync<TDocument, TEntity>(
+        Expression<Func<TDocument, string>> fieldSelector,
+        string keyword,
+        int start = 0,
+        int size = 10)
+        where TDocument : SearchableDocument<TEntity>
+        where TEntity : BaseEntity
     {
         const string methodName = nameof(PGroongaLinqExtensions.PGroongaMatch);
-        var propertyName = fieldSelector.GetPropertyInfo().ExpectNotNull().Name;
-        var lambdaExpression = LambdaConstructor.BuildPgroongaExpression<TEntity>(propertyName, methodName, keyword);
-
-        return ExecuteQueryAsync(lambdaExpression);
+        return ExecuteQueryAsync<TDocument, TEntity>(fieldSelector, methodName, start, size, keyword);
     }
 
-    private async Task<IReadOnlyCollection<TEntity>> ExecuteQueryAsync<TEntity>(Expression<Func<TEntity, bool>> expression) where TEntity : BaseEntity
+    private async Task<IReadOnlyCollection<TEntity>> ExecuteQueryAsync<TDocument, TEntity>(
+        Expression<Func<TDocument, string>> fieldSelector,
+        string methodName,
+        int start = 0,
+        int size = 10,
+        params object[] arguments)
+        where TDocument : SearchableDocument<TEntity>
+        where TEntity : BaseEntity
     {
+        var propertyName = fieldSelector.GetPropertyInfo().ExpectNotNull().Name;
+        var lambdaExpression = LambdaConstructor.BuildPgroongaExpression<TEntity>(propertyName, methodName, arguments);
+
         return await _dbContext.Set<TEntity>()
-            .Where(expression)
+            .Where(lambdaExpression)
+            .Skip(start)
+            .Take(size)
             .ToListAsync();
     }
 }
