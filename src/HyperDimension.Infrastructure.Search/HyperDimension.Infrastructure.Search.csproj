@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\HyperDimension.Infrastructure.Common\HyperDimension.Infrastructure.Common.csproj" />
+    <ProjectReference Include="..\HyperDimension.Library.PGroonga\HyperDimension.Library.PGroonga.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Elastic.Clients.Elasticsearch" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
 </Project>

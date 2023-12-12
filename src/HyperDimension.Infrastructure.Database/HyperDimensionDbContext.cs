@@ -1,17 +1,11 @@
-﻿using HyperDimension.Application.Common.Interfaces;
-using HyperDimension.Application.Common.Interfaces.Database;
+﻿using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Common.Constants;
-using HyperDimension.Common.Extensions;
 using HyperDimension.Domain.Entities.Identity;
 using HyperDimension.Domain.Entities.Security;
 using HyperDimension.Infrastructure.Database.Configuration;
-using HyperDimension.Infrastructure.Database.Enums;
-using HyperDimension.Infrastructure.Database.Exceptions;
 using HyperDimension.Infrastructure.Database.Extensions;
-using HyperDimension.Infrastructure.Database.Options;
 using MediatR;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -24,53 +18,23 @@ public class HyperDimensionDbContext
 {
     private readonly IMediator _mediator;
     private readonly ILogger<HyperDimensionDbContext> _logger;
-    private readonly DatabaseOptions _databaseOptions;
+    private readonly IDatabaseBuilder _databaseBuilder;
 
     public HyperDimensionDbContext(
         IMediator mediator,
         ILogger<HyperDimensionDbContext> logger,
-        DatabaseOptions databaseOptions)
+        IDatabaseBuilder databaseBuilder)
     {
         _mediator = mediator;
         _logger = logger;
-        _databaseOptions = databaseOptions;
+        _databaseBuilder = databaseBuilder;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
 
-        switch (_databaseOptions.Type)
-        {
-            case DatabaseType.SQLite:
-                optionsBuilder.UseSqlite(_databaseOptions.ConnectionString);
-                var sqliteDataSource = new SqliteConnectionStringBuilder(_databaseOptions.ConnectionString).DataSource;
-                if (string.Equals(sqliteDataSource, ":memory:", StringComparison.OrdinalIgnoreCase))
-                {
-                    break;
-                }
-                sqliteDataSource.EnsureFileExist();
-                break;
-            case DatabaseType.SQLServer:
-                optionsBuilder.UseSqlServer(_databaseOptions.ConnectionString, options =>
-                {
-                    options.EnableRetryOnFailure(8);
-                });
-                break;
-            case DatabaseType.MySQL:
-                throw new DatabaseNotSupportedException(_databaseOptions.Type.ToString(), "Waiting for Pomelo.EntityFrameworkCore.MySql 8.0.0");
-            case DatabaseType.PostgreSQL:
-                optionsBuilder.UseNpgsql(_databaseOptions.ConnectionString, options =>
-                {
-                    options.EnableRetryOnFailure(8);
-                });
-                break;
-            case DatabaseType.Oracle:
-                optionsBuilder.UseOracle(_databaseOptions.ConnectionString);
-                break;
-            default:
-                throw new DatabaseNotSupportedException(_databaseOptions.Type.ToString(), "Unknown database type");
-        }
+        _databaseBuilder.Build(optionsBuilder);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

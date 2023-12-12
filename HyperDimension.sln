@@ -49,6 +49,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Infrastructure.Search", "src\HyperDimension.Infrastructure.Search\HyperDimension.Infrastructure.Search.csproj", "{A0257F14-4179-4B69-8C23-398CCCD38C3A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{71448836-E2A9-42D8-837C-A510BEB98354}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Library.PGroonga", "src\HyperDimension.Library.PGroonga\HyperDimension.Library.PGroonga.csproj", "{BA56F4B2-E623-49D3-8DEF-F0EDAD1F2A0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,7 @@ Global
 		{CE66A235-4710-4EF8-8D43-FE8F81EEE5A1} = {38BFAEF8-999A-41F7-ABD8-CDC9F099D5F8}
 		{4CE3F6E4-B4E2-4961-9F36-5675BDF41F4A} = {F842F870-34F5-4108-A52C-DF5A273204F0}
 		{A0257F14-4179-4B69-8C23-398CCCD38C3A} = {F842F870-34F5-4108-A52C-DF5A273204F0}
+		{BA56F4B2-E623-49D3-8DEF-F0EDAD1F2A0F} = {71448836-E2A9-42D8-837C-A510BEB98354}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3827F563-2B31-4485-8600-67F9B02B149B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -127,5 +132,9 @@ Global
 		{A0257F14-4179-4B69-8C23-398CCCD38C3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0257F14-4179-4B69-8C23-398CCCD38C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0257F14-4179-4B69-8C23-398CCCD38C3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA56F4B2-E623-49D3-8DEF-F0EDAD1F2A0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA56F4B2-E623-49D3-8DEF-F0EDAD1F2A0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA56F4B2-E623-49D3-8DEF-F0EDAD1F2A0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA56F4B2-E623-49D3-8DEF-F0EDAD1F2A0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
