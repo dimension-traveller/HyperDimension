@@ -1,8 +1,10 @@
 ﻿using System.Security.Cryptography.X509Certificates;
-using HyperDimension.Application.Common.Interfaces;
 using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Common.Configuration;
 using HyperDimension.Common.Extensions;
+using HyperDimension.Infrastructure.Database.Builder;
+using HyperDimension.Infrastructure.Database.Enums;
+using HyperDimension.Infrastructure.Database.Exceptions;
 using HyperDimension.Infrastructure.Database.Options;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,19 @@ public static class DatabaseConfigurator
     public static void AddHyperDimensionDatabase(this IServiceCollection services)
     {
         services.AddDbContext<IHyperDimensionDbContext, HyperDimensionDbContext>();
+
+        // Add database builder
+        var databaseOptions = HyperDimensionConfiguration.Instance
+            .GetOption<DatabaseOptions>();
+        var databaseBuilderType = databaseOptions.Type switch
+        {
+            DatabaseType.SQLite => typeof(SqliteDatabaseBuilder),
+            DatabaseType.SQLServer => typeof(SqlServerDatabaseBuilder),
+            DatabaseType.MySQL => typeof(MySqlDatabaseBuilder),
+            DatabaseType.PostgreSQL => typeof(NpgsqlDatabaseBuilder),
+            _ => throw new DatabaseNotSupportedException(databaseOptions.Type.ToString(), "Unknown database type")
+        };
+        services.AddSingleton(typeof(IDatabaseBuilder), databaseBuilderType);
 
         // Add data protection
         var builder = services.AddDataProtection()

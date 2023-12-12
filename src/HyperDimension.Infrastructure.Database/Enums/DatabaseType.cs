@@ -9,7 +9,5 @@ public enum DatabaseType
 
     MySQL,
 
-    PostgreSQL,
-
-    Oracle
+    PostgreSQL
 }
