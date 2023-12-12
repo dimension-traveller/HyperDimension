@@ -10,6 +10,8 @@ public interface IHyperDimensionRequestContext
 
     public bool IsAuthenticated { get; }
 
+    public string? AuthenticationSchema { get; set; }
+
     public Guid? UserId { get; }
 
     public void SetContext(HttpContext context);

@@ -22,6 +22,8 @@ public class User : BaseEntity
 
     public int FailedAccessAttempts { get; set; }
 
+    public DateTimeOffset? LockoutEndAt { get; set; }
+
     public List<Role> Roles { get; set; } = [];
 
     public List<ApiToken> ApiTokens { get; set; } = [];

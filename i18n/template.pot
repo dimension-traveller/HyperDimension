@@ -15,6 +15,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. current language name
-#, csharp-format
 msgid "Language Name"
+msgstr ""
+
+#################################
+#          Glossary             #
+#################################
+
+#. username
+msgid "Username"
+msgstr ""
+
+#. display name
+msgid "Display Name"
+msgstr ""
+
+#. password
+msgid "Password"
+msgstr ""
+
+#. email
+msgid "Email"
+msgstr ""
+
+#################################
+#          Validator            #
+#################################
+
+#. validator error message, something should be between some characters long
+msgid "{0} must be between {1} and {2} characters long"
+
+#. validator error message, something should not be empty
+msgid "{0} should not be empty"
+msgstr ""
+
+#. validator error message, something is invalid
+msgid "{0} is invalid"
 msgstr ""

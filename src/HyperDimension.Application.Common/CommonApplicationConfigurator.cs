@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using HyperDimension.Common;
+using HyperDimension.Application.Common.Behavior;
 using HyperDimension.Common.Constants;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +15,10 @@ public static class CommonApplicationConfigurator
         services.AddMediatR(configure =>
         {
             configure.RegisterServicesFromAssemblies(ApplicationConstants.ProjectAssemblies.ToArray());
+
+            configure.AddOpenBehavior(typeof(UnhandledExceptionBehavior<,>));
+            configure.AddOpenBehavior(typeof(AuthorizationBehavior<,>));
+            configure.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
     }
 }

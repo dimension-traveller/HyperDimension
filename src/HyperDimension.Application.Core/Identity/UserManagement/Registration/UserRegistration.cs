@@ -1,4 +1,6 @@
-﻿using HyperDimension.Application.Common.Interfaces;
+﻿using System.Text.Json.Serialization;
+using HyperDimension.Application.Common.Attributes;
+using HyperDimension.Application.Common.Interfaces;
 using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Application.Common.Interfaces.Identity;
 using HyperDimension.Application.Common.Models;
@@ -16,14 +18,25 @@ using Microsoft.Extensions.Localization;
 
 namespace HyperDimension.Application.Core.Identity.UserManagement.Registration;
 
+[AllowAnonymous]
 public class UserRegistration : IRequest<IActionResult>
 {
+    [FromBody]
+    public UserRegistrationBody Body { get; set; } = new();
+}
+
+public class UserRegistrationBody
+{
+    [JsonPropertyName("username")]
     public string Username { get; set; } = string.Empty;
 
+    [JsonPropertyName("display_name")]
     public string DisplayName { get; set; } = string.Empty;
 
+    [JsonPropertyName("email")]
     public string Email { get; set; } = string.Empty;
 
+    [JsonPropertyName("password")]
     public string Password { get; set; } = string.Empty;
 }
 
@@ -54,23 +67,25 @@ public class UserRegistrationHandler : IRequestHandler<UserRegistration, IAction
 
     public async Task<IActionResult> Handle(UserRegistration request, CancellationToken cancellationToken)
     {
+        var body = request.Body;
+
         // Check not exist
         var existingUser = await _dbContext.Users
             .FirstOrDefaultAsync(
-                x => x.Email == request.Email || x.Username == request.Username,
+                x => x.Email == body.Email || x.Username == body.Username,
                 cancellationToken);
         if (existingUser is not null)
         {
             var message = string.Empty;
-            if (existingUser.Username == request.Username && existingUser.Email == request.Email)
+            if (existingUser.Username == body.Username && existingUser.Email == body.Email)
             {
                 message = _localizer["User with the same username and email already exists."];
             }
-            else if (existingUser.Username == request.Username)
+            else if (existingUser.Username == body.Username)
             {
                 message = _localizer["User with the same username already exists."];
             }
-            else if (existingUser.Email == request.Email)
+            else if (existingUser.Email == body.Email)
             {
                 message = _localizer["User with the same email already exists."];
             }
@@ -84,10 +99,10 @@ public class UserRegistrationHandler : IRequestHandler<UserRegistration, IAction
         var now = DateTimeOffset.UtcNow;
         var user = new User
         {
-            Username = request.Username,
-            Email = request.Email,
-            DisplayName = request.DisplayName,
-            PasswordHash = _passwordHashService.HashPassword(request.Password, stamp),
+            Username = body.Username,
+            Email = body.Email,
+            DisplayName = body.DisplayName,
+            PasswordHash = _passwordHashService.HashPassword(body.Password, stamp),
             SecurityStamp = stamp,
             ConcurrencyStamp = now.GetUnixTimestamp(),
             EmailConfirmed = !_emailService.Enabled
@@ -113,10 +128,10 @@ public class UserRegistrationHandler : IRequestHandler<UserRegistration, IAction
         // Send email
         if (user.EmailConfirmed is false)
         {
-            await _emailService.SendEmailAsync(request.Email, "Account Verification Email", new AccountVerification
+            await _emailService.SendEmailAsync(body.Email, "Account Verification Email", new AccountVerification
             {
-                Username = request.Username,
-                DisplayName = request.DisplayName,
+                Username = body.Username,
+                DisplayName = body.DisplayName,
                 ActivationUrl = _applicationOptions.AccountVerificationUrl.Replace("{TOKEN}", verificationToken),
                 SiteName = _metadataOptions.SiteName,
                 Token = verificationToken

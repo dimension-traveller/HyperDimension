@@ -1,4 +1,5 @@
-﻿using HyperDimension.Application.Common.Interfaces;
+﻿using HyperDimension.Application.Common.Extensions;
+using HyperDimension.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
 using OpenTelemetry.Trace;
 
@@ -9,6 +10,7 @@ public class HyperDimensionRequestContext : IHyperDimensionRequestContext
     public string RequestId { get; private set; } = string.Empty;
     public string TraceId { get; private set; } = string.Empty;
     public bool IsAuthenticated { get; private set; }
+    public string? AuthenticationSchema { get; set; }
     public Guid? UserId { get; private set; }
 
     public void SetContext(HttpContext context)
@@ -22,15 +24,17 @@ public class HyperDimensionRequestContext : IHyperDimensionRequestContext
             return;
         }
 
-        var userId = context.User.FindFirst("sub")?.Value;
-        var isValidGui = Guid.TryParse(userId, out var guid);
-        if (isValidGui is false)
+        var userId = context.User.GetUserEntityId();
+        if (userId is null)
         {
             IsAuthenticated = false;
             return;
         }
 
+        var schema = context.User.Identity.AuthenticationType;
+
         IsAuthenticated = true;
-        UserId = guid;
+        AuthenticationSchema = schema;
+        UserId = userId.Value;
     }
 }

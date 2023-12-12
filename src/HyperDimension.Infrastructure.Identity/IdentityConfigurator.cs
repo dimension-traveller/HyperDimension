@@ -76,15 +76,19 @@ public static class IdentityConfigurator
                 options.BearerTokenExpiration = TimeSpan.FromSeconds(identityOptions.Token.AccessTokenExpiration);
                 options.RefreshTokenExpiration = TimeSpan.FromSeconds(identityOptions.Token.RefreshTokenExpiration);
             })
+            .AddBearerToken(IdentityConstants.TwoFactorSchema, options =>
+            {
+                options.BearerTokenExpiration = TimeSpan.FromMinutes(5);
+            })
             .AddCookie(IdentityConstants.ApplicationSchema, "Application", options =>
             {
                 options.Cookie.Name = IdentityConstants.ApplicationSchema;
-                options.Cookie.Expiration = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
             })
             .AddCookie(IdentityConstants.ExternalSchema, "External", options =>
             {
                 options.Cookie.Name = IdentityConstants.ExternalSchema;
-                options.Cookie.Expiration = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
             });
 
         var availableBuilder = ApplicationConstants.ProjectAssemblies
