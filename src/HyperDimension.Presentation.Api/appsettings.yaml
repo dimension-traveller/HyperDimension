@@ -41,6 +41,18 @@ Database:
 Search:
   Type: None                                                          # None, PGroonga, ElasticSearch, MeiliSearch, Algolia
 
+# PGroonga do not need configuration
+
+# ElasticSearch:
+#   Nodes:
+#     - http://localhost:9200
+#   AuthenticationMethod: Basic                                       # None, Basic, ApiKey
+#   Username: elastic                                                 # When AuthenticationMethod is Basic
+#   Password: password                                                # When AuthenticationMethod is Basic
+#   #   ApiKey: your_api_key                                          # When AuthenticationMethod is ApiKey
+#   IndexPrefix: hd-
+#   CertificateFingerprint: 1234567890abcdef1234567890abcdef12345678  # Leave empty if you don't need to verify the certificate
+
 DataProtection:
   EnableCertificate: false
 
