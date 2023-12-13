@@ -37,16 +37,16 @@ Also, this project is a playground for me to learn new technologies, architectur
     - [x] Local
       - [x] Database
       - [ ] LDAP
-    - [ ] 2FA (TOTP and Email)
+    - [x] 2FA (TOTP and Email)
     - [ ] WebAuthn
     - [ ] External Provider
       - [ ] OpenID Connect (and OAuth2)
-  - [ ] Authorization
-    - [ ] Role-based
-    - [ ] Permission-based
+  - [x] Authorization
+    - [x] Role-based
+    - [x] Permission-based
 - [ ] Search
-  - [ ] PGroonga (PostgreSQL Extension)
-  - [ ] Elasticsearch
+  - [x] PGroonga (PostgreSQL Extension)
+  - [x] Elasticsearch
   - [ ] MeiliSearch
   - [ ] Algolia
 - [x] Cache
@@ -57,7 +57,6 @@ Also, this project is a playground for me to learn new technologies, architectur
   - [x] Microsoft SQL Server
   - [ ] MySQL/MariaDB (Waiting for Pomelo.EntityFrameworkCore.MySql to support .NET 8)
   - [x] PostgreSQL
-  - [x] Oracle
 - [x] Storage
   - [x] Amazon S3 Compatible
   - [x] Local File System
