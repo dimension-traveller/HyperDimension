@@ -3,6 +3,8 @@ using HyperDimension.Application.Common.Extensions;
 using HyperDimension.Common.Extensions;
 using Microsoft.Extensions.Localization;
 
+// ReSharper disable SuggestBaseTypeForParameterInConstructor
+
 namespace HyperDimension.Application.Core.Identity.UserManagement.Registration;
 
 public class UserRegistrationValidator : AbstractValidator<UserRegistration>

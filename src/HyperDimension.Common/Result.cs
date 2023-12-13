@@ -49,6 +49,16 @@ public readonly struct Result<T>
         return Ok ? default : await failure(ErrorMessage);
     }
 
+    public T Unwrap()
+    {
+        return Ok ? Value! : throw new InvalidOperationException(ErrorMessage);
+    }
+
+    public string UnwrapError()
+    {
+        return Ok ? throw new InvalidOperationException() : ErrorMessage;
+    }
+
     public static implicit operator Result<T>(T value) => Success(value);
     public static implicit operator Result<T>(string errorMessage) => Failure(errorMessage);
 }

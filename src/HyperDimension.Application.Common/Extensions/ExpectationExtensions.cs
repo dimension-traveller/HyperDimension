@@ -3,7 +3,7 @@ using HyperDimension.Application.Common.Exceptions;
 
 namespace HyperDimension.Application.Common.Extensions;
 
-public static class NullableExtensions
+public static class ExpectationExtensions
 {
     public static T ExpectNotNull<T>(this T? value,
         [CallerArgumentExpression(nameof(value))] string callerArg = "UNKNOWN",
@@ -47,5 +47,33 @@ public static class NullableExtensions
         }
 
         return taskResult.Value;
+    }
+
+    public static T Expect<T>(this T value, T expectedValue,
+        [CallerArgumentExpression(nameof(value))] string callerArg = "UNKNOWN",
+        [CallerMemberName] string callerMember = "UNKNOWN") where T : struct
+    {
+        if (value.Equals(expectedValue))
+        {
+            return value;
+        }
+
+        throw new UnexpectedException(
+            $"Unexpected value {value} for argument expression {callerArg} from {callerMember}, expect {expectedValue}");
+    }
+
+    public static async Task<T> Expect<T>(this Task<T> value, T expectedValue,
+        [CallerArgumentExpression(nameof(value))] string callerArg = "UNKNOWN",
+        [CallerMemberName] string callerMember = "UNKNOWN") where T : struct
+    {
+        var taskResult = await value;
+
+        if (taskResult.Equals(expectedValue))
+        {
+            return taskResult;
+        }
+
+        throw new UnexpectedException(
+            $"Unexpected value {taskResult} for argument expression {callerArg} from {callerMember}, expect {expectedValue}");
     }
 }

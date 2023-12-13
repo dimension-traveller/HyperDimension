@@ -42,13 +42,148 @@ msgstr ""
 #          Validator            #
 #################################
 
-#. validator error message, something should be between some characters long
 msgid "{0} must be between {1} and {2} characters long"
+msgstr ""
 
-#. validator error message, something should not be empty
 msgid "{0} should not be empty"
 msgstr ""
 
-#. validator error message, something is invalid
 msgid "{0} is invalid"
+msgstr ""
+
+msgid "Unknown two factor authentication type."
+msgstr ""
+
+#################################
+#            Email              #
+#################################
+
+msgid "Account Verification for {0}"
+msgstr ""
+
+msgid "Account Verification"
+msgstr ""
+
+msgid "Dear {0}"
+msgstr ""
+
+msgid "Thanks for your account registration on {0}."
+msgstr ""
+
+msgid "Your account's username is {0}"
+msgstr ""
+
+msgid "This is your account registration code."
+msgstr ""
+
+msgid "Please enter this code on the account verification page to activate your account."
+msgstr ""
+
+msgid "It will expire in {0} minutes."
+msgstr ""
+
+msgid "You can also click this message to go to the page to activate your account"
+msgstr ""
+
+msgid "If you did not register on {0}, please ignore this email."
+msgstr ""
+
+msgid "This email is automatically sent by the system, please do not reply."
+msgstr ""
+
+msgid "Two Factor Authentication Code for {0}"
+msgstr ""
+
+msgid "Two Factor Authentication Code"
+msgstr ""
+
+msgid "You are trying to log in to {0}."
+msgstr ""
+
+msgid "This is your two factor authentication code."
+msgstr ""
+
+msgid "PLEASE DO NOT SHARE THIS CODE WITH ANYONE ELSE!"
+msgstr ""
+
+msgid "IF YOU DID NOT TRY TO LOG IN, PLEASE REVIEW YOUR ACCOUNT SECURITY IMMEDIATELY."
+msgstr ""
+
+msgid "Password Reset Request"
+msgstr ""
+
+msgid "You are requesting to reset your password on {0}."
+msgstr ""
+
+msgid "This is your password reset code."
+msgstr ""
+
+msgid "IF YOU DID NOT TRY TO RESET YOUR PASSWORD, PLEASE REVIEW YOUR ACCOUNT SECURITY IMMEDIATELY."
+msgstr ""
+
+#################################
+#         Application           #
+#################################
+
+msgid "User with the same username and email already exists."
+msgstr ""
+
+msgid "User with the same username already exists."
+msgstr ""
+
+msgid "User with the same email already exists."
+msgstr ""
+
+msgid "Failed to send account verification email."
+msgstr ""
+
+msgid "User not found."
+msgstr ""
+
+msgid "User is locked out, please try after {0}."
+msgstr ""
+
+msgid "Password is incorrect."
+msgstr ""
+
+msgid "Email is not confirmed."
+msgstr ""
+
+msgid "Email is not confirmed, a new verification email has been sent to your email address."
+msgstr ""
+
+msgid "Invalid account verification code."
+msgstr ""
+
+msgid "Invalid two factor authentication code."
+msgstr ""
+
+msgid "You already have a valid code been sent."
+msgstr ""
+
+msgid "Failed to send two factor authentication code email."
+msgstr ""
+
+msgid "Two factor authentication with TOTP is already enabled."
+msgstr ""
+
+msgid "Two factor authentication with email is already enabled."
+msgstr ""
+
+msgid "Failed to verify two factor authentication code."
+msgstr ""
+
+msgid "Two factor authentication with TOTP is already disabled."
+msgstr ""
+
+msgid "Two factor authentication with email is already disabled."
+msgstr ""
+
+msgid "You already have a token for password reset."
+msgstr ""
+
+msgid "Failed to send password reset token email."
+msgstr ""
+
+msgid "Invalid password reset token."
 msgstr ""

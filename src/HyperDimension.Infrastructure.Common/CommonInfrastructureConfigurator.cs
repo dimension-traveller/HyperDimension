@@ -22,12 +22,6 @@ public static class CommonInfrastructureConfigurator
         var emailOptions = HyperDimensionConfiguration.Instance
             .GetOption<EmailOptions>();
 
-        if (emailOptions.Enabled is false)
-        {
-            services.AddSingleton<IEmailService, DummyEmailService>();
-            return;
-        }
-
         services.AddSingleton<IEmailService, EmailService>();
         var emailServicesBuilder = services
             .AddFluentEmail(emailOptions.From.ExpectNotNull(), emailOptions.FromName.ExpectNotNull())

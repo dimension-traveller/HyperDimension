@@ -6,4 +6,10 @@
   <ItemGroup>
     <PackageReference Include="MediatR" />
   </ItemGroup>
+  <PropertyGroup>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates/Email/*.cshtml" />
+  </ItemGroup>
 </Project>

@@ -5,8 +5,11 @@ public class EmailTemplateAttribute : Attribute
 {
     public string TemplateName { get; set; }
 
-    public EmailTemplateAttribute(string templateName)
+    public string SubjectLocalizerKey { get; set; }
+
+    public EmailTemplateAttribute(string templateName, string subjectLocalizerKey)
     {
         TemplateName = templateName;
+        SubjectLocalizerKey = subjectLocalizerKey;
     }
 }

@@ -26,10 +26,14 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        // Check anonymous
-        var allowAnonymous = request.GetType()
-            .GetAttribute<AllowAnonymousAttribute>();
-        if (allowAnonymous is not null)
+        // Get attributes
+        var schemaAttribute = request.GetType()
+            .GetAttribute<RequireAuthenticationAttribute>();
+        var permissionAttribute = request.GetType()
+            .GetAttribute<PermissionAttribute>();
+
+        // No schema and permission required (allow anonymous)
+        if (schemaAttribute is null && permissionAttribute is null)
         {
             return await next();
         }
@@ -41,17 +45,14 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
         }
 
         // Check schema
-        var schema = request.GetType()
-            .GetAttribute<IdentitySchemaAttribute>()?.Schema
-                     ?? IdentityConstants.IdentitySchema;
-        if (_requestContext.AuthenticationSchema != schema)
+        var schemas = schemaAttribute?.Schemas ?? [IdentityConstants.IdentitySchema];
+        if (schemas.Contains(_requestContext.AuthenticationSchema) is false)
         {
             return (TResponse)(IActionResult)new ForbidResult();
         }
 
         // Get permission attribute
-        var permission = request.GetType()
-            .GetAttribute<PermissionAttribute>()?.Permission;
+        var permission = permissionAttribute?.Permission;
 
         // No permission required
         if (permission is null)

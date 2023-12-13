@@ -3,4 +3,8 @@
 public enum TokenUsage
 {
     AccountVerification,
+
+    EmailTwoFactorAuthentication,
+
+    PasswordReset,
 }

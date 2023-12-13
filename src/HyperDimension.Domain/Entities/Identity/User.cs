@@ -18,11 +18,15 @@ public class User : BaseEntity
 
     public string SecurityStamp { get; set; } = string.Empty;
 
-    public bool TwoFactorEnabled { get; set; }
+    public bool TwoFactorEmailEnabled { get; set; }
+
+    public bool TwoFactorTotpEnabled { get; set; }
 
     public int FailedAccessAttempts { get; set; }
 
     public DateTimeOffset? LockoutEndAt { get; set; }
+
+    public Totp Totp { get; set; } = new();
 
     public List<Role> Roles { get; set; } = [];
 

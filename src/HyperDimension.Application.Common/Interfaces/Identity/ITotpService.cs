@@ -2,9 +2,11 @@
 
 public interface ITotpService
 {
-    public byte[] GenerateKey();
+    public IEnumerable<byte> GenerateKey();
 
-    public IReadOnlyList<string> GenerateRecoveryCodes();
+    public string GetTotpUri(byte[] key, string email);
+
+    public IEnumerable<string> GenerateRecoveryCodes();
 
     public bool VerifyTotpCode(byte[] key, string code, DateTimeOffset time);
 }

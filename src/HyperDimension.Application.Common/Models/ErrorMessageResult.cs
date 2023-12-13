@@ -16,4 +16,6 @@ public class ErrorMessageResult
     }
 
     public BadRequestObjectResult ToBadRequest() => new(this);
+
+    public NotFoundObjectResult ToNotFound() => new(this);
 }

@@ -11,8 +11,6 @@ public class Token : BaseEntity
 
     public DateTimeOffset ExpiredAt { get; set; }
 
-    public bool Used { get; set; }
-
     public Guid BindTo { get; set; }
 
     public TokenUsage Usage { get; set; }

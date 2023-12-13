@@ -1,18 +1,13 @@
 using HyperDimension.Domain.Abstract;
 using HyperDimension.Domain.Attributes;
+using HyperDimension.Domain.Entities.Identity;
 
 namespace HyperDimension.Domain.Email;
 
-[EmailTemplate("HyperDimension.Domain.Templates.Email.AccountVerification.cshtml")]
+[EmailTemplate("HyperDimension.Domain.Templates.Email.AccountVerification.cshtml", "Account Verification Email")]
 public class AccountVerification : IEmailTemplate
 {
-    public string Username { get; set; } = string.Empty;
-
-    public string DisplayName { get; set; } = string.Empty;
+    public User User { get; set; } = null!;
 
     public string Token { get; set; } = string.Empty;
-
-    public string ActivationUrl { get; set; } = string.Empty;
-
-    public string SiteName { get; set; } = string.Empty;
 }

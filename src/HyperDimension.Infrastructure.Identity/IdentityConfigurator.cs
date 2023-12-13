@@ -21,6 +21,9 @@ public static class IdentityConfigurator
         services.AddHyperDimensionAuthentication();
 
         services.AddSingleton<IPasswordHashService, PasswordHashService>();
+        services.AddSingleton<ITotpService, TotpService>();
+        services.AddScoped<ISecurityTokenService, SecurityTokenService>();
+        services.AddScoped<IPermissionService, PermissionService>();
         services.AddScoped<IWebAuthnAuthenticationService, WebAuthnAuthenticationService>();
 
         services.AddSingleton<IFido2, Fido2>(sp =>

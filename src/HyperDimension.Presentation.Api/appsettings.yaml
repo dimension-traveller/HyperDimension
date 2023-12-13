@@ -35,7 +35,8 @@ Application:
     TwoFactor: /account/2fa
 
 Metadata:
-    SiteName: HYPER DIMENSION
+  SiteName: Hyper Dimension
+  Issuer: Dimension Traveller
 
 Database:
   Type: SQLite                                                        # SQLite, SQLServer, PostgreSQL, MySQL
@@ -94,19 +95,18 @@ Cache:
 #   KeyPrefix: hd-
 
 Email:
-  Enabled: false
-# Sender: Smtp                       # Smtp, MailGun, SendGrid
-# From: hyperdimension@example.com
-# FromName: Hyper Dimension
+  Sender: Smtp                       # Smtp, MailGun, SendGrid
+  From: hyperdimension@example.com
+  FromName: Hyper Dimension
 
-# Smtp:
-#   Server: localhost
-#   Port: 587
-#   User: your-username
-#   Password: your-password
-#   UseSsl: true
-#   RequiresAuthentication: true
-#   SocketOptions: Auto               # Auto, SslOnConnect, StartTls, StartTlsWhenAvailable
+  Smtp:
+    Server: localhost
+    Port: 587
+    User: your-username
+    Password: your-password
+    UseSsl: true
+    RequiresAuthentication: true
+    SocketOptions: Auto               # Auto, SslOnConnect, StartTls, StartTlsWhenAvailable
 
 # MailGun:
 #   ApiKey: 123
