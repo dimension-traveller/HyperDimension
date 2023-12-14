@@ -13,7 +13,7 @@ public class User : BaseEntity
     public bool EmailConfirmed { get; set; }
 
     public string PasswordHash { get; set; } = string.Empty;
-    
+
     public string SecurityStamp { get; set; } = string.Empty;
 
     public bool TwoFactorEmailEnabled { get; set; }
@@ -29,6 +29,8 @@ public class User : BaseEntity
     public List<Role> Roles { get; set; } = [];
 
     public List<ApiToken> ApiTokens { get; set; } = [];
+
+    public List<ExternalProvider> ExternalProviders { get; set; } = [];
 
     public List<WebAuthn> WebAuthnDevices { get; set; } = [];
 }

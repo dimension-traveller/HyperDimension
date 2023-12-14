@@ -28,8 +28,7 @@ public class OpenIdConnectBuilder : IAuthenticationProviderBuilder<OpenIdConnect
                 o.Scope.Add(s);
             }
 
-            o.ClientId = options.ClientId;
-            o.ClientSecret = options.ClientSecret;
+            o.MapInboundClaims = false;
 
             o.CallbackPath = $"/identity/sso/callback/{metadata.Id}";
 

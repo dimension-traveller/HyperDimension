@@ -192,5 +192,10 @@ Identity:
 #         - email
 #       ClientId: 123
 #       ClientSecret: 123
+#       ClaimTypes:
+#         UniqueId: sub
+#         Username: preferred_username
+#         Name: name
+#         Email: email
 #       OpenIdConnectConfiguration:
 #         # See https://learn.microsoft.com/en-us/dotnet/api/microsoft.identitymodel.protocols.openidconnect.openidconnectconfiguration?view=msal-web-dotnet-latest&viewFallbackFrom=net-8.0

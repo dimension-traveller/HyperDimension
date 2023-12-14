@@ -22,6 +22,7 @@ public static class IdentityConfigurator
 
         services.AddSingleton<IPasswordHashService, PasswordHashService>();
         services.AddSingleton<ITotpService, TotpService>();
+        services.AddSingleton<ISsoService, SsoService>();
         services.AddScoped<ISecurityTokenService, SecurityTokenService>();
         services.AddScoped<IPermissionService, PermissionService>();
         services.AddScoped<IWebAuthnAuthenticationService, WebAuthnAuthenticationService>();

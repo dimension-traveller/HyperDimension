@@ -1,4 +1,5 @@
-﻿using HyperDimension.Infrastructure.Identity.Abstract;
+﻿using System.Security.Claims;
+using HyperDimension.Infrastructure.Identity.Abstract;
 using HyperDimension.Infrastructure.Identity.Attributes;
 using HyperDimension.Infrastructure.Identity.Options;
 using HyperDimension.Infrastructure.Identity.Options.Providers;
@@ -14,6 +15,14 @@ public class DiscordBuilder : IAuthenticationProviderBuilder<DiscordProviderOpti
 
     public void AddSchema(AuthenticationBuilder builder, IdentityProviderOptions metadata, DiscordProviderOptions options)
     {
+        builder.Services.AddKeyedSingleton(metadata.Id, new ExternalClaimsOptions
+        {
+            UniqueId =  ClaimTypes.NameIdentifier,
+            Username = ClaimTypes.Name,
+            DisplayName = "",
+            Email =  ClaimTypes.Email
+        });
+
         builder.AddDiscord(metadata.Id, metadata.Name, o =>
         {
             o.ClientId = options.ClientId;

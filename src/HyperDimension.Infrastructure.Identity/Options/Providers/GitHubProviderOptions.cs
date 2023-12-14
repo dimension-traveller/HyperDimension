@@ -1,5 +1,4 @@
-﻿using AspNet.Security.OAuth.GitHub;
-using HyperDimension.Infrastructure.Identity.Abstract;
+﻿using HyperDimension.Infrastructure.Identity.Abstract;
 
 namespace HyperDimension.Infrastructure.Identity.Options.Providers;
 

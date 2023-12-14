@@ -11,5 +11,7 @@ public class OpenIdConnectProviderOptions : OAuthProviderOptions, IIdentityProvi
 
     public string[] Scope { get; set; } = [];
 
+    public ExternalClaimsOptions ClaimTypes { get; set; } = new();
+
     public OpenIdConnectConfiguration? OpenIdConnectConfiguration { get; set; }
 }
