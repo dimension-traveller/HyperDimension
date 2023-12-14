@@ -5,6 +5,7 @@
   <ItemGroup>
     <PackageVersion Include="Alexinea.Extensions.Configuration.Toml" Version="7.0.0" />
     <PackageVersion Include="Alexinea.Extensions.Configuration.Yaml" Version="7.0.0" />
+    <PackageVersion Include="Algolia.Search" Version="6.16.0" />
     <PackageVersion Include="AspNet.Security.OAuth.Discord" Version="8.0.0" />
     <PackageVersion Include="AspNet.Security.OAuth.GitHub" Version="8.0.0" />
     <PackageVersion Include="AWSSDK.S3" Version="3.7.304.5" />
@@ -18,6 +19,7 @@
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
     <PackageVersion Include="Isopoh.Cryptography.Argon2" Version="2.0.0" />
     <PackageVersion Include="MediatR" Version="12.2.0" />
+    <PackageVersion Include="MeiliSearch" Version="0.14.6" />
     <PackageVersion Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />

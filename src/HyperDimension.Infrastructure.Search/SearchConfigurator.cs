@@ -1,4 +1,5 @@
-﻿using Elastic.Clients.Elasticsearch;
+﻿using Algolia.Search.Clients;
+using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
 using HyperDimension.Application.Common.Interfaces;
 using HyperDimension.Common.Configuration;
@@ -7,6 +8,7 @@ using HyperDimension.Infrastructure.Search.Enums;
 using HyperDimension.Infrastructure.Search.Exceptions;
 using HyperDimension.Infrastructure.Search.Options;
 using HyperDimension.Infrastructure.Search.Services;
+using Meilisearch;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HyperDimension.Infrastructure.Search;
@@ -61,9 +63,24 @@ public static class SearchConfigurator
                 });
                 break;
             case SearchProviderType.MeiliSearch:
-                throw new SearchNotSupportedException(SearchProviderType.MeiliSearch.ToString(), "Not implemented yet.");
+                services.AddScoped<IHyperDimensionSearchService, MeiliSearchProvider>();
+                services.AddSingleton<MeilisearchClient>(_ =>
+                {
+                    var meiliOptions = searchOptions.MeiliSearch
+                                       ?? throw new SearchNotSupportedException(SearchProviderType.MeiliSearch.ToString(), "MeiliSearch options is null.");
+                    return new MeilisearchClient(meiliOptions.Url, meiliOptions.ApiKey);
+                });
+                break;
             case SearchProviderType.Algolia:
-                throw new SearchNotSupportedException(SearchProviderType.MeiliSearch.ToString(), "Not implemented yet.");
+                services.AddScoped<IHyperDimensionSearchService, AlgoliaSearchProvider>();
+                services.AddSingleton<ISearchClient, SearchClient>(sp =>
+                {
+                    var algoliaOptions = searchOptions.Algolia
+                                         ?? throw new SearchNotSupportedException(SearchProviderType.Algolia.ToString(), "Algolia options is null.");
+
+                    return new SearchClient(algoliaOptions.ApplicationId, algoliaOptions.ApiKey);
+                });
+                break;
             default:
                 throw new SearchNotSupportedException(searchOptions.Type.ToString(), "Unknown search provider type.");
         }

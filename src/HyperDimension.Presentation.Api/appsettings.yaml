@@ -57,6 +57,16 @@ Search:
 #   IndexPrefix: hd-
 #   CertificateFingerprint: 1234567890abcdef1234567890abcdef12345678  # Leave empty if you don't need to verify the certificate
 
+# MeiliSearch:
+#   Url: http://localhost:7700
+#   ApiKey: masterKey
+#   IndexPrefix: hd-
+
+# Algolia:
+#   ApplicationId: your-id
+#   ApiKey: your-key
+#   IndexPrefix: hd-
+
 DataProtection:
   EnableCertificate: false
 

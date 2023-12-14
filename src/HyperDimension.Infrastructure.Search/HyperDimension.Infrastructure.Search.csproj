@@ -4,6 +4,8 @@
     <ProjectReference Include="..\HyperDimension.Library.PGroonga\HyperDimension.Library.PGroonga.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Algolia.Search" />
     <PackageReference Include="Elastic.Clients.Elasticsearch" />
+    <PackageReference Include="MeiliSearch" />
   </ItemGroup>
 </Project>

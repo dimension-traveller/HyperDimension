@@ -9,4 +9,8 @@ public class SearchOptions
     public SearchProviderType Type { get; set; } = SearchProviderType.Database;
 
     public ElasticsearchOptions? ElasticSearch { get; set; }
+
+    public MeiliSearchOptions? MeiliSearch { get; set; }
+
+    public AlgoliaOptions? Algolia { get; set; }
 }
