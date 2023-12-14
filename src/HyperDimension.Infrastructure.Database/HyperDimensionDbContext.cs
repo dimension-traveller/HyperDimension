@@ -4,6 +4,7 @@ using HyperDimension.Domain.Entities.Identity;
 using HyperDimension.Domain.Entities.Security;
 using HyperDimension.Infrastructure.Database.Configuration;
 using HyperDimension.Infrastructure.Database.Extensions;
+using HyperDimension.Infrastructure.Database.Interceptors;
 using MediatR;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,8 @@ public class HyperDimensionDbContext
     private readonly ILogger<HyperDimensionDbContext> _logger;
     private readonly IDatabaseBuilder _databaseBuilder;
 
+    private static readonly ConcurrentStampInterceptor ConcurrentStampInterceptor = new();
+
     public HyperDimensionDbContext(
         IMediator mediator,
         ILogger<HyperDimensionDbContext> logger,
@@ -35,6 +38,8 @@ public class HyperDimensionDbContext
         base.OnConfiguring(optionsBuilder);
 
         _databaseBuilder.Build(optionsBuilder);
+
+        optionsBuilder.AddInterceptors(ConcurrentStampInterceptor);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

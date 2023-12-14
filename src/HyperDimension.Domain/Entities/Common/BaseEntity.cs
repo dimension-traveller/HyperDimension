@@ -9,6 +9,9 @@ public abstract class BaseEntity
     [Key]
     public Guid EntityId { get; } = Guid.NewGuid();
 
+    [ConcurrencyCheck]
+    public string ConcurrencyStamp { get; set; } = string.Empty;
+
     public bool IsDeleted { get; set; }
 
     private readonly List<BaseEvent> _domainEvents = [];

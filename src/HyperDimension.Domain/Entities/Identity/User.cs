@@ -13,9 +13,7 @@ public class User : BaseEntity
     public bool EmailConfirmed { get; set; }
 
     public string PasswordHash { get; set; } = string.Empty;
-
-    public string ConcurrencyStamp { get; set; } = string.Empty;
-
+    
     public string SecurityStamp { get; set; } = string.Empty;
 
     public bool TwoFactorEmailEnabled { get; set; }

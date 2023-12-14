@@ -4,7 +4,6 @@ using HyperDimension.Application.Common.Interfaces;
 using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Application.Common.Interfaces.Identity;
 using HyperDimension.Application.Common.Models;
-using HyperDimension.Common.Extensions;
 using HyperDimension.Domain.Email;
 using HyperDimension.Domain.Entities.Identity;
 using HyperDimension.Domain.Enums;
@@ -96,7 +95,6 @@ public class UserRegistrationHandler : IRequestHandler<UserRegistration, IAction
             DisplayName = body.DisplayName,
             PasswordHash = _passwordHashService.HashPassword(body.Password, stamp),
             SecurityStamp = stamp,
-            ConcurrencyStamp = now.GetUnixTimestamp(),
             EmailConfirmed = false
         };
         await _dbContext.Users.AddAsync(user, cancellationToken);
