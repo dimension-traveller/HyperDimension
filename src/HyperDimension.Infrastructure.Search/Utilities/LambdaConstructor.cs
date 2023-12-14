@@ -7,6 +7,19 @@ namespace HyperDimension.Infrastructure.Search.Utilities;
 
 public static class LambdaConstructor
 {
+    public static Expression<Func<TEntity, bool>> BuildStringExpression<TEntity>(
+        string propertyName, MethodInfo method, params object[] methodArguments)
+    {
+        var parameter = Expression.Parameter(typeof(TEntity));
+        var property = typeof(TEntity).GetProperty(propertyName).ExpectNotNull();
+
+        var arguments = methodArguments.Select(Expression.Constant);
+
+        var expression = Expression.Call(Expression.Property(parameter, property), method, arguments);
+        var lambda = Expression.Lambda<Func<TEntity, bool>>(expression, parameter);
+        return lambda;
+    }
+
     public static Expression<Func<TEntity, bool>> BuildPgroongaExpression<TEntity>(
         string propertyName, string methodName, params object[] methodArguments)
     {
