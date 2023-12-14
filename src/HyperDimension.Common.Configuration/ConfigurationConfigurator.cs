@@ -10,8 +10,10 @@ namespace HyperDimension.Common.Configuration;
 
 public static class ConfigurationConfigurator
 {
-    public static void AddHyperDimensionConfiguration(this IConfigurationBuilder builder)
+    public static void AddHyperDimensionConfiguration(this IConfigurationBuilder builder, params string[] args)
     {
+        HyperDimensionConfiguration.Instance = GetConfiguration(args);
+
         builder.AddConfiguration(HyperDimensionConfiguration.Instance);
     }
 
@@ -55,7 +57,7 @@ public static class ConfigurationConfigurator
         }
     }
 
-    public static IConfiguration GetConfiguration()
+    public static IConfiguration GetConfiguration(params string[] args)
     {
         var configurationFilePath = Environment
             .GetEnvironmentVariable("HD_CONFIGURATION_FILE_PATH") ?? "appsettings.yaml";
@@ -83,6 +85,8 @@ public static class ConfigurationConfigurator
             var fileName = configurationFilePath[..^5];
             configurationBuilder.AddYamlFile($"{fileName}.{ApplicationConstants.RuntimeEnvironment}.yaml", true);
         }
+
+        configurationBuilder.AddCommandLine(args);
 
         var configuration = configurationBuilder.Build();
 

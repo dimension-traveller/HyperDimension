@@ -7,7 +7,7 @@ using HyperDimension.Presentation.Common.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddHyperDimensionConfiguration();
+builder.Configuration.AddHyperDimensionConfiguration(args);
 
 builder.Host.UseSerilog();
 
