@@ -1,33 +1,29 @@
 using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Common.Extensions;
+using HyperDimension.Infrastructure.Database.Attributes;
+using HyperDimension.Infrastructure.Database.Enums;
 using HyperDimension.Infrastructure.Database.Options;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace HyperDimension.Infrastructure.Database.Builder;
 
+[ForDatabase(DatabaseType.SQLite)]
 public class SqliteDatabaseBuilder : IDatabaseBuilder
 {
     private readonly DatabaseOptions _databaseOptions;
-    private readonly IEnumerable<IDatabaseOptionsBuilder<SqliteDbContextOptionsBuilder>> _builders;
 
     public SqliteDatabaseBuilder(
-        DatabaseOptions databaseOptions,
-        IEnumerable<IDatabaseOptionsBuilder<SqliteDbContextOptionsBuilder>> builders)
+        DatabaseOptions databaseOptions)
     {
         _databaseOptions = databaseOptions;
-        _builders = builders;
     }
 
     public void Build(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlite(_databaseOptions.ConnectionString, options =>
         {
-            foreach (var builder in _builders)
-            {
-                builder.Build(options);
-            }
+            options.MigrationsAssembly("HyperDimension.Migrations.SQLite");
         });
 
         var sqliteDataSource = new SqliteConnectionStringBuilder(_databaseOptions.ConnectionString).DataSource;

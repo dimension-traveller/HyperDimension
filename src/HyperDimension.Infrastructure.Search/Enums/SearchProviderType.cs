@@ -2,8 +2,7 @@ namespace HyperDimension.Infrastructure.Search.Enums;
 
 public enum SearchProviderType
 {
-    None,
-    PGroonga,
+    Database,
     ElasticSearch,
     MeiliSearch,
     Algolia

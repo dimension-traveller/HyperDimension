@@ -7,7 +7,7 @@ namespace HyperDimension.Infrastructure.Search.Services;
 
 public class AlgoliaSearchProvider : IHyperDimensionSearchService
 {
-    public Task<IReadOnlyCollection<TEntity>> MatchAsync<TDocument, TEntity>(Expression<Func<TDocument, string>> fieldSelector, string keyword, int start = 0, int size = 10) where TDocument : SearchableDocument<TEntity> where TEntity : BaseEntity
+    public Task<IReadOnlyCollection<TEntity>> MatchAsync<TDocument, TEntity>(Expression<Func<TDocument, string>> fieldSelector, string keyword, int start = 0, int size = 10) where TDocument : SearchableDocument where TEntity : BaseEntity
     {
         throw new NotImplementedException();
     }

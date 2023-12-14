@@ -43,9 +43,9 @@ Database:
   ConnectionString: "Data Source=./data/HyperDimension.db;"           # Check out: connectionstrings.com
 
 Search:
-  Type: None                                                          # None, PGroonga, ElasticSearch, MeiliSearch, Algolia
+  Type: Database                                                      # Database, ElasticSearch, MeiliSearch, Algolia
 
-# PGroonga do not need configuration
+# Database do not need configuration
 
 # ElasticSearch:
 #   Nodes:

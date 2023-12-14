@@ -1,10 +1,12 @@
 ﻿using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Common.Constants;
+using HyperDimension.Common.Extensions;
 using HyperDimension.Domain.Entities.Identity;
 using HyperDimension.Domain.Entities.Security;
 using HyperDimension.Infrastructure.Database.Configuration;
 using HyperDimension.Infrastructure.Database.Extensions;
 using HyperDimension.Infrastructure.Database.Interceptors;
+using HyperDimension.Infrastructure.Database.Options;
 using MediatR;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,7 @@ public class HyperDimensionDbContext
 {
     private readonly IMediator _mediator;
     private readonly ILogger<HyperDimensionDbContext> _logger;
+    private readonly DatabaseOptions _databaseOptions;
     private readonly IDatabaseBuilder _databaseBuilder;
 
     private static readonly ConcurrentStampInterceptor ConcurrentStampInterceptor = new();
@@ -26,10 +29,12 @@ public class HyperDimensionDbContext
     public HyperDimensionDbContext(
         IMediator mediator,
         ILogger<HyperDimensionDbContext> logger,
+        DatabaseOptions databaseOptions,
         IDatabaseBuilder databaseBuilder)
     {
         _mediator = mediator;
         _logger = logger;
+        _databaseOptions = databaseOptions;
         _databaseBuilder = databaseBuilder;
     }
 
@@ -48,9 +53,24 @@ public class HyperDimensionDbContext
 
         modelBuilder.ApplyCommonConfigurations();
 
-        foreach (var projectAssembly in ApplicationConstants.ProjectAssemblies)
+        var entityConfigurationTypes = ApplicationConstants.ProjectAssemblies
+            .Scan(x => x.IsAssignableTo(typeof(IEntityTypeConfiguration<>)))
+            .ForDatabase(_databaseOptions.Type)
+            .ToList();
+
+        var applyConfigurationMethodInfo = typeof(ModelBuilder)
+            .GetMethods()
+            .Single(x => x is { Name: nameof(ModelBuilder.ApplyConfiguration), IsGenericMethod: true });
+
+        foreach (var type in entityConfigurationTypes)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(projectAssembly);
+            var entityType = type.GetInterfaces()
+                .Single(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>))
+                .GetGenericArguments()
+                .Single();
+
+            var applyConfigurationMethod = applyConfigurationMethodInfo.MakeGenericMethod(entityType);
+            applyConfigurationMethod.Invoke(modelBuilder, [Activator.CreateInstance(type)]);
         }
     }
 

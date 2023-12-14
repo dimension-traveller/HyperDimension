@@ -53,6 +53,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{7144
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Library.PGroonga", "src\HyperDimension.Library.PGroonga\HyperDimension.Library.PGroonga.csproj", "{BA56F4B2-E623-49D3-8DEF-F0EDAD1F2A0F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{FCAC7456-ED62-4EAF-B288-082B6D1AB4FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Migrations.SQLite", "src\HyperDimension.Migrations.SQLite\HyperDimension.Migrations.SQLite.csproj", "{7C494551-62C4-44E0-973C-6F3116194019}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Migrations.SQLServer", "src\HyperDimension.Migrations.SQLServer\HyperDimension.Migrations.SQLServer.csproj", "{C5A9D281-1CD4-47A3-AEC3-C585CF8842D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Migrations.PostgreSQL", "src\HyperDimension.Migrations.PostgreSQL\HyperDimension.Migrations.PostgreSQL.csproj", "{D3D166A3-DDD1-4694-8D49-E014F8BF32EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Migrations.MySQL", "src\HyperDimension.Migrations.MySQL\HyperDimension.Migrations.MySQL.csproj", "{DDAF6BCE-E795-43E0-93C2-02B6F67D10FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzer", "Analyzer", "{1DDA28B5-E1A6-47F1-8E0E-4643BD9D9C13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperDimension.Analyzer.Generator", "src\HyperDimension.Analyzer.Generator\HyperDimension.Analyzer.Generator.csproj", "{08BAD477-02B9-46AC-B11C-381128FC3001}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +88,11 @@ Global
 		{4CE3F6E4-B4E2-4961-9F36-5675BDF41F4A} = {F842F870-34F5-4108-A52C-DF5A273204F0}
 		{A0257F14-4179-4B69-8C23-398CCCD38C3A} = {F842F870-34F5-4108-A52C-DF5A273204F0}
 		{BA56F4B2-E623-49D3-8DEF-F0EDAD1F2A0F} = {71448836-E2A9-42D8-837C-A510BEB98354}
+		{7C494551-62C4-44E0-973C-6F3116194019} = {FCAC7456-ED62-4EAF-B288-082B6D1AB4FB}
+		{C5A9D281-1CD4-47A3-AEC3-C585CF8842D3} = {FCAC7456-ED62-4EAF-B288-082B6D1AB4FB}
+		{D3D166A3-DDD1-4694-8D49-E014F8BF32EF} = {FCAC7456-ED62-4EAF-B288-082B6D1AB4FB}
+		{DDAF6BCE-E795-43E0-93C2-02B6F67D10FC} = {FCAC7456-ED62-4EAF-B288-082B6D1AB4FB}
+		{08BAD477-02B9-46AC-B11C-381128FC3001} = {1DDA28B5-E1A6-47F1-8E0E-4643BD9D9C13}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3827F563-2B31-4485-8600-67F9B02B149B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -136,5 +155,25 @@ Global
 		{BA56F4B2-E623-49D3-8DEF-F0EDAD1F2A0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA56F4B2-E623-49D3-8DEF-F0EDAD1F2A0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA56F4B2-E623-49D3-8DEF-F0EDAD1F2A0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C494551-62C4-44E0-973C-6F3116194019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C494551-62C4-44E0-973C-6F3116194019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C494551-62C4-44E0-973C-6F3116194019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C494551-62C4-44E0-973C-6F3116194019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5A9D281-1CD4-47A3-AEC3-C585CF8842D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5A9D281-1CD4-47A3-AEC3-C585CF8842D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5A9D281-1CD4-47A3-AEC3-C585CF8842D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5A9D281-1CD4-47A3-AEC3-C585CF8842D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3D166A3-DDD1-4694-8D49-E014F8BF32EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3D166A3-DDD1-4694-8D49-E014F8BF32EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3D166A3-DDD1-4694-8D49-E014F8BF32EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3D166A3-DDD1-4694-8D49-E014F8BF32EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDAF6BCE-E795-43E0-93C2-02B6F67D10FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDAF6BCE-E795-43E0-93C2-02B6F67D10FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDAF6BCE-E795-43E0-93C2-02B6F67D10FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDAF6BCE-E795-43E0-93C2-02B6F67D10FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08BAD477-02B9-46AC-B11C-381128FC3001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08BAD477-02B9-46AC-B11C-381128FC3001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08BAD477-02B9-46AC-B11C-381128FC3001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08BAD477-02B9-46AC-B11C-381128FC3001}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

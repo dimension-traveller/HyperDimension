@@ -13,6 +13,10 @@
       <ProjectReference Include="..\HyperDimension.Infrastructure.Identity\HyperDimension.Infrastructure.Identity.csproj" />
       <ProjectReference Include="..\HyperDimension.Infrastructure.Search\HyperDimension.Infrastructure.Search.csproj" />
       <ProjectReference Include="..\HyperDimension.Infrastructure.Storage\HyperDimension.Infrastructure.Storage.csproj" />
+      <ProjectReference Include="..\HyperDimension.Migrations.MySQL\HyperDimension.Migrations.MySQL.csproj" />
+      <ProjectReference Include="..\HyperDimension.Migrations.PostgreSQL\HyperDimension.Migrations.PostgreSQL.csproj" />
+      <ProjectReference Include="..\HyperDimension.Migrations.SQLite\HyperDimension.Migrations.SQLite.csproj" />
+      <ProjectReference Include="..\HyperDimension.Migrations.SQLServer\HyperDimension.Migrations.SQLServer.csproj" />
     </ItemGroup>
 
     <ItemGroup>

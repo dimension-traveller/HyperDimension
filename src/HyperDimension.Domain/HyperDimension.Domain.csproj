@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <ProjectReference Include="..\HyperDimension.Analyzer.Generator\HyperDimension.Analyzer.Generator.csproj">
+      <OutputItemType>Analyzer</OutputItemType>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="..\HyperDimension.Common.Configuration\HyperDimension.Common.Configuration.csproj" />
     <ProjectReference Include="..\HyperDimension.Common.Observability\HyperDimension.Common.Observability.csproj" />
   </ItemGroup>

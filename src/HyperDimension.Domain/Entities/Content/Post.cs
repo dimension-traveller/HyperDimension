@@ -1,16 +1,21 @@
-﻿using HyperDimension.Domain.Entities.Common;
+﻿using HyperDimension.Analyzer.Generator;
+using HyperDimension.Domain.Entities.Common;
 using HyperDimension.Domain.Entities.Identity;
 
 namespace HyperDimension.Domain.Entities.Content;
 
+[HasSearchableProperty]
 public class Post : BaseEntity
 {
+    [Searchable]
     public string Title { get; set; } = string.Empty;
 
     public string Slug { get; set; } = string.Empty;
 
+    [Searchable]
     public string Content { get; set; } = string.Empty;
 
+    [Searchable]
     public string Summary { get; set; } = string.Empty;
 
     public string CoverImage { get; set; } = string.Empty;

@@ -37,7 +37,7 @@ public class ElasticSearchProvider : IHyperDimensionSearchService
         string keyword,
         int start = 0,
         int size = 10)
-        where TDocument : SearchableDocument<TEntity>
+        where TDocument : SearchableDocument
         where TEntity : BaseEntity
     {
         var propertyName = fieldSelector.GetPropertyInfo().ExpectNotNull().Name;
@@ -53,7 +53,7 @@ public class ElasticSearchProvider : IHyperDimensionSearchService
         QueryDescriptor<TDocument> queryDescriptor,
         int start = 0,
         int size = 10)
-        where TDocument : SearchableDocument<TEntity>
+        where TDocument : SearchableDocument
         where TEntity : BaseEntity
     {
         var indexName = await GetIndexName<TEntity>();

@@ -1,10 +1,10 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+using HyperDimension.Application.Common.Extensions;
 using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Common.Configuration;
+using HyperDimension.Common.Constants;
 using HyperDimension.Common.Extensions;
-using HyperDimension.Infrastructure.Database.Builder;
-using HyperDimension.Infrastructure.Database.Enums;
-using HyperDimension.Infrastructure.Database.Exceptions;
+using HyperDimension.Infrastructure.Database.Extensions;
 using HyperDimension.Infrastructure.Database.Options;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
@@ -22,14 +22,11 @@ public static class DatabaseConfigurator
         // Add database builder
         var databaseOptions = HyperDimensionConfiguration.Instance
             .GetOption<DatabaseOptions>();
-        var databaseBuilderType = databaseOptions.Type switch
-        {
-            DatabaseType.SQLite => typeof(SqliteDatabaseBuilder),
-            DatabaseType.SQLServer => typeof(SqlServerDatabaseBuilder),
-            DatabaseType.MySQL => typeof(MySqlDatabaseBuilder),
-            DatabaseType.PostgreSQL => typeof(NpgsqlDatabaseBuilder),
-            _ => throw new DatabaseNotSupportedException(databaseOptions.Type.ToString(), "Unknown database type")
-        };
+        var databaseBuilderType = ApplicationConstants.ProjectAssemblies
+            .Scan<IDatabaseBuilder>()
+            .ForDatabase(databaseOptions.Type)
+            .FirstOrDefault()
+            .ExpectNotNull();
         services.AddSingleton(typeof(IDatabaseBuilder), databaseBuilderType);
 
         // Add data protection

@@ -23,7 +23,7 @@ public class DatabaseMetadataService : IDatabaseMetadataService
     {
         var type = typeof(TEntity);
         var typeName = type.FullName ?? type.Name;
-        var cacheKey = $"db-table-{typeName}";
+        var cacheKey = $"db:table:{typeName}";
 
         var cachedTableName = await _cache.GetStringAsync(cacheKey);
         if (cachedTableName is not null)
@@ -42,7 +42,7 @@ public class DatabaseMetadataService : IDatabaseMetadataService
     {
         var type = typeof(TEntity);
         var typeName = type.FullName ?? type.Name;
-        var cacheKey = $"db-column-{typeName}-{propertyName}";
+        var cacheKey = $"db:column:{typeName}-{propertyName}";
 
         var cachedColumnName = await _cache.GetStringAsync(cacheKey);
         if (cachedColumnName is not null)

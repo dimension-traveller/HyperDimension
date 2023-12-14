@@ -1,10 +1,12 @@
 using HyperDimension.Application.Common.Interfaces.Database;
-using HyperDimension.Infrastructure.Database.Exceptions;
+using HyperDimension.Infrastructure.Database.Attributes;
+using HyperDimension.Infrastructure.Database.Enums;
 using HyperDimension.Infrastructure.Database.Options;
 using Microsoft.EntityFrameworkCore;
 
 namespace HyperDimension.Infrastructure.Database.Builder;
 
+[ForDatabase(DatabaseType.MySQL)]
 public class MySqlDatabaseBuilder : IDatabaseBuilder
 {
     private readonly DatabaseOptions _databaseOptions;
@@ -16,6 +18,16 @@ public class MySqlDatabaseBuilder : IDatabaseBuilder
 
     public void Build(DbContextOptionsBuilder optionsBuilder)
     {
-        throw new DatabaseNotSupportedException(_databaseOptions.Type.ToString(), "Waiting for Pomelo.EntityFrameworkCore.MySql 8.0.0");
+        var forceDefault = Environment.GetEnvironmentVariable("HD_DEBUG_FORCE_DEFAULT_MYSQL") == "true";
+
+        var mysqlServerVersion = forceDefault
+            ? MySqlServerVersion.LatestSupportedServerVersion
+            : ServerVersion.AutoDetect(_databaseOptions.ConnectionString);
+
+        optionsBuilder.UseMySql(_databaseOptions.ConnectionString, mysqlServerVersion, options =>
+        {
+            options.EnableRetryOnFailure(8);
+            options.MigrationsAssembly("HyperDimension.Migrations.MySQL");
+        });
     }
 }

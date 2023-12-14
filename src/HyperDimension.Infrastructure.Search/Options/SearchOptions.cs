@@ -6,7 +6,7 @@ namespace HyperDimension.Infrastructure.Search.Options;
 [OptionSection("Search")]
 public class SearchOptions
 {
-    public SearchProviderType Type { get; set; } = SearchProviderType.None;
+    public SearchProviderType Type { get; set; } = SearchProviderType.Database;
 
     public ElasticsearchOptions? ElasticSearch { get; set; }
 }
