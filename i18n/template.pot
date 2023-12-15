@@ -190,3 +190,12 @@ msgstr ""
 
 msgid "Failed to login with external login provider {0}"
 msgstr ""
+
+msgid "Failed to pass WebAuthn attestation."
+msgstr ""
+
+msgid "Failed to pass WebAuthn assertion."
+msgstr ""
+
+msgid "User has no WebAuthn device registered."
+msgstr ""

@@ -1,32 +1,42 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HyperDimension.Application.Core.Identity.WebAuthn.Authentication;
+using HyperDimension.Application.Core.Identity.WebAuthn.AuthenticationAssertion;
+using HyperDimension.Application.Core.Identity.WebAuthn.Registration;
+using HyperDimension.Application.Core.Identity.WebAuthn.RegistrationAttestation;
+using HyperDimension.Presentation.Common.Abstract;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HyperDimension.Presentation.Api.Controllers.Identity;
 
 [ApiController]
 [Route("identity/webauthn")]
-public class WebAuthnController : ControllerBase
+public class WebAuthnController : HyperDimensionControllerBase
 {
-    [HttpPost("register/initialize")]
-    public Task<IActionResult> RegisterInitializeAsync()
+    public WebAuthnController(IMediator mediator) : base(mediator)
     {
-        throw new NotImplementedException();
     }
 
-    [HttpPost("register/verify")]
-    public Task<IActionResult> RegisterVerifyAsync()
+    [HttpPost("registration")]
+    public Task<IActionResult> RegistrationAsync(WebAuthnRegistration request)
     {
-        throw new NotImplementedException();
+        return SendAsync(request);
     }
 
-    [HttpPost("login/initialize")]
-    public Task<IActionResult> LoginInitializeAsync()
+    [HttpPost("registration/attestation")]
+    public Task<IActionResult> RegistrationAttestationAsync(WebAuthnRegistrationAttestation request)
     {
-        throw new NotImplementedException();
+        return SendAsync(request);
     }
 
-    [HttpPost("login/verify")]
-    public Task<IActionResult> LoginVerifyAsync()
+    [HttpPost("authentication")]
+    public Task<IActionResult> LoginInitializeAsync(WebAuthnAuthentication request)
     {
-        throw new NotImplementedException();
+        return SendAsync(request);
+    }
+
+    [HttpPost("authentication/assertion")]
+    public Task<IActionResult> LoginVerifyAsync(WebAuthnAuthenticationAssertion request)
+    {
+        return SendAsync(request);
     }
 }

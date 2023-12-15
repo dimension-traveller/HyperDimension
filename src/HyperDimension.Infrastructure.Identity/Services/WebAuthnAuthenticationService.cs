@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Fido2NetLib;
 using Fido2NetLib.Objects;
+using HyperDimension.Application.Common.Extensions;
 using HyperDimension.Application.Common.Interfaces;
 using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Application.Common.Interfaces.Identity;
@@ -28,7 +29,7 @@ public class WebAuthnAuthenticationService
         _dbContext = dbContext;
     }
 
-    public async Task<CredentialCreateOptions> CreateWebAuthnRegistrationOptionsAsync(
+    public async Task<CredentialCreateOptions> CreateRegistrationOptionsAsync(
         Fido2User user,
         IEnumerable<byte[]> existingCredentialIds)
     {
@@ -38,16 +39,16 @@ public class WebAuthnAuthenticationService
 
         var options = _fido2.RequestNewCredential(user, existingDescriptor);
         var challenge = Base64Url.Encode(options.Challenge);
-        await _cache.SetStringAsync(challenge, options.ToJson());
+        await _cache.SetStringAsync(GetCacheKey(challenge), options.ToJson());
 
         return options;
     }
 
-    public async Task<Result<User>> VerifyWebAuthnRegistrationAsync(
-        string cacheKey,
+    public async Task<Result<AttestationVerificationSuccess>> VerifyRegistrationAssertionAsync(
+        string challenge,
         AuthenticatorAttestationRawResponse attestationResponse)
     {
-        var options = await _cache.GetStringAsync(cacheKey);
+        var options = await _cache.GetStringAsync(GetCacheKey(challenge));
         var fidoOptions = CredentialCreateOptions.FromJson(options);
 
         var fidoCredentials = await _fido2.MakeNewCredentialAsync(
@@ -73,27 +74,10 @@ public class WebAuthnAuthenticationService
             return fidoCredentials.ErrorMessage;
         }
 
-        var device = new WebAuthn
-        {
-            CredentialId = fidoCredentials.Result!.CredentialId,
-            PublicKey = fidoCredentials.Result!.PublicKey,
-            UserHandle = fidoCredentials.Result!.User.Id,
-            SignatureCounter = fidoCredentials.Result!.Counter,
-            CredType = fidoCredentials.Result!.CredType,
-            RegDate = DateTimeOffset.UtcNow,
-            AaGuid = fidoCredentials.Result.Aaguid
-        };
-
-        return new User
-        {
-            Username = fidoCredentials.Result.User.Name,
-            DisplayName = fidoCredentials.Result.User.DisplayName,
-            Email = Encoding.UTF8.GetString(fidoCredentials.Result.User.Id),
-            WebAuthnDevices = [device]
-        };
+        return fidoCredentials.Result.ExpectNotNull();
     }
 
-    public async Task<AssertionOptions> CreateWebAuthnAssertionOptionsAsync(IEnumerable<byte[]> existingCredentialIds)
+    public async Task<AssertionOptions> CreateAuthenticationAssertionOptionsAsync(IEnumerable<byte[]> existingCredentialIds)
     {
         var descriptors = existingCredentialIds
             .Select(x => new PublicKeyCredentialDescriptor(x));
@@ -103,16 +87,16 @@ public class WebAuthnAuthenticationService
             UserVerificationRequirement.Discouraged);
 
         var challenge = Base64Url.Encode(options.Challenge);
-        await _cache.SetStringAsync(challenge, options.ToJson());
+        await _cache.SetStringAsync(GetCacheKey(challenge), options.ToJson());
 
         return options;
     }
 
-    public async Task<Result<Guid>> VerifyWebAuthnAssertionAsync(
-        string cacheKey,
+    public async Task<Result<Guid>> VerifyAuthenticationAssertionAsync(
+        string challenge,
         AuthenticatorAssertionRawResponse assertionResponse)
     {
-        var options = await _cache.GetStringAsync(cacheKey);
+        var options = await _cache.GetStringAsync(GetCacheKey(challenge));
         var fidoOptions = AssertionOptions.FromJson(options);
 
         var device = await _dbContext.WebAuthnDevices
@@ -139,5 +123,10 @@ public class WebAuthnAuthenticationService
         }
 
         return device.User.EntityId;
+    }
+
+    private static string GetCacheKey(string challenge)
+    {
+        return $"webauthn:challenge:{challenge}";
     }
 }

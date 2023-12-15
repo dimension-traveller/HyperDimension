@@ -1,22 +1,22 @@
 ﻿using Fido2NetLib;
+using Fido2NetLib.Objects;
 using HyperDimension.Common;
-using HyperDimension.Domain.Entities.Identity;
 
 namespace HyperDimension.Application.Common.Interfaces.Identity;
 
 public interface IWebAuthnAuthenticationService
 {
-    public Task<CredentialCreateOptions> CreateWebAuthnRegistrationOptionsAsync(
+    public Task<CredentialCreateOptions> CreateRegistrationOptionsAsync(
         Fido2User user,
         IEnumerable<byte[]> existingCredentialIds);
 
-    public Task<Result<User>> VerifyWebAuthnRegistrationAsync(
-        string cacheKey,
+    public Task<Result<AttestationVerificationSuccess>> VerifyRegistrationAssertionAsync(
+        string challenge,
         AuthenticatorAttestationRawResponse attestationResponse);
 
-    public Task<AssertionOptions> CreateWebAuthnAssertionOptionsAsync(IEnumerable<byte[]> existingCredentialIds);
+    public Task<AssertionOptions> CreateAuthenticationAssertionOptionsAsync(IEnumerable<byte[]> existingCredentialIds);
 
-    public Task<Result<Guid>> VerifyWebAuthnAssertionAsync(
-        string cacheKey,
+    public Task<Result<Guid>> VerifyAuthenticationAssertionAsync(
+        string challenge,
         AuthenticatorAssertionRawResponse assertionResponse);
 }
