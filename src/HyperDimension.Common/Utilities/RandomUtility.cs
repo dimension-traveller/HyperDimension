@@ -5,7 +5,7 @@ namespace HyperDimension.Common.Utilities;
 public static class RandomUtility
 {
     private static ReadOnlySpan<char> TokenCharacters =>
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-".AsSpan();
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".AsSpan();
 
     private static ReadOnlySpan<char> NumericTokenCharacters =>
         "0123456789".AsSpan();
