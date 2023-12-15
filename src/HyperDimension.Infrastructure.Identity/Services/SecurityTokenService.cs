@@ -41,7 +41,7 @@ public class SecurityTokenService : ISecurityTokenService
         }
 
         // Create new token
-        var token = GenerateToken(usage);
+        var token = GenerateToken(usage, s => existingToken.Exists(x => x.Value == s));
         var tokenEntity = new Token
         {
             Value = token,
@@ -56,13 +56,13 @@ public class SecurityTokenService : ISecurityTokenService
         return token;
     }
 
-    private static string GenerateToken(TokenUsage usage)
+    private static string GenerateToken(TokenUsage usage, Func<string, bool> collisionCheck)
     {
         return usage switch
         {
-            TokenUsage.AccountVerification => RandomUtility.GenerateToken(SecurityTokenConstants.AccountVerificationTokenLength),
-            TokenUsage.EmailTwoFactorAuthentication => RandomUtility.GenerateNumericToken(SecurityTokenConstants.TwoFactorAuthenticationTokenLength),
-            TokenUsage.PasswordReset => RandomUtility.GenerateToken(SecurityTokenConstants.PasswordResetTokenLength),
+            TokenUsage.AccountVerification => RandomUtility.GenerateToken(SecurityTokenConstants.AccountVerificationTokenLength, collisionCheck),
+            TokenUsage.EmailTwoFactorAuthentication => RandomUtility.GenerateNumericToken(SecurityTokenConstants.TwoFactorAuthenticationTokenLength, collisionCheck),
+            TokenUsage.PasswordReset => RandomUtility.GenerateToken(SecurityTokenConstants.PasswordResetTokenLength, collisionCheck),
             _ => throw new ArgumentOutOfRangeException(nameof(usage), usage, null)
         };
     }

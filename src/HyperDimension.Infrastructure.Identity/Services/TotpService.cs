@@ -31,11 +31,13 @@ public class TotpService : ITotpService
 
     public IEnumerable<string> GenerateRecoveryCodes()
     {
+        const int recoveryCodeCount = 8;
         var recoveryCodes = new List<string>();
 
-        for (var i = 1; i <= 8; i++)
+        for (var i = 1; i <= recoveryCodeCount; i++)
         {
-            recoveryCodes.Add(RandomUtility.GenerateNumericToken(7));
+            var code = RandomUtility.GenerateNumericToken(7, s => recoveryCodes.Contains(s));
+            recoveryCodes.Add(code);
         }
 
         return recoveryCodes;

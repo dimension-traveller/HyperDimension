@@ -10,13 +10,26 @@ public static class RandomUtility
     private static ReadOnlySpan<char> NumericTokenCharacters =>
         "0123456789".AsSpan();
 
-    public static string GenerateToken(int length)
+    public static string GenerateToken(int length, Func<string, bool>? collisionCheck = null)
     {
-        return RandomNumberGenerator.GetString(TokenCharacters, length);
+        return Generate(length, TokenCharacters, collisionCheck);
     }
 
-    public static string GenerateNumericToken(int length)
+    public static string GenerateNumericToken(int length, Func<string, bool>? collisionCheck = null)
     {
-        return RandomNumberGenerator.GetString(NumericTokenCharacters, length);
+        return Generate(length, NumericTokenCharacters, collisionCheck);
+    }
+
+    public static string Generate(int length, ReadOnlySpan<char> allowedCharacters, Func<string, bool>? collisionCheck = null)
+    {
+        var check = collisionCheck ?? (_ => false);
+        var token = RandomNumberGenerator.GetString(allowedCharacters, length);
+
+        while (check.Invoke(token))
+        {
+            token = RandomNumberGenerator.GetString(allowedCharacters, length);
+        }
+
+        return token;
     }
 }
