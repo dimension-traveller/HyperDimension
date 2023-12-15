@@ -12,8 +12,6 @@ public abstract class BaseEntity
     [ConcurrencyCheck]
     public string ConcurrencyStamp { get; set; } = string.Empty;
 
-    public bool IsDeleted { get; set; }
-
     private readonly List<BaseEvent> _domainEvents = [];
 
     [NotMapped]

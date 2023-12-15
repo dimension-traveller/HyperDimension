@@ -27,15 +27,17 @@ public static class CommonConfigure
     {
         modelBuilder.Entity<TEntity>(builder =>
             {
-                builder.HasQueryFilter(p => !p.IsDeleted);
                 builder.Property(p => p.EntityId).ValueGeneratedNever();
+                builder.Property(p => p.ConcurrencyStamp).ValueGeneratedNever();
             })
             .ConfigureEnumStringConverter<TEntity>();
     }
 
     private static void ConfigureEnumStringConverter<TEntity>(this ModelBuilder modelBuilder) where TEntity : BaseEntity
     {
-        var properties = typeof(TEntity).GetProperties().Where(p => p.PropertyType.IsEnum).ToList();
+        var properties = typeof(TEntity)
+            .GetProperties()
+            .Where(p => p.PropertyType.IsEnum);
         foreach (var property in properties)
         {
             modelBuilder.Entity<TEntity>().Property(property.Name).HasConversion<string>();
