@@ -1,8 +1,9 @@
-﻿using HyperDimension.Application.Core.Identity.UserManagement.Login;
-using HyperDimension.Application.Core.Identity.UserManagement.PasswordReset;
-using HyperDimension.Application.Core.Identity.UserManagement.PasswordResetRequest;
-using HyperDimension.Application.Core.Identity.UserManagement.Registration;
-using HyperDimension.Application.Core.Identity.UserManagement.Verification;
+﻿using HyperDimension.Application.Core.Identity.User.Login;
+using HyperDimension.Application.Core.Identity.User.Logout;
+using HyperDimension.Application.Core.Identity.User.PasswordReset;
+using HyperDimension.Application.Core.Identity.User.PasswordResetRequest;
+using HyperDimension.Application.Core.Identity.User.Registration;
+using HyperDimension.Application.Core.Identity.User.Verification;
 using HyperDimension.Presentation.Common.Abstract;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +12,9 @@ namespace HyperDimension.Presentation.Api.Controllers.Identity;
 
 [ApiController]
 [Route("identity/user")]
-public class UserManagementController : HyperDimensionControllerBase
+public class UserController : HyperDimensionControllerBase
 {
-    public UserManagementController(IMediator mediator) : base(mediator)
+    public UserController(IMediator mediator) : base(mediator)
     {
     }
 
@@ -25,6 +26,12 @@ public class UserManagementController : HyperDimensionControllerBase
 
     [HttpPost("login")]
     public Task<IActionResult> LoginAsync(UserLogin request)
+    {
+        return SendAsync(request);
+    }
+
+    [HttpPost("logout")]
+    public Task<IActionResult> LoginAsync(UserLogout request)
     {
         return SendAsync(request);
     }

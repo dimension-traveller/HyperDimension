@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
-namespace HyperDimension.Application.Core.Identity.UserManagement.PasswordReset;
+namespace HyperDimension.Application.Core.Identity.User.PasswordReset;
 
 public class PasswordReset : IRequest<IActionResult>
 {

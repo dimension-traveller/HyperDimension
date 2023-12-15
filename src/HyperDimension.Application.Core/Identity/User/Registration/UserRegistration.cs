@@ -5,14 +5,13 @@ using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Application.Common.Interfaces.Identity;
 using HyperDimension.Application.Common.Models;
 using HyperDimension.Domain.Email;
-using HyperDimension.Domain.Entities.Identity;
 using HyperDimension.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
-namespace HyperDimension.Application.Core.Identity.UserManagement.Registration;
+namespace HyperDimension.Application.Core.Identity.User.Registration;
 
 public class UserRegistration : IRequest<IActionResult>
 {
@@ -88,7 +87,7 @@ public class UserRegistrationHandler : IRequestHandler<UserRegistration, IAction
         // Create user
         var stamp = Guid.NewGuid().ToString();
         var now = DateTimeOffset.UtcNow;
-        var user = new User
+        var user = new Domain.Entities.Identity.User
         {
             Username = body.Username,
             Email = body.Email,

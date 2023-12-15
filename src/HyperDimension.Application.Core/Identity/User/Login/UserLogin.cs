@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
-namespace HyperDimension.Application.Core.Identity.UserManagement.Login;
+namespace HyperDimension.Application.Core.Identity.User.Login;
 
 public class UserLogin : IRequest<IActionResult>
 {

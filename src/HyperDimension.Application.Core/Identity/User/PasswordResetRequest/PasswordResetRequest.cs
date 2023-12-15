@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
-namespace HyperDimension.Application.Core.Identity.UserManagement.PasswordResetRequest;
+namespace HyperDimension.Application.Core.Identity.User.PasswordResetRequest;
 
 public class PasswordResetRequest : IRequest<IActionResult>
 {

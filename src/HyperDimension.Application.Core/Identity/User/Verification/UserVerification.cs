@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
-namespace HyperDimension.Application.Core.Identity.UserManagement.Verification;
+namespace HyperDimension.Application.Core.Identity.User.Verification;
 
 public class UserVerification : IRequest<IActionResult>
 {

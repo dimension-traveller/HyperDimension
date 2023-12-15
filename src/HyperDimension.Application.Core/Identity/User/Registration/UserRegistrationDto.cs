@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace HyperDimension.Application.Core.Identity.UserManagement.Registration;
+namespace HyperDimension.Application.Core.Identity.User.Registration;
 
 public class UserRegistrationDto
 {

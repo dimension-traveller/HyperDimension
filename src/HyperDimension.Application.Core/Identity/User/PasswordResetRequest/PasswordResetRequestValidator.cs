@@ -4,7 +4,7 @@ using Microsoft.Extensions.Localization;
 
 // ReSharper disable SuggestBaseTypeForParameterInConstructor
 
-namespace HyperDimension.Application.Core.Identity.UserManagement.PasswordResetRequest;
+namespace HyperDimension.Application.Core.Identity.User.PasswordResetRequest;
 
 public class PasswordResetRequestValidator : AbstractValidator<PasswordResetRequest>
 {

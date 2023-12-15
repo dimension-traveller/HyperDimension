@@ -5,7 +5,7 @@ using Microsoft.Extensions.Localization;
 
 // ReSharper disable SuggestBaseTypeForParameterInConstructor
 
-namespace HyperDimension.Application.Core.Identity.UserManagement.Registration;
+namespace HyperDimension.Application.Core.Identity.User.Registration;
 
 public class UserRegistrationValidator : AbstractValidator<UserRegistration>
 {
