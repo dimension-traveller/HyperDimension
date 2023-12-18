@@ -15,4 +15,6 @@ public class ApiToken : BaseEntity
     public DateTimeOffset? ExpiredAt { get; set; }
 
     public DateTimeOffset? RevokedAt { get; set; }
+
+    public User User { get; set; } = new();
 }

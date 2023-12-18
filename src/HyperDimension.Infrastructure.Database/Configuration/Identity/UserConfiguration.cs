@@ -15,5 +15,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .HasIndex(x => x.Email)
             .IsUnique();
+
+        builder
+            .HasMany(x => x.ApiTokens)
+            .WithOne(x => x.User);
     }
 }

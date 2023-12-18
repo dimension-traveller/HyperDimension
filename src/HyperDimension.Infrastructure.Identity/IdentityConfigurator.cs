@@ -4,6 +4,7 @@ using HyperDimension.Common.Configuration;
 using HyperDimension.Common.Constants;
 using HyperDimension.Common.Extensions;
 using HyperDimension.Infrastructure.Identity.Attributes;
+using HyperDimension.Infrastructure.Identity.Authenticator;
 using HyperDimension.Infrastructure.Identity.Exceptions;
 using HyperDimension.Infrastructure.Identity.Options;
 using HyperDimension.Infrastructure.Identity.Services;
@@ -83,6 +84,9 @@ public static class IdentityConfigurator
             .AddBearerToken(IdentityConstants.TwoFactorSchema, options =>
             {
                 options.BearerTokenExpiration = TimeSpan.FromMinutes(5);
+            })
+            .AddStaticToken(IdentityConstants.StaticTokenSchema, "Static Token", _ =>
+            {
             })
             .AddCookie(IdentityConstants.ApplicationSchema, "Application", options =>
             {

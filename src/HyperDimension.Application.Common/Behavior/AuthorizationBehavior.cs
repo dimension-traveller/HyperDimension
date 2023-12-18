@@ -45,7 +45,7 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
         }
 
         // Check schema
-        var schemas = schemaAttribute?.Schemas ?? [IdentityConstants.IdentitySchema];
+        var schemas = schemaAttribute?.Schemas ?? [IdentityConstants.IdentitySchema, IdentityConstants.StaticTokenSchema];
         if (schemas.Contains(_requestContext.AuthenticationSchema) is false)
         {
             return (TResponse)(IActionResult)new ForbidResult();

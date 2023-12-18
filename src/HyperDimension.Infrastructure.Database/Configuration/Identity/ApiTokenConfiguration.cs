@@ -11,5 +11,9 @@ public class ApiTokenConfiguration : IEntityTypeConfiguration<ApiToken>
         builder
             .HasIndex(x => x.Token)
             .IsUnique();
+
+        builder
+            .HasOne(x => x.User)
+            .WithMany(x => x.ApiTokens);
     }
 }
