@@ -102,7 +102,7 @@ public class SsoLoginConfirmHandler : IRequestHandler<SsoLoginConfirm, IActionRe
         }
 
         // Create new user
-        var user = new User
+        var user = new Domain.Entities.Identity.User
         {
             Username = externalUserInfo.Username,
             Email = externalUserInfo.Email,

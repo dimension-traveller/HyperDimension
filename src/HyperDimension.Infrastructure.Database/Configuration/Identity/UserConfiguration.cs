@@ -19,5 +19,20 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .HasMany(x => x.ApiTokens)
             .WithOne(x => x.User);
+
+        builder
+            .HasMany(x => x.Roles)
+            .WithMany(x => x.Users);
+
+        builder
+            .HasMany(x => x.ExternalProviders)
+            .WithOne(x => x.User);
+
+        builder
+            .HasMany(x => x.WebAuthnDevices)
+            .WithOne(x => x.User);
+
+        builder
+            .HasOne(x => x.Totp);
     }
 }

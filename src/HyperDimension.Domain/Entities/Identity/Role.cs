@@ -7,4 +7,6 @@ public class Role : BaseEntity
     public string Name { get; set; } = null!;
 
     public List<string> Permissions { get; set; } = [];
+
+    public List<User> Users { get; set; } = [];
 }

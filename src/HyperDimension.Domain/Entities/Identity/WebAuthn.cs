@@ -18,5 +18,5 @@ public class WebAuthn : BaseEntity
 
     public Guid AaGuid { get; set; }
 
-    public User User { get; set; } = default!;
+    public User User { get; set; } = null!;
 }

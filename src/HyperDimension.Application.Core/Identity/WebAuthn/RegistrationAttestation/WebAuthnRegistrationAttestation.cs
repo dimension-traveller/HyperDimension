@@ -5,7 +5,6 @@ using HyperDimension.Application.Common.Extensions;
 using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Application.Common.Interfaces.Identity;
 using HyperDimension.Application.Common.Models;
-using HyperDimension.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -75,7 +74,7 @@ public class WebAuthnRegistrationAttestationHandler : IRequestHandler<WebAuthnRe
 
         if (user is null)
         {
-            user = new User
+            user = new Domain.Entities.Identity.User
             {
                 Username = attestationVerificationResult.User.Name,
                 Email = email,

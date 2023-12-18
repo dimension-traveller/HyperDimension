@@ -16,5 +16,5 @@ public class ApiToken : BaseEntity
 
     public DateTimeOffset? RevokedAt { get; set; }
 
-    public User User { get; set; } = new();
+    public User User { get; set; } = null!;
 }

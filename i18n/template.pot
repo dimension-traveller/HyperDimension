@@ -38,6 +38,14 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+#. api token
+msgid "Api Token"
+msgstr ""
+
+#. api token valid for (int, days)
+msgid "Api Token Valid For"
+msgstr ""
+
 #################################
 #          Validator            #
 #################################
@@ -52,6 +60,9 @@ msgid "{0} is invalid"
 msgstr ""
 
 msgid "Unknown two factor authentication type."
+msgstr ""
+
+msgid "{0} must be greater than or equal to {1} and less than or equal to {2}."
 msgstr ""
 
 #################################
@@ -198,4 +209,10 @@ msgid "Failed to pass WebAuthn assertion."
 msgstr ""
 
 msgid "User has no WebAuthn device registered."
+msgstr ""
+
+msgid "Api token with name {0} already exists."
+msgstr ""
+
+msgid "Api token with name {0} does not exist."
 msgstr ""

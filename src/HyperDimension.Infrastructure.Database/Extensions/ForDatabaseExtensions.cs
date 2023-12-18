@@ -6,11 +6,11 @@ namespace HyperDimension.Infrastructure.Database.Extensions;
 
 public static class ForDatabaseExtensions
 {
-    public static IEnumerable<T> ForDatabase<T>(this IEnumerable<T> sources, DatabaseType databaseType)
+    public static IEnumerable<Type> ForDatabase(this IEnumerable<Type> sources, DatabaseType databaseType)
     {
         return
             from s in sources
-            let attr = s.GetType().GetAttribute<ForDatabaseAttribute>()
+            let attr = s.GetAttribute<ForDatabaseAttribute>()
             where attr is null || attr.DatabaseType == databaseType
             select s;
     }

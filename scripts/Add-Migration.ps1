@@ -14,14 +14,14 @@ $DbContext = "$DbContextProjectName.HyperDimensionDbContext"
 
 $Message = @{
   StartUpProject = $StartUpProject
-  DbContext = $DbContext
+  DbContext      = $DbContext
 }
 
 $Databases = @{
-  SQLite = "Data Source=:memory:;"
-  SQLServer = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
+  SQLite     = "Data Source=:memory:;"
+  SQLServer  = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;"
   PostgreSQL = "Server=127.0.0.1;Port=5432;Database=myDataBase;User Id=myUsername;Password=myPassword;"
-  MySQL = "Server=myServerAddress;Port=1234;Database=myDataBase;Uid=myUsername;Pwd=myPassword;"
+  MySQL      = "Server=myServerAddress;Port=1234;Database=myDataBase;Uid=myUsername;Pwd=myPassword;"
 }
 
 Write-Output -InputObject $Message
@@ -38,6 +38,7 @@ foreach ($Database in $Databases.GetEnumerator()) {
 
   Write-Output -InputObject "Database: $DatabaseName"
   Write-Output -InputObject "ConnectionString: $ConnectionString"
+  Write-Output -InputObject "MigrationProject: $MigrationProject"
 
   Write-Output -InputObject ""
 

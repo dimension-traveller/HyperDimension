@@ -7,4 +7,6 @@ public class ExternalProvider : BaseEntity
     public string ProviderId { get; set; } = string.Empty;
 
     public string UserIdentifier { get; set; } = string.Empty;
+
+    public User User { get; set; } = null!;
 }

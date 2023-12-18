@@ -4,12 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HyperDimension.Infrastructure.Database.Configuration.Identity;
 
-public class ApiTokenConfiguration : IEntityTypeConfiguration<ApiToken>
+public class TotpConfiguration : IEntityTypeConfiguration<Totp>
 {
-    public void Configure(EntityTypeBuilder<ApiToken> builder)
+    public void Configure(EntityTypeBuilder<Totp> builder)
     {
         builder
-            .HasIndex(x => x.Token)
-            .IsUnique();
+            .HasMany(x => x.RecoveryCodes);
     }
 }
