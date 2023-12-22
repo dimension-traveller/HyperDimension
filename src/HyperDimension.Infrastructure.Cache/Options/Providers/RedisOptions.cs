@@ -10,4 +10,6 @@ public class RedisOptions
     public int Database { get; set; }
 
     public string KeyPrefix { get; set; } = "hd-";
+
+    public bool Tracing { get; set; } = true;
 }

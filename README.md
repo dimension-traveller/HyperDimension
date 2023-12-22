@@ -38,24 +38,24 @@ Also, this project is a playground for me to learn new technologies, architectur
       - [x] Database
       - [ ] LDAP
     - [x] 2FA (TOTP and Email)
-    - [ ] WebAuthn
-    - [ ] External Provider
-      - [ ] OpenID Connect (and OAuth2)
+    - [x] WebAuthn
+    - [x] External Provider
+      - [x] OpenID Connect (and OAuth2)
   - [x] Authorization
     - [x] Role-based
     - [x] Permission-based
-- [ ] Search
-  - [x] PGroonga (PostgreSQL Extension)
+- [x] Search
+  - [ ] (Abandoned) PGroonga (PostgreSQL Extension)
   - [x] Elasticsearch
-  - [ ] MeiliSearch
-  - [ ] Algolia
+  - [x] MeiliSearch
+  - [x] Algolia
 - [x] Cache
   - [x] Redis
   - [x] Distributed Memory Cache
-- [ ] Database
+- [x] Database
   - [x] SQLite
   - [x] Microsoft SQL Server
-  - [ ] MySQL/MariaDB (Waiting for Pomelo.EntityFrameworkCore.MySql to support .NET 8)
+  - [x] MySQL/MariaDB
   - [x] PostgreSQL
 - [x] Storage
   - [x] Amazon S3 Compatible
@@ -65,10 +65,10 @@ Also, this project is a playground for me to learn new technologies, architectur
   - [x] JSON
   - [x] TOML
 - [x] Observability
-  - [x] Logging (Serilog)
-  - [ ] Metrics (Open Telemetry)
-  - [ ] Tracing (Open Telemetry)
-  - [ ] Health Check
+  - [x] Logging (Open Telemetry)
+  - [x] Metrics (Prometheus)
+  - [x] Tracing (Open Telemetry)
+  - [x] Health Check
 - [ ] Notifications
   - [ ] Email
   - [ ] Server Chan

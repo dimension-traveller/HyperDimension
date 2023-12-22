@@ -9,8 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddHyperDimensionConfiguration(args);
 
-builder.Host.UseSerilog();
-
 builder.Services.AddControllers(options =>
 {
     options.OutputFormatters.Insert(0, new HyperDimensionApiOutputFormatter());
@@ -22,12 +20,15 @@ builder.Services.AddHyperDimensionCommon();
 builder.Services.AddHyperDimensionInfrastructure();
 builder.Services.AddHyperDimensionApplication();
 builder.Services.AddHyperDimensionPresentation();
+builder.Services.AddHyperDimensionObservability();
 
 var app = builder.Build();
 
 await app.InitializeAsync();
 
 app.UseHyperDimensionSwagger();
+
+app.UseObservability();
 
 app.UseAuthentication();
 

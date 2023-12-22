@@ -3,8 +3,10 @@
     <ProjectReference Include="..\HyperDimension.Infrastructure.Common\HyperDimension.Infrastructure.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.Redis" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.StackExchangeRedis" />
     <PackageReference Include="StackExchange.Redis.Extensions.AspNetCore" />
     <PackageReference Include="StackExchange.Redis.Extensions.System.Text.Json" />
   </ItemGroup>

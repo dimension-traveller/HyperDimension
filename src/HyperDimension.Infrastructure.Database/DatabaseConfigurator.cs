@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OpenTelemetry.Trace;
 
 namespace HyperDimension.Infrastructure.Database;
 
@@ -28,6 +29,20 @@ public static class DatabaseConfigurator
             .FirstOrDefault()
             .ExpectNotNull();
         services.AddSingleton(typeof(IDatabaseBuilder), databaseBuilderType);
+        services.AddHealthChecks().AddDbContextCheck<HyperDimensionDbContext>("ef-core");
+
+        // Tracing
+        if (databaseOptions.Tracing)
+        {
+            services.ConfigureOpenTelemetryTracerProvider(configure =>
+            {
+                configure.AddEntityFrameworkCoreInstrumentation(options =>
+                {
+                    options.SetDbStatementForText = true;
+                    options.SetDbStatementForStoredProcedure = true;
+                });
+            });
+        }
 
         // Add data protection
         var builder = services.AddDataProtection()

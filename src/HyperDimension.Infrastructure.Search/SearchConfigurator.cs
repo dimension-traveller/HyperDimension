@@ -6,6 +6,7 @@ using HyperDimension.Common.Configuration;
 using HyperDimension.Common.Extensions;
 using HyperDimension.Infrastructure.Search.Enums;
 using HyperDimension.Infrastructure.Search.Exceptions;
+using HyperDimension.Infrastructure.Search.HealthChecks;
 using HyperDimension.Infrastructure.Search.Options;
 using HyperDimension.Infrastructure.Search.Services;
 using Meilisearch;
@@ -61,6 +62,7 @@ public static class SearchConfigurator
                     var esClientSettings = sp.GetRequiredService<IElasticsearchClientSettings>();
                     return new ElasticsearchClient(esClientSettings);
                 });
+                services.AddHealthChecks().AddCheck<ElasticsearchHealthCheck>("elasticsearch");
                 break;
             case SearchProviderType.MeiliSearch:
                 services.AddScoped<IHyperDimensionSearchService, MeiliSearchProvider>();
@@ -70,6 +72,7 @@ public static class SearchConfigurator
                                        ?? throw new SearchNotSupportedException(SearchProviderType.MeiliSearch.ToString(), "MeiliSearch options is null.");
                     return new MeilisearchClient(meiliOptions.Url, meiliOptions.ApiKey);
                 });
+                services.AddHealthChecks().AddCheck<MeiliSearchHealthCheck>("meili-search");
                 break;
             case SearchProviderType.Algolia:
                 services.AddScoped<IHyperDimensionSearchService, AlgoliaSearchProvider>();

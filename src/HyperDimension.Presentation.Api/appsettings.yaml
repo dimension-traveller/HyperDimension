@@ -1,31 +1,39 @@
-Serilog:
-  Using:
-    - Serilog.Sinks.Console
-#   - Serilog.Sinks.File
-#   - Serilog.Sinks.Grafana.Loki
-  MinimumLevel:
-    Default: Information
+Observability:
+  Name: HyperDimension
+  Namespace: production
+  Version: "@Version"                                                 # Use @Version to get the version from the assembly
+  Port: 3200
+  Logging:
+    Template: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
+    MinimumLevel: Information                                         # Verbose, Debug, Information, Warning, Error, Fatal
     Override:
       Microsoft: Warning
       Microsoft.Hosting.Lifetime: Information
       Microsoft.EntityFrameworkCore.Database.Command: Warning
-  WriteTo:
-    - Name: Console
-      Args:
-        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
-#   - Name: File
-#     Args:
-#       path: ./data/logs/hd-.log
-#       rollingInterval: Day
-#       outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
-#   - Name: GrafanaLoki
-#     Args:
-#       uri: http://localhost:3100
-#       labels:
-#         - key: app
-#           value: hyper-dimension
-#       propertiesAsLabels:
-#         - app
+    Console:
+      Enabled: true
+    File:
+      Enabled: false
+      Path: ./data/logs/hd-.log
+      Interval: Day                                                   # Infinite, Year, Month, Day, Hour, Minute
+    OpenTelemetry:
+      Enabled: false
+      Endpoint: "http://127.0.0.1:4318/v1/logs"
+      Protocol: HttpProtobuf                                          # HttpProtobuf, Grpc
+  Tracing:
+    HttpClientFilter:
+      Hosts:
+        - localhost:4318
+    Console:
+      Enabled: false
+      Target: Console                                                 # Console, Debug
+    OpenTelemetry:
+      Enabled: false
+      Endpoint: "http://127.0.0.1:4318"
+      Protocol: Grpc                                                  # HttpProtobuf, Grpc
+  Metrics:
+    ExtraLabels:
+#     - Key: Value
 
 Application:
   FrontendUrl: http://localhost:3000
@@ -41,6 +49,7 @@ Metadata:
 Database:
   Type: SQLite                                                        # SQLite, SQLServer, PostgreSQL, MySQL
   ConnectionString: "Data Source=./data/HyperDimension.db;"           # Check out: connectionstrings.com
+  Tracing: true
 
 Search:
   Type: Database                                                      # Database, ElasticSearch, MeiliSearch, Algolia
@@ -103,6 +112,7 @@ Cache:
 #   ConnectionString: localhost:6379
 #   Database: 0
 #   KeyPrefix: hd-
+#   Tracing: true
 
 Email:
   Sender: Smtp                       # Smtp, MailGun, SendGrid

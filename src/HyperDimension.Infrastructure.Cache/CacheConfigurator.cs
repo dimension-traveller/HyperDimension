@@ -8,6 +8,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using OpenTelemetry.Trace;
 using StackExchange.Redis.Extensions.Core.Abstractions;
 using StackExchange.Redis.Extensions.Core.Configuration;
 using StackExchange.Redis.Extensions.Core.Implementations;
@@ -63,6 +64,32 @@ public static class CacheConfigurator
 
                 services.AddSingleton<IDistributedCache, RedisCache>(sp =>
                     new RedisCache(sp.GetRequiredService<IOptions<RedisCacheOptions>>()));
+
+                services.AddHealthChecks().AddRedis(sp =>
+                    sp.GetRequiredService<IRedisClient>().ConnectionPoolManager.GetConnection(), "redis");
+
+                if (redisOptions.Tracing)
+                {
+                    services.ConfigureOpenTelemetryTracerProvider(builder =>
+                    {
+                        builder.AddRedisInstrumentation(options =>
+                        {
+                            options.SetVerboseDatabaseStatements = true;
+                            options.EnrichActivityWithTimingEvents = true;
+                        });
+                        builder.ConfigureRedisInstrumentation((sp, instrumentation) =>
+                        {
+                            var connections = sp.GetRequiredService<IRedisClient>()
+                                .ConnectionPoolManager
+                                .GetConnections();
+
+                            foreach (var connection in connections)
+                            {
+                                instrumentation.AddConnection(connection);
+                            }
+                        });
+                    });
+                }
                 break;
             default:
                 throw new CacheNotSupportedException(cacheOptions.Type.ToString(), "Unknown cache provider.");
