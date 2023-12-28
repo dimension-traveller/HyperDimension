@@ -33,10 +33,10 @@ Also, this project is a playground for me to learn new technologies, architectur
 ## Technologies
 
 - [x] Identity
-  - [ ] Authentication
+  - [x] Authentication
     - [x] Local
       - [x] Database
-      - [ ] LDAP
+      - [ ] (Delayed) LDAP
     - [x] 2FA (TOTP and Email)
     - [x] WebAuthn
     - [x] External Provider
@@ -99,11 +99,3 @@ The configuration file is located in the API project with name `appsettings.yaml
 You can use any supported configuration file format, be careful that if you choose to use YAML format, the file extension must be `.yaml`, `.yml` will not work.
 
 By default, `appsettings.yaml` is required. In development environment, you can use `appsettings.development.yaml` to override the default settings.
-
-### Search
-
-If you want to use `PGroonga` as the search engine, you must:
-
-- Use PostgreSQL as the database server
-- Install `PGroonga` extension on the database server
-- Run `CREATE EXTENSION pgroonga;` on the database you create for Hyper Dimension to enable `PGroonga` extension
