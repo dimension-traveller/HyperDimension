@@ -14,14 +14,10 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
     where TResponse : IActionResult
 {
     private readonly IHyperDimensionRequestContext _requestContext;
-    private readonly IPermissionService _permissionService;
 
-    public AuthorizationBehavior(
-        IHyperDimensionRequestContext requestContext,
-        IPermissionService permissionService)
+    public AuthorizationBehavior(IHyperDimensionRequestContext requestContext)
     {
         _requestContext = requestContext;
-        _permissionService = permissionService;
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
@@ -29,11 +25,11 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
         // Get attributes
         var schemaAttribute = request.GetType()
             .GetAttribute<RequireAuthenticationAttribute>();
-        var permissionAttribute = request.GetType()
-            .GetAttribute<PermissionAttribute>();
+        var ownerAttribute = request.GetType()
+            .GetAttribute<RequireOwnerAttribute>();
 
-        // No schema and permission required (allow anonymous)
-        if (schemaAttribute is null && permissionAttribute is null)
+        // No schema and no owner permission required (allow anonymous)
+        if (schemaAttribute is null && ownerAttribute is null)
         {
             return await next();
         }
@@ -51,18 +47,8 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
             return (TResponse)(IActionResult)new ForbidResult();
         }
 
-        // Get permission attribute
-        var permission = permissionAttribute?.Permission;
-
-        // No permission required
-        if (permission is null)
-        {
-            return await next();
-        }
-
-        // Check permission
-        var allowAccess = await _permissionService.AllowAccess(permission, _requestContext.UserId.ExpectNotNull());
-        if (allowAccess is false)
+        // Check owner
+        if (ownerAttribute is not null && _requestContext.IsOwner is not true)
         {
             return (TResponse)(IActionResult)new ForbidResult();
         }

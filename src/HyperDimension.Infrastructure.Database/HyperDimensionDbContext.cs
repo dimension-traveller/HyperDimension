@@ -88,7 +88,6 @@ public class HyperDimensionDbContext
     public DbSet<User> Users { get; set; }
     public DbSet<ApiToken> ApiTokens { get; set; }
     public DbSet<ExternalProvider> ExternalProviders { get; set; }
-    public DbSet<Role> Roles { get; set; }
     public DbSet<Totp> Totps { get; set; }
     public DbSet<WebAuthn> WebAuthnDevices { get; set; }
 

@@ -14,7 +14,7 @@ using Microsoft.Extensions.Localization;
 namespace HyperDimension.Application.Core.Identity.User.GenerateToken;
 
 [RequireAuthentication]
-[Permission("hd.user.api_token")]
+[RequireOwner]
 public class GenerateApiToken : IRequest<IActionResult>
 {
     [FromBody]

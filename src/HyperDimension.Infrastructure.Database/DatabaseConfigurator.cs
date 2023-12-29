@@ -1,9 +1,12 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using HyperDimension.Application.Common.Extensions;
 using HyperDimension.Application.Common.Interfaces.Database;
+using HyperDimension.Application.Common.Interfaces.Identity;
 using HyperDimension.Common.Configuration;
 using HyperDimension.Common.Constants;
 using HyperDimension.Common.Extensions;
+using HyperDimension.Common.Utilities;
+using HyperDimension.Domain.Entities.Identity;
 using HyperDimension.Infrastructure.Database.Extensions;
 using HyperDimension.Infrastructure.Database.Options;
 using Microsoft.AspNetCore.DataProtection;
@@ -88,5 +91,46 @@ public static class DatabaseConfigurator
             await dbContext.Database.MigrateAsync();
             logger.LogInformation("Migrations applied");
         }
+
+        var owner = dbContext.Users.FirstOrDefault(x => x.IsOwner);
+        if (owner is not null)
+        {
+            logger.LogDebug("Database initialized");
+            return;
+        }
+
+        logger.LogWarning("No owner found, creating one...");
+
+        var passwordHashService = scope.ServiceProvider.GetRequiredService<IPasswordHashService>();
+
+        var ownerUsername = Environment.GetEnvironmentVariable("OOBE_OWNER_USERNAME") ?? "admin";
+        var ownerName = Environment.GetEnvironmentVariable("OOBE_OWNER_NAME") ?? "Admin";
+        var ownerEmail = Environment.GetEnvironmentVariable("OOBE_OWNER_EMAIL") ?? "admin@example.com";
+        var ownerPassword = Environment.GetEnvironmentVariable("OOBE_OWNER_PASSWORD") ?? RandomUtility.GenerateToken(16);
+
+        logger.LogWarning("Owner username: {OwnerUsername}", ownerUsername);
+        logger.LogWarning("Owner name: {OwnerName}", ownerName);
+        logger.LogWarning("Owner email: {OwnerEmail}", ownerEmail);
+        logger.LogWarning("Owner password: {OwnerPassword}", ownerPassword);
+        logger.LogWarning("Please change the password immediately after first login");
+
+        var stamp = Guid.NewGuid().ToString();
+
+        var passwordHash = passwordHashService.HashPassword(ownerPassword, stamp);
+
+        owner = new User
+        {
+            Username = ownerUsername,
+            Email = ownerEmail,
+            DisplayName = ownerName,
+            PasswordHash = passwordHash,
+            SecurityStamp = stamp,
+            EmailConfirmed = true,
+            IsOwner = true
+        };
+
+        dbContext.Users.Add(owner);
+
+        logger.LogDebug("Database initialized");
     }
 }

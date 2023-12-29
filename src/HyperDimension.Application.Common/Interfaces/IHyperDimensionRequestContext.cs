@@ -12,6 +12,8 @@ public interface IHyperDimensionRequestContext
 
     public string? AuthenticationSchema { get; set; }
 
+    public bool? IsOwner { get; set; }
+
     public Guid? UserId { get; }
 
     public void SetContext(HttpContext context);

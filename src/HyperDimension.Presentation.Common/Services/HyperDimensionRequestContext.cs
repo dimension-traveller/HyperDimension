@@ -11,6 +11,7 @@ public class HyperDimensionRequestContext : IHyperDimensionRequestContext
     public string TraceId { get; private set; } = string.Empty;
     public bool IsAuthenticated { get; private set; }
     public string? AuthenticationSchema { get; set; }
+    public bool? IsOwner { get; set; }
     public Guid? UserId { get; private set; }
 
     public void SetContext(HttpContext context)
@@ -31,10 +32,18 @@ public class HyperDimensionRequestContext : IHyperDimensionRequestContext
             return;
         }
 
+        var isOwner = context.User.GetUserOwnerInfo();
+        if (isOwner is null)
+        {
+            IsAuthenticated = false;
+            return;
+        }
+
         var schema = context.User.Identity.AuthenticationType;
 
         IsAuthenticated = true;
         AuthenticationSchema = schema;
         UserId = userId.Value;
+        IsOwner = isOwner;
     }
 }

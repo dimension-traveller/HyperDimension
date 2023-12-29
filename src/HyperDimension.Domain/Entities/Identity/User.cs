@@ -26,7 +26,7 @@ public class User : BaseEntity
 
     public Totp Totp { get; set; } = new();
 
-    public List<Role> Roles { get; set; } = [];
+    public bool IsOwner { get; set; }
 
     public List<ApiToken> ApiTokens { get; set; } = [];
 

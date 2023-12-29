@@ -21,10 +21,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithOne(x => x.User);
 
         builder
-            .HasMany(x => x.Roles)
-            .WithMany(x => x.Users);
-
-        builder
             .HasMany(x => x.ExternalProviders)
             .WithOne(x => x.User);
 

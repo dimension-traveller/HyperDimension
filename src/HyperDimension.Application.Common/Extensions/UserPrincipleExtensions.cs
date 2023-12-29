@@ -8,6 +8,7 @@ namespace HyperDimension.Application.Common.Extensions;
 public static class UserPrincipleExtensions
 {
     private const string IdClaimType = "sub";
+    private const string OwnerClaimType = "owner";
     private const string TwoFactorClaimType = "amr";
 
     private const string ExternalUniqueIdClaimType = "e_sub";
@@ -21,6 +22,7 @@ public static class UserPrincipleExtensions
         var claims = new Claim[]
         {
             new(IdClaimType, user.EntityId.ToString()),
+            new(OwnerClaimType, user.IsOwner.ToString()),
             new(TwoFactorClaimType, "true")
         };
 
@@ -84,5 +86,12 @@ public static class UserPrincipleExtensions
         var id = principal.FindFirst(IdClaimType)?.Value;
         var valid = Guid.TryParse(id, out var entityId);
         return valid ? entityId : null;
+    }
+
+    public static bool? GetUserOwnerInfo(this ClaimsPrincipal principal)
+    {
+        var isOwner = principal.FindFirst(OwnerClaimType)?.Value;
+        var valid = bool.TryParse(isOwner, out var owner);
+        return valid ? owner : null;
     }
 }
