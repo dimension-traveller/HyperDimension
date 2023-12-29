@@ -1,7 +1,9 @@
 ﻿using HyperDimension.Application.Common.Interfaces.Database;
 using HyperDimension.Common.Constants;
 using HyperDimension.Common.Extensions;
+using HyperDimension.Domain.Entities.Content;
 using HyperDimension.Domain.Entities.Identity;
+using HyperDimension.Domain.Entities.Organization;
 using HyperDimension.Domain.Entities.Security;
 using HyperDimension.Infrastructure.Database.Configuration;
 using HyperDimension.Infrastructure.Database.Extensions;
@@ -82,6 +84,16 @@ public class HyperDimensionDbContext
 
     #endregion
 
+    #region Content
+
+    public DbSet<Article> Articles { get; set; }
+    public DbSet<Friend> Friends { get; set; }
+    public DbSet<Note> Notes { get; set; }
+    public DbSet<Page> Pages { get; set; }
+    public DbSet<Project> Projects { get; set; }
+
+    #endregion
+
     #region Identity
 
     public DbSet<TotpRecoveryCode> TotpRecoveryCodes { get; set; }
@@ -90,6 +102,13 @@ public class HyperDimensionDbContext
     public DbSet<ExternalProvider> ExternalProviders { get; set; }
     public DbSet<Totp> Totps { get; set; }
     public DbSet<WebAuthn> WebAuthnDevices { get; set; }
+
+    #endregion
+
+    #region Organization
+
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Collection> Collections { get; set; }
 
     #endregion
 

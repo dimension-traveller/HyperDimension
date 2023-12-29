@@ -10,19 +10,15 @@ Also, this project is a playground for me to learn new technologies, architectur
 
 - [ ] Content Management
   - [ ] Content Types
-    - [ ] Article (Blog posts)
-    - [ ] Page (Static pages)
-    - [ ] Note (Personal notes)
-    - [ ] Links (Links to other websites)
-    - [ ] Friends (Links to friends' websites)
-    - [ ] Project (Links to projects)
-  - [ ] Organization
-    - [ ] Tags
-    - [ ] Categories
-    - [ ] Collections
-  - [ ] Content
-    - [ ] Markdown
-    - [ ] WYSIWYG
+    - [x] Article (Blog posts)
+    - [x] Page (Static pages)
+    - [x] Note (Personal notes)
+    - [x] Friends (Links to friends' websites)
+    - [x] Project (Links to projects)
+  - [x] Organization
+    - [x] Tags
+    - [x] Categories
+    - [x] Collections
 - [ ] Web Site
   - [ ] RSS Feed
   - [ ] Sitemap

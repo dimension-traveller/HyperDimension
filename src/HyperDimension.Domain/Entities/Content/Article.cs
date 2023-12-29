@@ -1,11 +1,11 @@
 ﻿using HyperDimension.Analyzer.Generator;
 using HyperDimension.Domain.Entities.Common;
-using HyperDimension.Domain.Entities.Identity;
+using HyperDimension.Domain.Entities.Organization;
 
 namespace HyperDimension.Domain.Entities.Content;
 
 [HasSearchableProperty]
-public class Post : BaseEntity
+public class Article : BaseEntity
 {
     [Searchable]
     public string Title { get; set; } = string.Empty;
@@ -24,9 +24,12 @@ public class Post : BaseEntity
 
     public int EstimatedReadingTime { get; set; }
 
-    public User Author { get; set; } = null!;
-
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+
+    public Category Category { get; set; } = null!;
+
+    [Searchable]
+    public List<string> Tags { get; set; } = [];
 }
