@@ -22,6 +22,209 @@ namespace HyperDimension.Migrations.SQLServer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Content.Article", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryEntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CollectionEntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CoverImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("EstimatedReadingTime")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("WordCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("EntityId");
+
+                    b.HasIndex("CategoryEntityId");
+
+                    b.HasIndex("CollectionEntityId");
+
+                    b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Content.Friend", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("AddedTime")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Avatar")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("UserEntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("EntityId");
+
+                    b.HasIndex("UserEntityId");
+
+                    b.ToTable("Friends");
+                });
+
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Content.Note", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("EntityId");
+
+                    b.ToTable("Notes");
+                });
+
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Content.Page", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PageType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("EntityId");
+
+                    b.ToTable("Pages");
+                });
+
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Content.Project", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("AddedTime")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EntityId");
+
+                    b.ToTable("Projects");
+                });
+
             modelBuilder.Entity("HyperDimension.Domain.Entities.Identity.ApiToken", b =>
                 {
                     b.Property<Guid>("EntityId")
@@ -88,29 +291,6 @@ namespace HyperDimension.Migrations.SQLServer.Migrations
                     b.HasIndex("UserEntityId");
 
                     b.ToTable("ExternalProviders");
-                });
-
-            modelBuilder.Entity("HyperDimension.Domain.Entities.Identity.Role", b =>
-                {
-                    b.Property<Guid>("EntityId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Permissions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EntityId");
-
-                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("HyperDimension.Domain.Entities.Identity.Totp", b =>
@@ -189,6 +369,9 @@ namespace HyperDimension.Migrations.SQLServer.Migrations
                     b.Property<int>("FailedAccessAttempts")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsOwner")
+                        .HasColumnType("bit");
+
                     b.Property<DateTimeOffset?>("LockoutEndAt")
                         .HasColumnType("datetimeoffset");
 
@@ -265,6 +448,69 @@ namespace HyperDimension.Migrations.SQLServer.Migrations
                     b.ToTable("WebAuthnDevices");
                 });
 
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Organization.Category", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CoverImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ParentEntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EntityId");
+
+                    b.HasIndex("ParentEntityId");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Organization.Collection", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EntityId");
+
+                    b.ToTable("Collections");
+                });
+
             modelBuilder.Entity("HyperDimension.Domain.Entities.Security.Token", b =>
                 {
                     b.Property<Guid>("EntityId")
@@ -316,19 +562,28 @@ namespace HyperDimension.Migrations.SQLServer.Migrations
                     b.ToTable("DataProtectionKeys");
                 });
 
-            modelBuilder.Entity("RoleUser", b =>
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Content.Article", b =>
                 {
-                    b.Property<Guid>("RolesEntityId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("HyperDimension.Domain.Entities.Organization.Category", "Category")
+                        .WithMany("Articles")
+                        .HasForeignKey("CategoryEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<Guid>("UsersEntityId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("HyperDimension.Domain.Entities.Organization.Collection", null)
+                        .WithMany("Articles")
+                        .HasForeignKey("CollectionEntityId");
 
-                    b.HasKey("RolesEntityId", "UsersEntityId");
+                    b.Navigation("Category");
+                });
 
-                    b.HasIndex("UsersEntityId");
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Content.Friend", b =>
+                {
+                    b.HasOne("HyperDimension.Domain.Entities.Identity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserEntityId");
 
-                    b.ToTable("RoleUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HyperDimension.Domain.Entities.Identity.ApiToken", b =>
@@ -382,19 +637,13 @@ namespace HyperDimension.Migrations.SQLServer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RoleUser", b =>
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Organization.Category", b =>
                 {
-                    b.HasOne("HyperDimension.Domain.Entities.Identity.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("HyperDimension.Domain.Entities.Organization.Category", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentEntityId");
 
-                    b.HasOne("HyperDimension.Domain.Entities.Identity.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersEntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("HyperDimension.Domain.Entities.Identity.Totp", b =>
@@ -409,6 +658,18 @@ namespace HyperDimension.Migrations.SQLServer.Migrations
                     b.Navigation("ExternalProviders");
 
                     b.Navigation("WebAuthnDevices");
+                });
+
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Organization.Category", b =>
+                {
+                    b.Navigation("Articles");
+
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("HyperDimension.Domain.Entities.Organization.Collection", b =>
+                {
+                    b.Navigation("Articles");
                 });
 #pragma warning restore 612, 618
         }

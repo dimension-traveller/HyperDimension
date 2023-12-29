@@ -7,12 +7,60 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HyperDimension.Migrations.MySQL.Migrations
 {
     /// <inheritdoc />
-    public partial class AddIdentityEntities : Migration
+    public partial class Initialize : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    EntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Slug = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CoverImage = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Icon = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ParentEntityId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.EntityId);
+                    table.ForeignKey(
+                        name: "FK_Categories_Categories_ParentEntityId",
+                        column: x => x.ParentEntityId,
+                        principalTable: "Categories",
+                        principalColumn: "EntityId");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Collections",
+                columns: table => new
+                {
+                    EntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Collections", x => x.EntityId);
+                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -33,20 +81,69 @@ namespace HyperDimension.Migrations.MySQL.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Notes",
                 columns: table => new
                 {
                     EntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
+                    Title = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Permissions = table.Column<string>(type: "longtext", nullable: false)
+                    Slug = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Content = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.EntityId);
+                    table.PrimaryKey("PK_Notes", x => x.EntityId);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Pages",
+                columns: table => new
+                {
+                    EntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PageType = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Title = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Content = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pages", x => x.EntityId);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Projects",
+                columns: table => new
+                {
+                    EntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Url = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    AddedTime = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projects", x => x.EntityId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -84,6 +181,49 @@ namespace HyperDimension.Migrations.MySQL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Totps", x => x.EntityId);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Articles",
+                columns: table => new
+                {
+                    EntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Title = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Slug = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Content = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Summary = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CoverImage = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    WordCount = table.Column<int>(type: "int", nullable: false),
+                    EstimatedReadingTime = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    CategoryEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Tags = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CollectionEntityId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Articles", x => x.EntityId);
+                    table.ForeignKey(
+                        name: "FK_Articles_Categories_CategoryEntityId",
+                        column: x => x.CategoryEntityId,
+                        principalTable: "Categories",
+                        principalColumn: "EntityId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Articles_Collections_CollectionEntityId",
+                        column: x => x.CollectionEntityId,
+                        principalTable: "Collections",
+                        principalColumn: "EntityId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -132,6 +272,7 @@ namespace HyperDimension.Migrations.MySQL.Migrations
                     FailedAccessAttempts = table.Column<int>(type: "int", nullable: false),
                     LockoutEndAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
                     TotpEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    IsOwner = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -202,27 +343,32 @@ namespace HyperDimension.Migrations.MySQL.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "RoleUser",
+                name: "Friends",
                 columns: table => new
                 {
-                    RolesEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UsersEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    EntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Url = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Avatar = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    AddedTime = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    UserEntityId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleUser", x => new { x.RolesEntityId, x.UsersEntityId });
+                    table.PrimaryKey("PK_Friends", x => x.EntityId);
                     table.ForeignKey(
-                        name: "FK_RoleUser_Roles_RolesEntityId",
-                        column: x => x.RolesEntityId,
-                        principalTable: "Roles",
-                        principalColumn: "EntityId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RoleUser_Users_UsersEntityId",
-                        column: x => x.UsersEntityId,
+                        name: "FK_Friends_Users_UserEntityId",
+                        column: x => x.UserEntityId,
                         principalTable: "Users",
-                        principalColumn: "EntityId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "EntityId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -261,14 +407,29 @@ namespace HyperDimension.Migrations.MySQL.Migrations
                 column: "UserEntityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Articles_CategoryEntityId",
+                table: "Articles",
+                column: "CategoryEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Articles_CollectionEntityId",
+                table: "Articles",
+                column: "CollectionEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_ParentEntityId",
+                table: "Categories",
+                column: "ParentEntityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ExternalProviders_UserEntityId",
                 table: "ExternalProviders",
                 column: "UserEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleUser_UsersEntityId",
-                table: "RoleUser",
-                column: "UsersEntityId");
+                name: "IX_Friends_UserEntityId",
+                table: "Friends",
+                column: "UserEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TotpRecoveryCodes_TotpEntityId",
@@ -293,13 +454,25 @@ namespace HyperDimension.Migrations.MySQL.Migrations
                 name: "ApiTokens");
 
             migrationBuilder.DropTable(
+                name: "Articles");
+
+            migrationBuilder.DropTable(
                 name: "DataProtectionKeys");
 
             migrationBuilder.DropTable(
                 name: "ExternalProviders");
 
             migrationBuilder.DropTable(
-                name: "RoleUser");
+                name: "Friends");
+
+            migrationBuilder.DropTable(
+                name: "Notes");
+
+            migrationBuilder.DropTable(
+                name: "Pages");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Tokens");
@@ -311,7 +484,10 @@ namespace HyperDimension.Migrations.MySQL.Migrations
                 name: "WebAuthnDevices");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Collections");
 
             migrationBuilder.DropTable(
                 name: "Users");

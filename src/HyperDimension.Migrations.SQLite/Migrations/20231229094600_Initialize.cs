@@ -6,11 +6,48 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HyperDimension.Migrations.SQLite.Migrations
 {
     /// <inheritdoc />
-    public partial class AddIdentityEntities : Migration
+    public partial class Initialize : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    EntityId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Slug = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    CoverImage = table.Column<string>(type: "TEXT", nullable: false),
+                    Icon = table.Column<string>(type: "TEXT", nullable: false),
+                    ParentEntityId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.EntityId);
+                    table.ForeignKey(
+                        name: "FK_Categories_Categories_ParentEntityId",
+                        column: x => x.ParentEntityId,
+                        principalTable: "Categories",
+                        principalColumn: "EntityId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Collections",
+                columns: table => new
+                {
+                    EntityId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Collections", x => x.EntityId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "DataProtectionKeys",
                 columns: table => new
@@ -26,17 +63,54 @@ namespace HyperDimension.Migrations.SQLite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Notes",
                 columns: table => new
                 {
                     EntityId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Permissions = table.Column<string>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Slug = table.Column<string>(type: "TEXT", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.EntityId);
+                    table.PrimaryKey("PK_Notes", x => x.EntityId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pages",
+                columns: table => new
+                {
+                    EntityId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    PageType = table.Column<string>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pages", x => x.EntityId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Projects",
+                columns: table => new
+                {
+                    EntityId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: false),
+                    Status = table.Column<string>(type: "TEXT", nullable: false),
+                    Order = table.Column<int>(type: "INTEGER", nullable: false),
+                    AddedTime = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projects", x => x.EntityId);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,6 +142,41 @@ namespace HyperDimension.Migrations.SQLite.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Totps", x => x.EntityId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Articles",
+                columns: table => new
+                {
+                    EntityId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Slug = table.Column<string>(type: "TEXT", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: false),
+                    Summary = table.Column<string>(type: "TEXT", nullable: false),
+                    CoverImage = table.Column<string>(type: "TEXT", nullable: false),
+                    WordCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    EstimatedReadingTime = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    CategoryEntityId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Tags = table.Column<string>(type: "TEXT", nullable: false),
+                    CollectionEntityId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Articles", x => x.EntityId);
+                    table.ForeignKey(
+                        name: "FK_Articles_Categories_CategoryEntityId",
+                        column: x => x.CategoryEntityId,
+                        principalTable: "Categories",
+                        principalColumn: "EntityId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Articles_Collections_CollectionEntityId",
+                        column: x => x.CollectionEntityId,
+                        principalTable: "Collections",
+                        principalColumn: "EntityId");
                 });
 
             migrationBuilder.CreateTable(
@@ -107,6 +216,7 @@ namespace HyperDimension.Migrations.SQLite.Migrations
                     FailedAccessAttempts = table.Column<int>(type: "INTEGER", nullable: false),
                     LockoutEndAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
                     TotpEntityId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    IsOwner = table.Column<bool>(type: "INTEGER", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -167,27 +277,27 @@ namespace HyperDimension.Migrations.SQLite.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleUser",
+                name: "Friends",
                 columns: table => new
                 {
-                    RolesEntityId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UsersEntityId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    EntityId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: false),
+                    Avatar = table.Column<string>(type: "TEXT", nullable: false),
+                    Order = table.Column<int>(type: "INTEGER", nullable: false),
+                    AddedTime = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    UserEntityId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleUser", x => new { x.RolesEntityId, x.UsersEntityId });
+                    table.PrimaryKey("PK_Friends", x => x.EntityId);
                     table.ForeignKey(
-                        name: "FK_RoleUser_Roles_RolesEntityId",
-                        column: x => x.RolesEntityId,
-                        principalTable: "Roles",
-                        principalColumn: "EntityId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RoleUser_Users_UsersEntityId",
-                        column: x => x.UsersEntityId,
+                        name: "FK_Friends_Users_UserEntityId",
+                        column: x => x.UserEntityId,
                         principalTable: "Users",
-                        principalColumn: "EntityId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "EntityId");
                 });
 
             migrationBuilder.CreateTable(
@@ -222,14 +332,29 @@ namespace HyperDimension.Migrations.SQLite.Migrations
                 column: "UserEntityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Articles_CategoryEntityId",
+                table: "Articles",
+                column: "CategoryEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Articles_CollectionEntityId",
+                table: "Articles",
+                column: "CollectionEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_ParentEntityId",
+                table: "Categories",
+                column: "ParentEntityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ExternalProviders_UserEntityId",
                 table: "ExternalProviders",
                 column: "UserEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleUser_UsersEntityId",
-                table: "RoleUser",
-                column: "UsersEntityId");
+                name: "IX_Friends_UserEntityId",
+                table: "Friends",
+                column: "UserEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TotpRecoveryCodes_TotpEntityId",
@@ -254,13 +379,25 @@ namespace HyperDimension.Migrations.SQLite.Migrations
                 name: "ApiTokens");
 
             migrationBuilder.DropTable(
+                name: "Articles");
+
+            migrationBuilder.DropTable(
                 name: "DataProtectionKeys");
 
             migrationBuilder.DropTable(
                 name: "ExternalProviders");
 
             migrationBuilder.DropTable(
-                name: "RoleUser");
+                name: "Friends");
+
+            migrationBuilder.DropTable(
+                name: "Notes");
+
+            migrationBuilder.DropTable(
+                name: "Pages");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Tokens");
@@ -272,7 +409,10 @@ namespace HyperDimension.Migrations.SQLite.Migrations
                 name: "WebAuthnDevices");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Collections");
 
             migrationBuilder.DropTable(
                 name: "Users");
